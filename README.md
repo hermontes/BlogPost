@@ -10,6 +10,26 @@ Ensure you have the following installed on your machine:
 - **npm** (Node Package Manager)  
 - **MongoDB Atlas** (or a local MongoDB instance)  
 
+## API Endpoints
+### Posts
+Create a Post – POST /createContent
+Get All Posts – GET /getContent
+### Comments
+Add a Comment – PUT /makeComment
+Update Like Count – PUT /updateLike
+Update Dislike Count – PUT /updateDislike
+
+## Project Structure
+
+```bash
+BlogPost/
+│── client/          # Frontend (React)
+│── server/          # Backend (Node.js, Express, MongoDB)
+│── models/          # Mongoose Schemas
+│── package.json     # Project metadata
+│── README.md        # Documentation
+│── .gitignore       # Git ignored files
+
 ## Installation & Setup  
 
 ### 1. Clone the Repository  
@@ -48,23 +68,5 @@ Start the frontend:
 npm start
 ```
 
-## API Endpoints
-### Posts
-Create a Post – POST /createContent
-Get All Posts – GET /getContent
-### Comments
-Add a Comment – PUT /makeComment
-Update Like Count – PUT /updateLike
-Update Dislike Count – PUT /updateDislike
 
-## Project Structure
-
-```bash
-BlogPost/
-│── client/          # Frontend (React)
-│── server/          # Backend (Node.js, Express, MongoDB)
-│── models/          # Mongoose Schemas
-│── package.json     # Project metadata
-│── README.md        # Documentation
-│── .gitignore       # Git ignored files
 ```
