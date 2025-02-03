@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import Axios from "axios";
 import "./styling/CommentCards.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'; // Import icons
 
 const CommentCards = ({ blog }) => {
   const [likeCounter, setNumberLikes] = useState(0);
@@ -66,17 +68,16 @@ const CommentCards = ({ blog }) => {
                   <button
                     onClick={() => handleLike(comment._id, comment.likeCount)}
                   >
-                    Like
+                    <FontAwesomeIcon icon={faThumbsUp} />
                   </button>
                   <span className="commentText">{" "}{comment.likeCount}{"  "}</span>
                   <button
                     onClick={() => handleDislike(comment._id, comment.dislikeCount)}
-                  >
-                    Dislike
-                  </button>          {" "}        <span className="commentText">{comment.dislikeCount}</span>
+                  > <FontAwesomeIcon icon={faThumbsDown} /> 
+                  </button>         {" "}        <span className="commentText">{comment.dislikeCount}</span>
                 </div>
                 {/* <hr/> */}
-              </div>
+                              </div>
             );
           })}
     </div>

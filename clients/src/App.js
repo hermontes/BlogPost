@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
-import NavBar from "./Navigation/Navbar";
+
 // import { Routes, Route } from 'react-router-dom'
 
 function App() {
