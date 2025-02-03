@@ -1,0 +1,63 @@
+.createCommentsSection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+  font-family: "Gotham SSm";
+  /* padding: 10px; */
+  font-size: 15px;
+}
+.commentHeading {
+  margin-bottom: 7px;
+  font-size: 18px;
+}
+.createCommentsSection input {
+  width: 65%;
+  font-size: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid #4d4de1;
+  font-family: "Gotham SSm";
+}
+.createCommentsSection input:focus {
+  border: 1px solid #000;
+  outline: 0;
+}
+.createCommentsSection textarea:focus {
+  border: 1px solid #000;
+  outline: 0;
+}
+.createCommentsSection textarea {
+  width: 65%;
+  height: 150px;
+  resize: inherit;
+  font-family: "Gotham SSm";
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #4d4de1;
+  font-size: 15px;
+}
+.buttonAlign button:hover {
+  background-color: #6e6ed5;
+}
+.buttonAlign {
+  width: 67.5%;
+}
+.buttonAlign button {
+  margin-top: 5px;
+  background-color: #6363c9;
+  color: #fff;
+  border: 0;
+  border-radius: 5px;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 5px 5px 5px #dcdce4;
+  transition: color 0.33s ease, background-color 0.33s ease;
+  text-transform: uppercase;
+  float: right;
+}
+/* 
+background: #fff;
+box-shadow: 0 4px 8px 0 rgb(53 105 128 / 30%), 0 6px 20px 0 rgb(165 200 213 / 41%); */
