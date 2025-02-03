@@ -120,10 +120,13 @@
 	border: 0;
 	border-radius: 5px;
 	box-shadow: 5px 5px 5px #dcdce4;
-  padding: 15px 30px;
+  padding: 15px 20px;
   cursor: pointer;
   font-size: 16px;
-  transition: color .33s ease,background-color .33s ease;
+  transition: transform .5s ease,background-color .33s ease;
   text-transform: uppercase;
+}
 
+.createRightSide button:hover {
+  transform: scale(1.07);
 }
