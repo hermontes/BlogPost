@@ -7,8 +7,6 @@ const CommentsSchema = new mongoose.Schema({
   text:{type: String, required: true},
   likeCount:{type: Number},
   dislikeCount:{type: Number}
-
-
 }, {timestamps: true})
 
 const PostsSchema = new mongoose.Schema({
@@ -20,7 +18,6 @@ const PostsSchema = new mongoose.Schema({
   comments: [CommentsSchema]
 })
 
-// const PostsStructure = mongoose.model("blogposts.blogPostCollection", PostsSchema)
 const PostsStructure = mongoose.model("BlogPosts", PostsSchema, "blogPostCollection");
 
 
