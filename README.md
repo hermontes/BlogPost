@@ -64,6 +64,7 @@ Navigate to the client/ directory and install dependencies:
 cd ../client
 npm install
 ```
+The frontend will be up and running on http://localhost:3000/. Enjoy creating blogs/reviews!
 
 Start the frontend:
 
