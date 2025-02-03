@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
 const PostsStructure = require("./models/PostsStructure");
+require('dotenv').config();
+
 
 // To parse incoming JSON data
 app.use(express.json());
@@ -10,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect(
-  "mongodb+srv://htesfats:Umd.BlogPost@blogpost.qruyn.mongodb.net/?retryWrites=true&w=majority&appName=BlogPost",
+  process.env.MONGO_URI,
   {
     useNewUrlParser: true,
   }
