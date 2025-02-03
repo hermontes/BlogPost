@@ -1,0 +1,80 @@
+/*All styling for blog article*/
+.contentCard {
+  /* margin-top: 15px; */
+  font-family: "Gotham SSm";
+}
+
+.blogTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0px;
+}
+
+.blogTitle span {
+  background-color: yellow;
+}
+
+.blogImage {
+  width: 80%;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+.authorAndDate{
+  display: flex;
+  flex-direction: row;
+  margin: 6px 0px;
+  font-size: 18px;
+}
+.blogAuthor {
+  color: #000;
+}
+.blogDate {
+  color: rgb(125, 125, 125);
+  padding-left: 10px;
+}
+
+
+.contentText {
+  font-size: 23px;
+  white-space: pre-wrap;
+}
+.commentText {
+  white-space: pre-wrap;
+}
+
+/*All styling for comment sections*/
+hr.separator {
+  height: 3px;
+  background-color: #000;
+  border: none;
+  margin: 30px 0;
+}
+.viewCommentsButton button:hover {
+
+  background-color: #8a8ab7;
+
+}
+.viewCommentsButton button {
+  margin-bottom: 10px;
+  background-color: #6b6b8f;
+  color: #fff;
+  border: 0;
+  border-radius: 5px;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 5px 5px 5px #dcdce4;
+  transition: color 0.33s ease, background-color 0.33s ease;
+  text-transform: uppercase;
+}
+
+/*CSS for the comment section*/
+.commentSection {
+  padding: 10px 30px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
