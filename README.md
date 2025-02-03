@@ -32,7 +32,7 @@ BlogPost/
 │── package.json     # Project metadata
 │── README.md        # Documentation
 │── .gitignore       # Git ignored files
-
+```
 ## Installation & Setup  
 
 ### 1. Clone the Repository  
