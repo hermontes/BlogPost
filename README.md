@@ -13,10 +13,13 @@ Ensure you have the following installed on your machine:
 ## API Endpoints
 ### Posts
 Create a Post – POST /createContent
+
 Get All Posts – GET /getContent
 ### Comments
 Add a Comment – PUT /makeComment
+
 Update Like Count – PUT /updateLike
+
 Update Dislike Count – PUT /updateDislike
 
 ## Project Structure
@@ -69,4 +72,3 @@ npm start
 ```
 
 
-```
