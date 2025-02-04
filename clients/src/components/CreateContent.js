@@ -46,48 +46,49 @@ const CreateContent = () => {
       {/* <h2>Create a Blog Post:</h2> */}
 
       {/* <form id="contentForm"> */}
-      <label>Title:</label>
-      <input
-        className="contentInput"
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      ></input>
-
-      <label>Author:</label>
-      <input
-        className="contentInput"
-        type="text"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-      ></input>
-
-      <div className="horiz">
-        <label for="image">Image URL:</label>
+      <form>
+        <label>Title:</label>
         <input
           className="contentInput"
-          name="image"
           type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         ></input>
-      </div>
 
-      <div className="horizContent">
-        <label className="content">Content:</label>
-        <textarea
-          className="contentBox"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
-      </div>
+        <label>Author:</label>
+        <input
+          className="contentInput"
+          type="text"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        ></input>
 
-      {submitOrNot ? (
-        <div className="submissionWarning">At least one field is missing</div>
-      ) : (
-        ""
-      )}
+        <div className="horiz">
+          <label for="image">Image URL:</label>
+          <input
+            className="contentInput"
+            name="image"
+            type="text"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          ></input>
+        </div>
 
+        <div className="horizContent">
+          <label className="content">Content:</label>
+          <textarea
+            className="contentBox"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
+        </div>
+
+        {submitOrNot ? (
+          <div className="submissionWarning">At least one field is missing</div>
+        ) : (
+          ""
+        )}
+      </form>
       <button className="contentButton" onClick={formValidation}>
         Launch blog
       </button>

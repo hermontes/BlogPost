@@ -1,10 +1,7 @@
-/* .App{
+body {
+  box-sizing: border-box;
+}
 
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-} */
 .horiz {
   width: 100%;
   flex-direction: column;
@@ -111,7 +108,6 @@
 
 }
 .createRightSide {
-
   margin-left: auto;
 }
 .createRightSide button{
@@ -123,10 +119,11 @@
   padding: 15px 20px;
   cursor: pointer;
   font-size: 16px;
-  transition: transform .5s ease,background-color .33s ease;
+  transition: transform .4s ease,background-color .33s ease;
   text-transform: uppercase;
+  min-width: 124.4px;
 }
 
 .createRightSide button:hover {
-  transform: scale(1.07);
+  transform: translateY(-2px) scale(1.05)
 }
