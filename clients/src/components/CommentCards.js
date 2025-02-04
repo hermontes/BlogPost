@@ -1,13 +1,10 @@
 import React from "react";
-import { useState } from "react";
 import Axios from "axios";
 import "./styling/CommentCards.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'; // Import icons
 
 const CommentCards = ({ blog }) => {
-  const [likeCounter, setNumberLikes] = useState(0);
-
 
   const handleLike = (commentId, currentLikes) => {
     const newLikes = currentLikes + 1; // increment the like count
@@ -33,13 +30,13 @@ const CommentCards = ({ blog }) => {
   };
   return (
     <div>
-      {blog.comments.length == 0
+      {blog.comments.length === 0
         ? ""
         : blog.comments.map((comment, index) => {
             return (
               <div className="commentCard" key={index}>
                 <div className="userImage">
-                  <img src="/defaultUser.png"></img>
+                  <img src="/defaultUser.png" alt="Default profile for a user"></img>
                   <div className="commentAuthor">{comment.author}</div>
                 </div>
 
