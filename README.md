@@ -39,42 +39,21 @@ BlogPost/
 ## Installation & Setup  
 
 ### 1. Clone the Repository  
-```bash
+
 git clone https://github.com/hermontes/BlogPost.git
+```bash
 cd BlogPost
 ```
 
-### 2. Backend Setup (Server)
-Navigate to the server/ directory and install dependencies:
+### 2. Run Docker
 
 ```bash
-cd server
-npm install
+cd server/
+docker compose up --build
 ```
 
-Start the backend server:
-
-```bash
-npm run serverStart
-```
-The backend should now be running on http://localhost:3001.
-
-
-### 3. Frontend Setup (Client)
-Navigate to the client/ directory and install dependencies:
-
-```bash
-cd ../client
-npm install
-```
-
-Start the frontend:
-
-```bash
-npm start
-```
+### 3. Run the app in the browser
 
 The frontend will be up and running on http://localhost:3000/. Enjoy creating blogs/reviews!
 
-
-
+Backend (API): http://localhost:3001
