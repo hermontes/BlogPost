@@ -13,15 +13,18 @@ services:
       context: ../clients
     depends_on:
       - server
+    # bind the changes in the local directory to the container
+    volumes:
+      - ../clients:/clients
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 3000:3000
   server:
     build:
       context: .
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 3001:3001
       # Loads environment variables from a file named .env

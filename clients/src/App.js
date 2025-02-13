@@ -23,7 +23,7 @@ function App() {
     Axios.get("http://localhost:3001/getContent").then((response) => {
       setFetchedContent(response.data);
     });
-  });
+  }, []);
 
   const sortedContent = allContent.sort(
     (a, b) => new Date(b.date) - new Date(a.date)

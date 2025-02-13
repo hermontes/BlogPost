@@ -5,11 +5,16 @@ const cors = require("cors");
 const PostsStructure = require("./models/PostsStructure");
 require('dotenv').config();
 
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 // To parse incoming JSON data
 app.use(express.json());
 
-app.use(cors());
 
 mongoose.connect(
   process.env.MONGO_URI,
@@ -41,7 +46,7 @@ app.post("/createContent", async (req, res) => {
   });
 
   try {
-    await post.save().then(() => console.log("User Saved Successfully!"));
+    await post.save().then(() => console.log("Saved content Successfully!"));
 
     res.send("data inserted");
   } catch (err) {
@@ -67,7 +72,7 @@ app.put("/makeComment", async (req, res) => {
 
     res.send("updated");
   } catch (err) {
-    console.log(err);
+    console.log("Making a comment threw an error!" + err);
   }
 });
 
@@ -112,9 +117,13 @@ app.get("/getContent", async (req, res) => {
   PostsStructure.find({}, (err, result) => {
     if (err) {
       res.send(err);
+      console.log("CANT GET CONTENT" +err);
+    } else {
+      console.log("fectched successfully");
+      res.send(result);
     }
 
-    res.send(result);
+    
   });
 });
 
