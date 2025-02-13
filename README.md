@@ -13,6 +13,28 @@ Ensure you have the following installed on your machine:
 - **npm** (Node Package Manager)  
 - **MongoDB Atlas** (or a local MongoDB instance)  
 
+## Installation & Setup  
+
+### 1. Clone the Repository  
+
+git clone https://github.com/hermontes/BlogPost.git
+```bash
+cd BlogPost
+```
+
+### 2. Run Docker
+
+```bash
+cd server/
+docker compose up --build
+```
+
+### 3. Run the app in the browser
+
+The frontend will be up and running on http://localhost:3000/. Enjoy creating blogs/reviews!
+
+Backend (API): http://localhost:3001
+
 ## API Endpoints
 ### Posts
 Create a Post – POST /createContent
@@ -36,24 +58,4 @@ BlogPost/
 │── README.md        # Documentation
 │── .gitignore       # Git ignored files
 ```
-## Installation & Setup  
 
-### 1. Clone the Repository  
-
-git clone https://github.com/hermontes/BlogPost.git
-```bash
-cd BlogPost
-```
-
-### 2. Run Docker
-
-```bash
-cd server/
-docker compose up --build
-```
-
-### 3. Run the app in the browser
-
-The frontend will be up and running on http://localhost:3000/. Enjoy creating blogs/reviews!
-
-Backend (API): http://localhost:3001
