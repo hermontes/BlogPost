@@ -43,9 +43,7 @@ const CreateContent = () => {
   };
   return (
     <div className="horiz">
-      {/* <h2>Create a Blog Post:</h2> */}
-
-      {/* <form id="contentForm"> */}
+      {/* Form for capturing blog post fields */}
       <form>
         <label>Title:</label>
         <input

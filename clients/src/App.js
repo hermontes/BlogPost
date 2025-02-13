@@ -7,14 +7,14 @@ import CreateContent from "./components/CreateContent";
 // import { Routes, Route } from 'react-router-dom'
 
 function App() {
-  //changing the states based on the fields
-
-  const [allContent, setFetchedContent] = useState([]);
-
-  const [createTrigger, setTrigger] = useState(false);
   /*
     Fetching our data and storing in a list state
   */
+  const [allContent, setFetchedContent] = useState([]);
+
+  //changing the states based on the fields
+  const [createTrigger, setTrigger] = useState(false);
+  
   const changeTrigger = () => {
     setTrigger(!createTrigger);
   };
