@@ -12,7 +12,12 @@ const Comments = ({ blogPost }) => {
   const createComment = () => {
     Axios.put("http://localhost:3001/makeComment", {
       title: blogPost.title,
-      comments: { name: name, text: commentField,likeCount:0,dislikeCount:0 },
+      comments: {
+        name: name,
+        text: commentField,
+        likeCount: 0,
+        dislikeCount: 0,
+      },
     });
     // //clearing the values after submission
     setName("");

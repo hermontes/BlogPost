@@ -15,28 +15,27 @@ function App() {
 
   const updateContentSavedState = (newState) => {
     setIsNewContentSaved(newState);
-  }
+  };
   //changing the states based on the fields
   const [createTrigger, setTrigger] = useState(false);
-  
+
   const changeTrigger = () => {
     setTrigger(!createTrigger);
   };
 
   useEffect(() => {
-    
-      Axios.get("http://localhost:3001/getContent").then((response) => {
+    Axios.get("http://localhost:3001/getContent")
+      .then((response) => {
         setFetchedContent(response.data);
         console.log("Fetched data from server");
 
         // Reset the state to false after fetching
-        setIsNewContentSaved(false)
-      }).catch (error => {
+        setIsNewContentSaved(false);
+      })
+      .catch((error) => {
         console.log("Error fetching data from server: " + error);
       });
-
-    
-  }, [isNewContentSaved]); 
+  }, [isNewContentSaved]);
   //you know there is a new entry once I have successfully submitted one
 
   const sortedContent = allContent.sort(
@@ -61,7 +60,11 @@ function App() {
       </nav>
 
       <div className="container">
-        {createTrigger ? <CreateContent setterForNewContent={updateContentSavedState} /> : ""}
+        {createTrigger ? (
+          <CreateContent setterForNewContent={updateContentSavedState} />
+        ) : (
+          ""
+        )}
 
         <>
           {sortedContent.map((val, key) => {

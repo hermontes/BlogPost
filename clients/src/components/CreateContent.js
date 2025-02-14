@@ -3,7 +3,7 @@ import Axios from "axios";
 import { useState } from "react";
 import "./styling/CreateContent.css";
 
-const CreateContent = ({ setterForNewContent}) => {
+const CreateContent = ({ setterForNewContent }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -18,21 +18,20 @@ const CreateContent = ({ setterForNewContent}) => {
       author: author,
       image: image,
       comments: [],
-    }).then((response) => {
-      console.log("sent data and got response: " +response.data)
-      setterForNewContent(true);
-      // clearing the values after submission
-      setTitle("");
-      setAuthor("");
-      setContent("");
-      setImage("");
     })
-    .catch (error => {
-      console.log("Sent new content and server sent back an error: " + error);
-      // Handle the error as needed
-    });
-
-    
+      .then((response) => {
+        console.log("sent data and got response: " + response.data);
+        setterForNewContent(true);
+        // clearing the values after submission
+        setTitle("");
+        setAuthor("");
+        setContent("");
+        setImage("");
+      })
+      .catch((error) => {
+        console.log("Sent new content and server sent back an error: " + error);
+        // Handle the error as needed
+      });
   };
 
   const formValidation = () => {
@@ -91,9 +90,11 @@ const CreateContent = ({ setterForNewContent}) => {
           ></textarea>
         </div>
 
-        {isFormValid ? "" : (
+        {isFormValid ? (
+          ""
+        ) : (
           <div className="submissionWarning">At least one field is missing</div>
-        ) }
+        )}
       </form>
       <button className="contentButton" onClick={formValidation}>
         Launch blog

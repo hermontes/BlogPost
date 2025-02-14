@@ -3,25 +3,21 @@ const mongoose = require("mongoose");
 const app = express(); //initializes an Express application.
 const cors = require("cors");
 const PostsStructure = require("./models/PostsStructure");
-require('dotenv').config();
+require("dotenv").config();
 
-const corsOptions ={
-  origin:'http://localhost:3000', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200
-}
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 app.use(cors(corsOptions));
 
 // To parse incoming JSON data
 app.use(express.json());
 
-
-mongoose.connect(
-  process.env.MONGO_URI,
-  {
-    useNewUrlParser: true,
-  }
-);
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+});
 
 // Root route handler
 app.get("/", (req, res) => {
@@ -44,13 +40,15 @@ app.post("/createContent", async (req, res) => {
     image: image,
     comments: comments,
   });
-  
+
   try {
-    await post.save().then(() => console.log("Server: Created content on MongoDB successfully!"));
- 
+    await post.save().then(() =>
+        console.log("Server: Created content on MongoDB successfully!")
+      );
+
     return res.send("Data inserted into MongoDB");
   } catch (err) {
-    console.log(err + "sent data to MongoDB and got error"); 
+    console.log(err + "sent data to MongoDB and got error");
     res.send("Data did not insert in MongoDB");
   }
 });
@@ -116,14 +114,13 @@ app.get("/getContent", async (req, res) => {
   // PostsStructure.find({ $where:{ title:""},})
   PostsStructure.find({}, (err, result) => {
     if (err) {
-      console.log("CANT GET CONTENT" +err);
+      console.log("CANT GET CONTENT" + err);
 
       res.send(err);
     } else {
       console.log("Sent content from server");
       res.send(result);
     }
-    
   });
 });
 
