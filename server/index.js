@@ -116,13 +116,13 @@ app.get("/getContent", async (req, res) => {
   // PostsStructure.find({ $where:{ title:""},})
   PostsStructure.find({}, (err, result) => {
     if (err) {
-      res.send(err);
       console.log("CANT GET CONTENT" +err);
+
+      res.send(err);
     } else {
       console.log("Sent content from server");
       res.send(result);
     }
-
     
   });
 });

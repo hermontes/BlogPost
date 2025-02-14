@@ -3,7 +3,7 @@ import Axios from "axios";
 import { useState } from "react";
 import "./styling/CreateContent.css";
 
-const CreateContent = ({}) => {
+const CreateContent = ({ setterForNewContent}) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -12,7 +12,7 @@ const CreateContent = ({}) => {
 
   /* Sending POST request to my server containing an object with all the states */
   const sendNewContent = () => {
-    const returnErr = Axios.post("http://localhost:3001/createContent", {
+    Axios.post("http://localhost:3001/createContent", {
       title: title,
       content: content,
       author: author,
@@ -20,7 +20,7 @@ const CreateContent = ({}) => {
       comments: [],
     }).then((response) => {
       console.log("sent data and got response: " +response.data)
-
+      setterForNewContent(true);
       // clearing the values after submission
       setTitle("");
       setAuthor("");
