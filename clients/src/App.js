@@ -20,10 +20,16 @@ function App() {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/getContent").then((response) => {
-      setFetchedContent(response.data);
-    });
+    try{
+      Axios.get("http://localhost:3001/getContent").then((response) => {
+        setFetchedContent(response.data);
+      });
+    } catch {
+      console.log("Error fetching data");
+    }
+    
   }, []);
+  //you know there is a new entry once I have successfully submitted one
 
   const sortedContent = allContent.sort(
     (a, b) => new Date(b.date) - new Date(a.date)

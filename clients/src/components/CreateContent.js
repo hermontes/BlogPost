@@ -3,7 +3,7 @@ import Axios from "axios";
 import { useState } from "react";
 import "./styling/CreateContent.css";
 
-const CreateContent = () => {
+const CreateContent = ({}) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -18,13 +18,21 @@ const CreateContent = () => {
       author: author,
       image: image,
       comments: [],
+    }).then((response) => {
+      console.log("sent data and got response: " +response.data)
+
+      // clearing the values after submission
+      setTitle("");
+      setAuthor("");
+      setContent("");
+      setImage("");
+    })
+    .catch (error => {
+      console.log("Sent new content and server sent back an error: " + error);
+      // Handle the error as needed
     });
 
-    // clearing the values after submission
-    setTitle("");
-    setAuthor("");
-    setContent("");
-    setImage("");
+    
   };
 
   const formValidation = () => {
@@ -37,7 +45,8 @@ const CreateContent = () => {
       setIsFormValid(false);
     } else {
       // set Boolean back to true since all fields are filled in at this point
-      if(!isFormValid) setIsFormValid(true);
+      setIsFormValid(true);
+
       // send the data to the server
       sendNewContent();
     }

@@ -44,14 +44,14 @@ app.post("/createContent", async (req, res) => {
     image: image,
     comments: comments,
   });
-
+  
   try {
-    await post.save().then(() => console.log("Saved content Successfully!"));
-
-    res.send("data inserted");
+    await post.save().then(() => console.log("Server: Created content on MongoDB successfully!"));
+ 
+    return res.send("Data inserted into MongoDB");
   } catch (err) {
-    console.log(err);
-    // res.send("Data did not insert")
+    console.log(err + "sent data to MongoDB and got error"); 
+    res.send("Data did not insert in MongoDB");
   }
 });
 
@@ -119,7 +119,7 @@ app.get("/getContent", async (req, res) => {
       res.send(err);
       console.log("CANT GET CONTENT" +err);
     } else {
-      console.log("fectched successfully");
+      console.log("Sent content from server");
       res.send(result);
     }
 

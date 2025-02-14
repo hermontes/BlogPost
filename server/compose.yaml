@@ -25,6 +25,7 @@ services:
       context: .
     environment:
       NODE_ENV: development
+
     ports:
       - 3001:3001
       # Loads environment variables from a file named .env
