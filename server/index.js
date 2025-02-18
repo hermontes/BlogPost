@@ -112,7 +112,7 @@ app.put("/updateDislike", async (req, res) => {
 
 
 
-app.get("/getContent", async (req, res) => {
+app.get("/getContent", (req, res) => {
   // PostsStructure.find({ $where:{ title:""},})
   PostsStructure.find({}, (err, result) => {
     if (err) {
