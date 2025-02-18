@@ -110,6 +110,8 @@ app.put("/updateDislike", async (req, res) => {
   }
 });
 
+
+
 app.get("/getContent", async (req, res) => {
   // PostsStructure.find({ $where:{ title:""},})
   PostsStructure.find({}, (err, result) => {
@@ -123,6 +125,7 @@ app.get("/getContent", async (req, res) => {
     }
   });
 });
+
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001");
