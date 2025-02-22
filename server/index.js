@@ -55,7 +55,7 @@ app.post("/createContent", async (req, res) => {
 
 app.put("/makeComment", async (req, res) => {
   const title = req.body.title;
-  // const newComment = req.body.comments
+
   const newComment = {
     author: req.body.comments.name,
     text: req.body.comments.text,
@@ -68,7 +68,6 @@ app.put("/makeComment", async (req, res) => {
     put.comments.push(newComment);
     await put.save();
 
-    res.send("updated");
   } catch (err) {
     console.log("Making a comment threw an error!" + err);
   }
