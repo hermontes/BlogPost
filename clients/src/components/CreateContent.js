@@ -21,6 +21,8 @@ const CreateContent = ({ setterForNewContent }) => {
     })
       .then((response) => {
         console.log("sent data and got response: " + response.data);
+
+        // set the state to true so that the useEffect in Ap.js can fetch the new data
         setterForNewContent(true);
         // clearing the values after submission
         setTitle("");
