@@ -28,7 +28,6 @@ function App() {
       .then((response) => {
         setFetchedContent(response.data);
         console.log("Fetched data from server");
-
         // Reset the state to false after fetching
         setIsNewContentSaved(false);
       })
@@ -36,7 +35,7 @@ function App() {
         console.log("Error fetching data from server: " + error);
       });
   }, [isNewContentSaved]);
-  //you know there is a new entry once I have successfully submitted one
+  //you know there is a new entry once I have successfully submitted new content
 
   const sortedContent = allContent.sort(
     (a, b) => new Date(b.date) - new Date(a.date)
@@ -60,12 +59,7 @@ function App() {
       </nav>
 
       <div className="container">
-        {createTrigger ? (
-          <CreateContent setterForNewContent={updateContentSavedState} />
-        ) : (
-          ""
-        )}
-
+        {createTrigger && <CreateContent setterForNewContent={updateContentSavedState} />}
         <>
           {sortedContent.map((val, key) => {
             return <BlogPost blog={val} key={key} />;
