@@ -18,13 +18,18 @@ const Comments = ({ blogPost }) => {
         likeCount: 0,
         dislikeCount: 0,
       },
+    }).catch((error) => {
+      console.error("Error creating comment:", error);
+
     });
     // //clearing the values after submission
     setName("");
     setComment("");
+
   };
 
   return (
+    <>
     <div className="createCommentsSection">
       <div className="commentHeading">
         {blogPost.comments.length == 0
@@ -52,6 +57,7 @@ const Comments = ({ blogPost }) => {
         <button onClick={createComment}>Comment</button>
       </div>
     </div>
+    </>
   );
 };
 

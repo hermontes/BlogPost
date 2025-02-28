@@ -62,7 +62,7 @@ const SingleBlog = ({ blog }) => {
           <h2>Comments</h2>
           <hr />
           <CreateComments blogPost={blog} />
-          <CommentCards blog={blog} />
+          <CommentCards blog={blog} formatDateAndTimeFunction={formatDateAndTime}/>
         </div>
       ) : null}
 

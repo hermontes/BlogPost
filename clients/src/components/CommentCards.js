@@ -4,7 +4,7 @@ import "./styling/CommentCards.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons"; // Import icons
 
-const CommentCards = ({ blog }) => {
+const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
   const handleLike = (commentId, currentLikes) => {
     const newLikes = currentLikes + 1; // increment the like count
 
@@ -24,8 +24,6 @@ const CommentCards = ({ blog }) => {
       comments: { id: commentId, dislikeCount: newDislikes },
     });
 
-    // Update the state with the new like count
-    // ...
   };
   return (
     <div>
@@ -44,17 +42,9 @@ const CommentCards = ({ blog }) => {
 
                 <div className="commentDate">
                   {" "}
-                  {new Date(comment.createdAt).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}{" "}
+                  {formatDateAndTimeFunction(comment.createdAt).dateCreated}{" "}
                   at{" "}
-                  {new Date(comment.createdAt).toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true,
-                  })}
+                  {formatDateAndTimeFunction(comment.createdAt).timeCreated}
                 </div>
 
                 <p className="commentText">{comment.text}</p>
