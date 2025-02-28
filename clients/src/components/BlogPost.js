@@ -37,7 +37,11 @@ const SingleBlog = ({ blog }) => {
         </div>
       </div>
 
-      <img className="blogImage" alt={`Image for ${blog.title}`} src={blog.image}></img>
+      <img
+        className="blogImage"
+        alt={`Image for ${blog.title}`}
+        src={blog.image}
+      ></img>
 
       <p className="contentText">{blog.content}</p>
 
