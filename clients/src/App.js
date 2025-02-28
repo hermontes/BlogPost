@@ -62,7 +62,7 @@ function App() {
         {createTrigger && <CreateContent setterForNewContent={updateContentSavedState} />}
         <>
           {sortedContent.map((val, key) => {
-            return <BlogPost blog={val} key={key} />;
+            return <BlogPost blog={val} key={key} setterForNewContent={updateContentSavedState} />;
           })}
         </>
       </div>

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import CreateComments from "./CreateComments";
 import CommentCards from "./CommentCards";
 
 import "./styling/ArticleContent.css";
+import { counter } from "@fortawesome/fontawesome-svg-core";
 
-const SingleBlog = ({ blog }) => {
+const SingleBlog = ({ blog, setterForNewContent}) => {
   //sorting them by date
   blog.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -61,7 +62,7 @@ const SingleBlog = ({ blog }) => {
         <div className="commentSection">
           <h2>Comments</h2>
           <hr />
-          <CreateComments blogPost={blog} />
+          <CreateComments blogPost={blog} fetchNewContentAfterNewComment={setterForNewContent} />
           <CommentCards blog={blog} formatDateAndTimeFunction={formatDateAndTime}/>
         </div>
       ) : null}
