@@ -1,14 +1,11 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect, useMemo } from "react";
 import CreateComments from "./CreateComments";
 import CommentCards from "./CommentCards";
 
 import "./styling/ArticleContent.css";
 import { counter } from "@fortawesome/fontawesome-svg-core";
 
-const SingleBlog = ({ blog, setterForNewContent}) => {
-  //sorting them by date
-  blog.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
+const SingleBlog = memo(({ blog, setterForNewContent}) => {
   const [viewComments, setView] = useState(false);
 
   const formatDateAndTime = (givenDateAndTime) => {
@@ -70,6 +67,6 @@ const SingleBlog = ({ blog, setterForNewContent}) => {
       <hr className="separator"></hr>
     </div>
   );
-};
+});
 
 export default SingleBlog;

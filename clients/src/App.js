@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback} from "react";
 import Axios from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
@@ -13,9 +13,9 @@ function App() {
   const [allContent, setFetchedContent] = useState([]);
   const [isNewContentSaved, setIsNewContentSaved] = useState(false);
 
-  const updateContentSavedState = (newState) => {
+  const updateContentSavedState = useCallback((newState) => {
     setIsNewContentSaved(newState);
-  };
+  }, []);
   //changing the states based on the fields
   const [createTrigger, setTrigger] = useState(false);
 
@@ -37,9 +37,9 @@ function App() {
   }, [isNewContentSaved]);
   //you know there is a new entry once I have successfully submitted new content
 
-  const sortedContent = allContent.sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
+  const sortedContent = useMemo(() => {
+    return [...allContent].sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, [allContent]);
 
   return (
     // <div className="App">

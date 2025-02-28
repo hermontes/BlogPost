@@ -1,4 +1,4 @@
-import React from "react";
+import {React , useMemo} from "react";
 import Axios from "axios";
 import "./styling/CommentCards.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +16,13 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
     // Update the state with the new like count
     // ...
   };
+
+  const sortedComments = useMemo(() => {
+    return [...blog.comments].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+  }, [blog.comments]);
+
   const handleDislike = (commentId, currentDislikes) => {
     const newDislikes = currentDislikes + 1; // increment the like count
 
@@ -27,9 +34,9 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
   };
   return (
     <div>
-      {blog.comments.length === 0
+      {sortedComments.length === 0
         ? ""
-        : blog.comments.map((comment, index) => {
+        : sortedComments.map((comment, index) => {
             return (
               <div className="commentCard" key={index}>
                 <div className="userImage">
