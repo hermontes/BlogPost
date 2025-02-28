@@ -7,18 +7,24 @@ import "./styling/ArticleContent.css";
 const SingleBlog = ({ blog }) => {
   //sorting them by date
   blog.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   const [viewComments, setView] = useState(false);
 
-  const dateBlogCreated = new Date(blog.date).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const timeBlogCreated = new Date(blog.date).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
+  const formatDateAndTime = (givenDateAndTime) => {
+    const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    
+    const timeCreated = new Date(givenDateAndTime).toLocaleTimeString("en-US", { 
+       hour: "numeric", 
+       minute: "numeric", 
+       hour12: true
+    })
+
+    return { dateCreated , timeCreated}
+  }
 
   const changeViewComment = () => {
     setView(!viewComments);
@@ -33,7 +39,7 @@ const SingleBlog = ({ blog }) => {
         <span className="blogAuthor">By {blog.author} </span>{" "}
         <div className="blogDate">
           {" "}
-          {dateBlogCreated} at {timeBlogCreated}
+          {formatDateAndTime(blog.date).dateCreated} at {formatDateAndTime(blog.date).timeCreated}
         </div>
       </div>
 
