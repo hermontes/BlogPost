@@ -54,9 +54,7 @@ const SingleBlog = ({ blog }) => {
           <CreateComments blogPost={blog} />
           <CommentCards blog={blog} />
         </div>
-      ) : (
-        ""
-      )}
+      ) : null}
 
       <hr className="separator"></hr>
     </div>
