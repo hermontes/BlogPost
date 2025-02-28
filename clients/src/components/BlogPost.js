@@ -37,7 +37,7 @@ const SingleBlog = ({ blog }) => {
         </div>
       </div>
 
-      <img className="blogImage" src={blog.image} alt=""></img>
+      <img className="blogImage" alt={`Image for ${blog.title}`} src={blog.image}></img>
 
       <p className="contentText">{blog.content}</p>
 
