@@ -5,7 +5,7 @@ import CommentCards from "./CommentCards";
 import "./styling/ArticleContent.css";
 import { counter } from "@fortawesome/fontawesome-svg-core";
 
-const SingleBlog = memo(({ blog, setterForNewContent}) => {
+const SingleBlog = ({ blog, setterForNewContent}) => {
   const [viewComments, setView] = useState(false);
 
   const formatDateAndTime = (givenDateAndTime) => {
@@ -67,6 +67,6 @@ const SingleBlog = memo(({ blog, setterForNewContent}) => {
       <hr className="separator"></hr>
     </div>
   );
-});
+};
 
 export default SingleBlog;
