@@ -1,6 +1,3 @@
-
-![Screenshot 2025-02-03 at 1 57 46 PM](https://github.com/user-attachments/assets/bc917f23-9d0b-4cea-98f0-196d101306d7)
-
 # BlogPost
 
 A full-stack blogging application with a **Node.js + Express + MongoDB** backend and a **React.js** frontend.
