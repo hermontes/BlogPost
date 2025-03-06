@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons"; // Import icons
 
 const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
+  
+  // Update the state with the new like count
   const handleLike = (commentId, currentLikes) => {
     const newLikes = currentLikes + 1; // increment the like count
 
@@ -13,8 +15,6 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       comments: { id: commentId, likeCount: newLikes },
     });
 
-    // Update the state with the new like count
-    // ...
   };
 
   const sortedComments = useMemo(() => {
