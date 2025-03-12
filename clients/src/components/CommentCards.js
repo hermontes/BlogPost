@@ -1,11 +1,10 @@
-import {React , useMemo} from "react";
+import { React, useMemo } from "react";
 import Axios from "axios";
 import "./styling/CommentCards.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons"; // Import icons
 
 const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
-  
   // Update the state with the new like count
   const handleLike = (commentId, currentLikes) => {
     const newLikes = currentLikes + 1; // increment the like count
@@ -14,7 +13,6 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       title: blog.title,
       comments: { id: commentId, likeCount: newLikes },
     });
-
   };
 
   const sortedComments = useMemo(() => {
@@ -30,7 +28,6 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       title: blog.title,
       comments: { id: commentId, dislikeCount: newDislikes },
     });
-
   };
   return (
     <div>
@@ -49,8 +46,9 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
 
                 <div className="commentDate">
                   {" "}
-                  {formatDateAndTimeFunction(comment.createdAt).dateCreated}{" "}
-                  at{" "}
+                  {
+                    formatDateAndTimeFunction(comment.createdAt).dateCreated
+                  } at{" "}
                   {formatDateAndTimeFunction(comment.createdAt).timeCreated}
                 </div>
 

@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect, useMemo, useCallback} from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Axios, { all } from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
@@ -59,10 +59,18 @@ function App() {
       </nav>
 
       <div className="container">
-        {createTrigger && <CreateContent setterForNewContent={updateContentSavedState} />}
+        {createTrigger && (
+          <CreateContent setterForNewContent={updateContentSavedState} />
+        )}
         <>
           {sortedContent.map((val, key) => {
-            return <BlogPost blog={val} key={key} setterForNewContent={updateContentSavedState} />;
+            return (
+              <BlogPost
+                blog={val}
+                key={key}
+                setterForNewContent={updateContentSavedState}
+              />
+            );
           })}
         </>
       </div>

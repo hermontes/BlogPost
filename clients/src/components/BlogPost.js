@@ -5,7 +5,7 @@ import CommentCards from "./CommentCards";
 import "./styling/ArticleContent.css";
 import { counter } from "@fortawesome/fontawesome-svg-core";
 
-const SingleBlog = ({ blog, setterForNewContent}) => {
+const SingleBlog = ({ blog, setterForNewContent }) => {
   const [viewComments, setView] = useState(false);
 
   const formatDateAndTime = (givenDateAndTime) => {
@@ -14,15 +14,15 @@ const SingleBlog = ({ blog, setterForNewContent}) => {
       month: "long",
       year: "numeric",
     });
-    
-    const timeCreated = new Date(givenDateAndTime).toLocaleTimeString("en-US", { 
-       hour: "numeric", 
-       minute: "numeric", 
-       hour12: true
-    })
 
-    return { dateCreated , timeCreated}
-  }
+    const timeCreated = new Date(givenDateAndTime).toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+
+    return { dateCreated, timeCreated };
+  };
 
   const changeViewComment = () => {
     setView(!viewComments);
@@ -37,7 +37,8 @@ const SingleBlog = ({ blog, setterForNewContent}) => {
         <span className="blogAuthor">By {blog.author} </span>{" "}
         <div className="blogDate">
           {" "}
-          {formatDateAndTime(blog.date).dateCreated} at {formatDateAndTime(blog.date).timeCreated}
+          {formatDateAndTime(blog.date).dateCreated} at{" "}
+          {formatDateAndTime(blog.date).timeCreated}
         </div>
       </div>
 
@@ -59,8 +60,14 @@ const SingleBlog = ({ blog, setterForNewContent}) => {
         <div className="commentSection">
           <h2>Comments</h2>
           <hr />
-          <CreateComments blogPost={blog} fetchNewContentAfterNewComment={setterForNewContent} />
-          <CommentCards blog={blog} formatDateAndTimeFunction={formatDateAndTime}/>
+          <CreateComments
+            blogPost={blog}
+            fetchNewContentAfterNewComment={setterForNewContent}
+          />
+          <CommentCards
+            blog={blog}
+            formatDateAndTimeFunction={formatDateAndTime}
+          />
         </div>
       ) : null}
 
