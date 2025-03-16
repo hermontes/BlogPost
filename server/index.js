@@ -17,7 +17,21 @@ app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
+})
+.then(() => { 
+  newChanges()
+})
+.catch((err) => {
+  console.log("Error connecting to MongoDB:", err);
 });
+
+function newChanges() {
+  // Watch for changes in the PostsStructure collection
+  PostsStructure.watch().on("change", (change) => {
+    console.log("Change detected:", change.documentKey._id);
+  }
+  );
+}
 
 // Root route handler
 app.get("/", (req, res) => {
