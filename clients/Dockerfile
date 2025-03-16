@@ -14,5 +14,8 @@ COPY . .
 # Expose port 3000
 EXPOSE 3000
 
+ENV WATCHPACK_POLLING=true
+ENV CHOKIDAR_USEPOLLING=true
+
 # Start the frontend app
 CMD npm start
