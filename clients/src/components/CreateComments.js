@@ -5,7 +5,7 @@ import Axios from "axios";
 import "./styling/CreateComments.css";
 // import './App.css';
 
-const Comments = ({ blogPost, fetchNewContentAfterNewComment}) => {
+const Comments = ({ blogPost}) => {
   const [commentField, setComment] = useState("");
   const [name, setName] = useState("");
 
@@ -22,8 +22,6 @@ const Comments = ({ blogPost, fetchNewContentAfterNewComment}) => {
       console.error("Error creating comment:", error);
 
     });
-    //Fetch data again to update the comments
-    fetchNewContentAfterNewComment(true)
     // //clearing the values after submission
     setName("");
     setComment("");
