@@ -5,32 +5,26 @@ const cors = require("cors");
 const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
 
-
 const WebSocket = require('ws');
 const server = app.listen(3001, () => {
   console.log("Server is running on port 3001");
+
 });
 const wss = new WebSocket.Server({ server });
 
+const dbChangesListener = PostsStructure.watch();
 
 // WebSocket connection
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  
-  const dbChangesListener = PostsStructure.watch();
 
   dbChangesListener.on('change', (change) => {
-
-    wss.clients.forEach((client) => {
-      if(client.readyState === WebSocket.OPEN) {
-        console.log("Change detected:", change);
-  
-        client.send(JSON.stringify(change.fullDocument));
-  
-      }
-    })
     
-
+    if(change.operationType === 'insert' && ws.readyState === WebSocket.OPEN) {
+        console.log("Change detected:", change);
+        ws.send(JSON.stringify(change.fullDocument));
+    }
+    
   });
   // Receiving client messages
   ws.on('message', (message) => {

@@ -38,6 +38,7 @@ function App() {
   }, []);
   //you know there is a new entry once I have successfully submitted new content
 
+
   useEffect( () => {
     const ws = new WebSocket('ws://localhost:3001');
     
@@ -49,6 +50,9 @@ function App() {
       const newData = JSON.parse(event.data);
       console.log("Received data from WebSocket:", newData);
       
+      setFetchedContent((prevContent) => {
+        return [newData, ...prevContent];
+      });
       // Update the state with the new data
     }
 
