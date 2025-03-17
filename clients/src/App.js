@@ -12,11 +12,7 @@ function App() {
     Fetching our data and storing in a list state
   */
   const [allContent, setFetchedContent] = useState([]);
-  const [isNewContentSaved, setIsNewContentSaved] = useState(false);
 
-  const updateContentSavedState = useCallback((newState) => {
-    setIsNewContentSaved(newState);
-  }, []);
   //changing the states based on the fields
   const [createTrigger, setTrigger] = useState(false);
 
@@ -27,17 +23,15 @@ function App() {
   useEffect(() => {
     Axios.get("http://localhost:3001/getContent")
       .then((response) => {
-        setFetchedContent(response.data);
+        const sortedData = response.data.sort((a,b) => new Date(b.date) - new Date(a.date));
+        setFetchedContent(sortedData);
         console.log("Fetched data from server");
         // Reset the state to false after fetching
-        setIsNewContentSaved(false);
       })
       .catch((error) => {
         console.log("Error fetching data from server: " + error);
       });
   }, []);
-  //you know there is a new entry once I have successfully submitted new content
-
 
   useEffect( () => {
     const ws = new WebSocket('ws://localhost:3001');
@@ -50,9 +44,13 @@ function App() {
       const newData = JSON.parse(event.data);
       console.log("Received data from WebSocket:", newData);
       
-      setFetchedContent((prevContent) => {
-        return [newData, ...prevContent];
-      });
+      if(newData.operationType === "insert") {
+        const newDocument = newData.fullDocument
+        setFetchedContent((prevContent) => {
+          return [newDocument, ...prevContent];
+        });
+      }
+      
       // Update the state with the new data
     }
 
@@ -60,12 +58,16 @@ function App() {
       console.log("WebSocket error:", error);
     } 
 
+    return () => {
+      ws.close();
+      console.log("WebSocket connection closed");
+    }
   }, []);
 
 
-  const sortedContent = useMemo(() => {
-    return [...allContent].sort((a, b) => new Date(b.date) - new Date(a.date));
-  }, [allContent]);
+  // const sortedContent =() => {
+  //   return [...allContent].sort((a, b) => new Date(b.date) - new Date(a.date));
+  // };
 
   return (
     // <div className="App">
@@ -86,19 +88,18 @@ function App() {
 
       <div className="container">
         {createTrigger && (
-          <CreateContent setterForNewContent={updateContentSavedState} />
+          <CreateContent />
         )}
-        <>
-          {sortedContent.map((val, key) => {
+        <div>
+          {allContent.map((val, key) => {
             return (
               <BlogPost
                 blog={val}
-                key={key}
-                setterForNewContent={updateContentSavedState}
+                key={val._id}
               />
             );
           })}
-        </>
+        </div>
       </div>
     </div>
   );
