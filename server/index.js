@@ -85,8 +85,8 @@ app.post("/createContent", async (req, res) => {
 
   try {
     await post.save().then(() =>
-        console.log("Server: Created content on MongoDB successfully!")
-      );
+        console.log("Server: Saved content on MongoDB successfully!")
+    );
 
     return res.send("Data inserted into MongoDB");
   } catch (err) {
