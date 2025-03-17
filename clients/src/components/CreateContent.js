@@ -8,7 +8,7 @@ const CreateContent = () => {
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
-  const [isFormValid, setIsFormValid] = useState(true);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   /* Sending POST request to my server containing an object with all the states */
   const sendNewContent = () => {
@@ -41,10 +41,10 @@ const CreateContent = () => {
       content.length === 0 ||
       image.length === 0
     ) {
-      setIsFormValid(false);
+      setIsFormValid(true);
     } else {
       // set Boolean back to true since all fields are filled in at this point
-      setIsFormValid(true);
+      setIsFormValid(false);
 
       // send the data to the server
       sendNewContent();
@@ -91,10 +91,8 @@ const CreateContent = () => {
         </div>
 
         {isFormValid ? (
-          ""
-        ) : (
           <div className="submissionWarning">At least one field is missing</div>
-        )}
+        ) : ""}
       </form>
       <button className="contentButton" onClick={formValidation}>
         Launch blog
