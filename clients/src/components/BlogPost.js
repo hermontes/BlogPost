@@ -5,8 +5,10 @@ import CommentCards from "./CommentCards";
 import "./styling/ArticleContent.css";
 import { counter } from "@fortawesome/fontawesome-svg-core";
 
-const SingleBlog = ({ blog, setterForNewContent }) => {
+const SingleBlog = memo(({ blog }) => {
   const [viewComments, setView] = useState(false);
+
+  console.log("SingleBlog component rendered");
 
   const formatDateAndTime = (givenDateAndTime) => {
     const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
@@ -62,7 +64,6 @@ const SingleBlog = ({ blog, setterForNewContent }) => {
           <hr />
           <CreateComments
             blogPost={blog}
-            fetchNewContentAfterNewComment={setterForNewContent}
           />
           <CommentCards
             blog={blog}
@@ -74,6 +75,6 @@ const SingleBlog = ({ blog, setterForNewContent }) => {
       <hr className="separator"></hr>
     </div>
   );
-};
+});
 
 export default SingleBlog;
