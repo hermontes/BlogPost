@@ -107,7 +107,7 @@ app.put("/makeComment", async (req, res) => {
   };
 
   try {
-    const put = await PostsStructure.findOne({ _id: ObjectId(documentID) });
+    const put = await PostsStructure.findOne({ _id: new ObjectId(documentID) });
     put.comments.push(newComment);
     await put.save();
 
