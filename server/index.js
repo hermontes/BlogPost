@@ -6,6 +6,7 @@ const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
 
 const WebSocket = require('ws');
+const { ObjectId } = require("mongodb");
 const server = app.listen(3001, () => {
   console.log("Server is running on port 3001");
 
@@ -96,8 +97,8 @@ app.post("/createContent", async (req, res) => {
 });
 
 app.put("/makeComment", async (req, res) => {
-  const title = req.body.title;
-
+  const documentID = req.body._id;
+  console.log("Document ID: " + documentID);
   const newComment = {
     author: req.body.comments.name,
     text: req.body.comments.text,
@@ -106,7 +107,7 @@ app.put("/makeComment", async (req, res) => {
   };
 
   try {
-    const put = await PostsStructure.findOne({ title: title });
+    const put = await PostsStructure.findOne({ _id: ObjectId(documentID) });
     put.comments.push(newComment);
     await put.save();
 

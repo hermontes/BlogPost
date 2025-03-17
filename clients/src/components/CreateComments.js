@@ -11,7 +11,7 @@ const Comments = ({ blogPost, fetchNewContentAfterNewComment}) => {
 
   const createComment = () => {
     Axios.put("http://localhost:3001/makeComment", {
-      title: blogPost.title,
+      _id: blogPost._id,
       comments: {
         name: name,
         text: commentField,
