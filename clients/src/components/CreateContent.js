@@ -3,7 +3,7 @@ import Axios from "axios";
 import { useState } from "react";
 import "./styling/CreateContent.css";
 
-const CreateContent = ({ setterForNewContent }) => {
+const CreateContent = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -22,8 +22,6 @@ const CreateContent = ({ setterForNewContent }) => {
       .then((response) => {
         console.log("sent data and got response: " + response.data);
 
-        // set the state to true so that the useEffect in Ap.js can fetch the new data
-        setterForNewContent(true);
         // clearing the values after submission
         setTitle("");
         setAuthor("");
