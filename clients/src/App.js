@@ -4,6 +4,7 @@ import Axios, { all } from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
 
+
 // import { Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -34,8 +35,29 @@ function App() {
       .catch((error) => {
         console.log("Error fetching data from server: " + error);
       });
-  }, [isNewContentSaved]);
+  }, []);
   //you know there is a new entry once I have successfully submitted new content
+
+  useEffect( () => {
+    const ws = new WebSocket('ws://localhost:3001');
+    
+    ws.onopen = () => {
+      console.log("WebSocket connection established");
+      ws.send("Hello from the client!");
+    }
+    ws.onmessage = (event) => {
+      const newData = JSON.parse(event.data);
+      console.log("Received data from WebSocket:", newData);
+      
+      // Update the state with the new data
+    }
+
+    ws.onerror = (error) => {
+      console.log("WebSocket error:", error);
+    } 
+
+  }, []);
+
 
   const sortedContent = useMemo(() => {
     return [...allContent].sort((a, b) => new Date(b.date) - new Date(a.date));

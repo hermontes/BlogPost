@@ -5,6 +5,46 @@ const cors = require("cors");
 const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
 
+
+const WebSocket = require('ws');
+const server = app.listen(3001, () => {
+  console.log("Server is running on port 3001");
+});
+const wss = new WebSocket.Server({ server });
+
+
+// WebSocket connection
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  
+  const dbChangesListener = PostsStructure.watch();
+
+  dbChangesListener.on('change', (change) => {
+
+    wss.clients.forEach((client) => {
+      if(client.readyState === WebSocket.OPEN) {
+        console.log("Change detected:", change);
+  
+        client.send(JSON.stringify(change.fullDocument));
+  
+      }
+    })
+    
+
+  });
+  // Receiving client messages
+  ws.on('message', (message) => {
+    console.log(`Received message: ${message}`);
+  });
+  
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    dbChangesListener.close();
+  }
+  );
+
+});
+
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true, //access-control-allow-credentials:true
@@ -18,20 +58,11 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
 })
-.then(() => { 
-  newChanges()
-})
 .catch((err) => {
   console.log("Error connecting to MongoDB:", err);
 });
 
-function newChanges() {
-  // Watch for changes in the PostsStructure collection
-  PostsStructure.watch().on("change", (change) => {
-    console.log("Change detected:", change.documentKey._id);
-  }
-  );
-}
+
 
 // Root route handler
 app.get("/", (req, res) => {
@@ -140,6 +171,3 @@ app.get("/getContent", (req, res) => {
 });
 
 
-app.listen(3001, () => {
-  console.log("Server is running on port 3001");
-});
