@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  //Double mounting only happens in development mode so it is not a problem
     <App />
 );
 
