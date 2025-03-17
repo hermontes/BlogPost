@@ -3,7 +3,7 @@ import { useState } from "react";
 import Axios from "axios";
 
 import "./styling/CreateComments.css";
-// import './App.css';
+
 
 const Comments = ({ blogPost}) => {
   const [commentField, setComment] = useState("");

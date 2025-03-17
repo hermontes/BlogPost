@@ -107,9 +107,13 @@ app.put("/makeComment", async (req, res) => {
   };
 
   try {
-    const put = await PostsStructure.findOne({ _id: new ObjectId(documentID) });
-    put.comments.push(newComment);
-    await put.save();
+    const put = await PostsStructure.findByIdAndUpdate(
+      documentID,
+      { $push: {comments:  newComment} },
+      { new: true }
+    );
+    
+    res.send("Server: Comment added successfully");
 
   } catch (err) {
     console.log("Making a comment threw an error!" + err);
