@@ -12,17 +12,21 @@ const server = app.listen(3001, () => {
 });
 const wss = new WebSocket.Server({ server });
 
-const dbChangesListener = PostsStructure.watch();
 
 // WebSocket connection
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  const dbChangesListener = PostsStructure.watch();
 
   dbChangesListener.on('change', (change) => {
     
     if(change.operationType === 'insert' && ws.readyState === WebSocket.OPEN) {
+      const newChanges = {
+        operationType: change.operationType,
+        fullDocument: change.fullDocument
+      }
         console.log("Change detected:", change);
-        ws.send(JSON.stringify(change.fullDocument));
+        ws.send(JSON.stringify(newChanges));
     }
     
   });
@@ -34,8 +38,7 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     console.log('Client disconnected');
     dbChangesListener.close();
-  }
-  );
+  });
 
 });
 
