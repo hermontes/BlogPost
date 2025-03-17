@@ -107,7 +107,7 @@ app.put("/makeComment", async (req, res) => {
   };
 
   try {
-    const put = await PostsStructure.findByIdAndUpdate(
+    await PostsStructure.findByIdAndUpdate(
       documentID,
       { $push: {comments:  newComment} },
       { new: true }
