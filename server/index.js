@@ -29,6 +29,11 @@ wss.on('connection', (ws) => {
         console.log("Change detected:", change);
         ws.send(JSON.stringify(newChanges));
     }
+
+    // if(change.operationType === 'update') {
+      
+    //     console.log("UPDATE detected:", change);
+    // }
     
   });
   // Receiving client messages
@@ -127,7 +132,10 @@ app.put("/updateLike", async (req, res) => {
   const newLikes = req.body.comments.likeCount;
 
   try {
-    const put = await PostsStructure.findOne({ title: title });
+    const put = await PostsStructure.findByIdAndUpdate(
+      { title: title }
+    
+    );
     const comment = put.comments.id(id);
     comment.likeCount = newLikes;
     await put.save();
