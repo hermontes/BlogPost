@@ -10,7 +10,7 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
     const newLikes = currentLikes + 1; // increment the like count
 
     Axios.put("http://localhost:3001/updateLike", {
-      title: blog.title,
+      id: blog._id,
       comments: { id: commentId, likeCount: newLikes },
     });
   };
@@ -25,8 +25,7 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
     const newDislikes = currentDislikes + 1; // increment the like count
 
     Axios.put("http://localhost:3001/updateDislike", {
-      // id: blog._id,
-      title: blog.title,
+      id: blog._id,
       comments: { id: commentId, dislikeCount: newDislikes },
     });
   };

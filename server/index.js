@@ -126,15 +126,16 @@ app.put("/makeComment", async (req, res) => {
 });
 
 app.put("/updateLike", async (req, res) => {
-  const title = req.body.title;
+  const blogId = req.body.id;
 
-  const id = req.body.comments.id;
+  const commentId = req.body.comments.id;
   const newLikes = req.body.comments.likeCount;
 
   try {
     const put = await PostsStructure.findByIdAndUpdate(
-      { title: title }
-    
+      blogId,
+      { $set: { comments: newLikes } },
+      
     );
     const comment = put.comments.id(id);
     comment.likeCount = newLikes;
@@ -147,7 +148,7 @@ app.put("/updateLike", async (req, res) => {
 });
 
 app.put("/updateDislike", async (req, res) => {
-  const title = req.body.title;
+  const blogId = req.body.id;
 
   const id = req.body.comments.id;
   const newdislikeCount = req.body.comments.dislikeCount;
