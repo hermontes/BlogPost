@@ -1,4 +1,4 @@
-# BlogPost
+# BlogPost (in progress)
 
 A full-stack blogging application with a **Node.js + Express + MongoDB** backend and a **React.js** frontend.
 
