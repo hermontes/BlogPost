@@ -19,10 +19,18 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       id: blog._id,
       commentInfo: { id: commentId, type: type, currentLikesOrDislikes: currentLikesOrDislikes },
 
+    }).catch((error) => {
+
+      console.log("received back an error: ",error)
+    }).then((response) => {
+
+      console.log("RECEIVED BACK: ", response.data.comments[0])
+
     });
 
+
   };
-  
+
   return (
     <div>
       {sortedComments.length === 0
@@ -49,10 +57,10 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                 <p className="commentText">{comment.text}</p>
 
                 <div className="likeDislike">
-                  {/* <a href="https://www.flaticon.com/free-icons/like" title="like icons">Like icons created by Gregor Cresnar - Flaticon</a> */}
-                  {/* updateLike(comment._id, comment.likeCount) */}
                   <button
-                    onClick={() => handleLikeAndDislikes("like", comment._id, comment.likeCount)}
+                    onClick={() =>
+                      handleLikeAndDislikes("like", comment._id, comment.likeCount)
+                    }
                   >
                     <FontAwesomeIcon icon={faThumbsUp} />
                   </button>
@@ -71,7 +79,6 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                   </button>{" "}
                   <span className="commentText">{comment.dislikeCount}</span>
                 </div>
-                {/* <hr/> */}
               </div>
             );
           })}

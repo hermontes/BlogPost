@@ -135,29 +135,42 @@ app.put("/updateLikeOrDislike", async (req, res) => {
   
 
   try {
+    var updatedComment = "";
     if(type === "like") {
       const newLikes = currentCount + 1; // Increment like count
       
-      const blogComments = await PostsStructure.findByIdAndUpdate(
+      updatedComment = await PostsStructure.findByIdAndUpdate(
         {_id: blogId },
         { $set: { "comments.$[outer].likeCount" : newLikes}}, 
-        { arrayFilters: [{"outer._id": commentId}], new: true},
+        { arrayFilters: [{"outer._id": commentId}], 
+        new: true,
+        projection : {
+          comments: {$elemMatch: {
+            _id: commentId
+          }}
+        }}
       )
-
 
     } else if(type === "dislike") {
 
       const newDislikeCount = currentCount - 1;
-      await PostsStructure.findByIdAndUpdate(
+      updatedComment = await PostsStructure.findByIdAndUpdate(
         blogId,
         { $set : {'comments.$[outer].dislikeCount' : newDislikeCount} },
-        {arrayFilters : [{'outer._id' : commentId}], new : true}
-      )
+        { arrayFilters: [{"outer._id": commentId}], 
+        new: true,
+        projection : {
+          comments: {$elemMatch: {
+            _id: commentId
+          }}
+        }}
+        )
+
     }
+
+    res.send(updatedComment)
+
     
-    
-    res.send("Successfully updated like count for comment with ID: " + commentId);
-    res.status(200)
   } catch (err) {
     res.status(500).send("Error updating like count for comment with ID: " + commentId);
     console.log(err);
