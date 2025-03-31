@@ -24,7 +24,9 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       console.log("received back an error: ",error)
     }).then((response) => {
 
-      console.log("RECEIVED BACK: ", response.data.comments[0])
+      if(response) {
+        console.log("RECEIVED BACK: ", response.data.comments[0])
+      }
 
     });
 

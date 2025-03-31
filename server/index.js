@@ -107,8 +107,8 @@ app.put("/makeComment", async (req, res) => {
   const newComment = {
     author: req.body.comments.name,
     text: req.body.comments.text,
-    likeCount: req.body.comments.likeCount,
-    dislikeCount: req.body.comments.dislikeCount,
+    likeCount: 0,
+    dislikeCount: 0,
   };
 
   try {

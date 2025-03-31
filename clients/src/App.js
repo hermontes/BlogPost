@@ -50,9 +50,7 @@ function App() {
           return [newDocument, ...prevContent];
         });
       }
-      
-      // Update the state with the new data
-    }
+      }
 
     ws.onerror = (error) => {
       console.log("WebSocket error:", error);
