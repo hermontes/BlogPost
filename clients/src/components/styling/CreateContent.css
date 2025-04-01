@@ -49,10 +49,16 @@ textarea.contentBox{
   border: 1px solid #4d4de1;
 }
 
+.horiz {
+  padding: 10px 30px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
 .horiz label{
   font-size: 1.5rem;
   margin-bottom: 5px;
-
+  
 }
 .horiz input{
   padding: 5px;

@@ -30,10 +30,10 @@ wss.on('connection', (ws) => {
         ws.send(JSON.stringify(newChanges));
     }
 
-    // if(change.operationType === 'update') {
+    if(change.operationType === 'update') {
       
-    //     console.log("UPDATE detected:", change);
-    // }
+        console.log("UPDATE detected:", change);
+    }
     
   });
   // Receiving client messages

@@ -70,7 +70,7 @@ const CreateContent = () => {
           onChange={(e) => setAuthor(e.target.value)}
         ></input>
 
-        <div className="horiz">
+        <div>
           <label for="image">Image URL:</label>
           <input
             className="contentInput"
