@@ -8,6 +8,7 @@ import CreateContent from "./components/CreateContent";
 // import { Routes, Route } from 'react-router-dom'
 
 function App() {
+  const API_URL = "http://localhost:3001/getContent"
   /*
     Fetching our data and storing in a list state
   */
@@ -21,7 +22,7 @@ function App() {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/getContent")
+    Axios.get(API_URL)
       .then((response) => {
         const sortedData = response.data.sort((a,b) => new Date(b.date) - new Date(a.date));
         setFetchedContent(sortedData);
