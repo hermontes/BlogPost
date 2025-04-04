@@ -177,23 +177,23 @@ app.put("/updateLikeOrDislike", async (req, res) => {
   }
 });
 
-app.put("/updateDislike", async (req, res) => {
-  const blogId = req.body.id;
+// app.put("/updateDislike", async (req, res) => {
+//   const blogId = req.body.id;
 
-  const id = req.body.comments.id;
-  const newdislikeCount = req.body.comments.dislikeCount;
+//   const id = req.body.comments.id;
+//   const newdislikeCount = req.body.comments.dislikeCount;
 
-  try {
-    const put = await PostsStructure.findOne({ title: title });
-    const comment = put.comments.id(id);
-    comment.dislikeCount = newdislikeCount;
-    await put.save();
+//   try {
+//     const put = await PostsStructure.findOne({ title: title });
+//     const comment = put.comments.id(id);
+//     comment.dislikeCount = newdislikeCount;
+//     await put.save();
 
-    res.send("updated");
-  } catch (err) {
-    console.log(err);
-  }
-});
+//     res.send("updated");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 
 
