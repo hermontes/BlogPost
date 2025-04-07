@@ -5,15 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons"; // Import icons
 
 const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
-  // Update the state with the new like count
-  const handleLike = (commentId, currentLikes) => {
-    const newLikes = currentLikes + 1; // increment the like count
-
-    Axios.put("http://localhost:3001/updateLike", {
-      id: blog._id,
-      comments: { id: commentId, likeCount: newLikes },
-    });
-  };
 
   const sortedComments = useMemo(() => {
     return [...blog.comments].sort(
@@ -21,14 +12,27 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
     );
   }, [blog.comments]);
 
-  const handleDislike = (commentId, currentDislikes) => {
-    const newDislikes = currentDislikes + 1; // increment the like count
+  // Updating like and dislike counts
+  const handleLikeAndDislikes = (type, commentId, currentLikesOrDislikes) => {
 
-    Axios.put("http://localhost:3001/updateDislike", {
+    Axios.put("http://localhost:3001/updateLikeOrDislike", {
       id: blog._id,
-      comments: { id: commentId, dislikeCount: newDislikes },
+      commentInfo: { id: commentId, type: type, currentLikesOrDislikes: currentLikesOrDislikes },
+
+    }).catch((error) => {
+
+      console.log("received back an error: ",error)
+    }).then((response) => {
+
+      if(response) {
+        console.log("RECEIVED BACK: ", response.data.comments[0])
+      }
+
     });
+
+
   };
+
   return (
     <div>
       {sortedComments.length === 0
@@ -55,10 +59,10 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                 <p className="commentText">{comment.text}</p>
 
                 <div className="likeDislike">
-                  {/* <a href="https://www.flaticon.com/free-icons/like" title="like icons">Like icons created by Gregor Cresnar - Flaticon</a> */}
-                  {/* updateLike(comment._id, comment.likeCount) */}
                   <button
-                    onClick={() => handleLike(comment._id, comment.likeCount)}
+                    onClick={() =>
+                      handleLikeAndDislikes("like", comment._id, comment.likeCount)
+                    }
                   >
                     <FontAwesomeIcon icon={faThumbsUp} />
                   </button>
@@ -69,7 +73,7 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                   </span>
                   <button
                     onClick={() =>
-                      handleDislike(comment._id, comment.dislikeCount)
+                      handleLikeAndDislikes("dislike", comment._id, comment.dislikeCount)
                     }
                   >
                     {" "}
@@ -77,7 +81,6 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                   </button>{" "}
                   <span className="commentText">{comment.dislikeCount}</span>
                 </div>
-                {/* <hr/> */}
               </div>
             );
           })}

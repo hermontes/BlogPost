@@ -30,10 +30,10 @@ wss.on('connection', (ws) => {
         ws.send(JSON.stringify(newChanges));
     }
 
-    // if(change.operationType === 'update') {
+    if(change.operationType === 'update') {
       
-    //     console.log("UPDATE detected:", change);
-    // }
+        console.log("UPDATE detected:", change);
+    }
     
   });
   // Receiving client messages
@@ -107,8 +107,8 @@ app.put("/makeComment", async (req, res) => {
   const newComment = {
     author: req.body.comments.name,
     text: req.body.comments.text,
-    likeCount: req.body.comments.likeCount,
-    dislikeCount: req.body.comments.dislikeCount,
+    likeCount: 0,
+    dislikeCount: 0,
   };
 
   try {
@@ -116,7 +116,7 @@ app.put("/makeComment", async (req, res) => {
       documentID,
       { $push: {comments:  newComment} },
       { new: true }
-    );
+    ); 
     
     res.send("Server: Comment added successfully");
 
@@ -125,45 +125,75 @@ app.put("/makeComment", async (req, res) => {
   }
 });
 
-app.put("/updateLike", async (req, res) => {
+// This endpoint updates the like or dislike count for a specific comment
+app.put("/updateLikeOrDislike", async (req, res) => {
   const blogId = req.body.id;
-
-  const commentId = req.body.comments.id;
-  const newLikes = req.body.comments.likeCount;
+  const commentId = req.body.commentInfo.id;
+  //new like or dislike count passed from the front-end
+  const currentCount = req.body.commentInfo.currentLikesOrDislikes; 
+  const type = req.body.commentInfo.type;
+  
 
   try {
-    const put = await PostsStructure.findByIdAndUpdate(
-      blogId,
-      { $set: { comments: newLikes } },
+    var updatedComment = "";
+    if(type === "like") {
+      const newLikes = currentCount + 1; // Increment like count
       
-    );
-    const comment = put.comments.id(id);
-    comment.likeCount = newLikes;
-    await put.save();
+      updatedComment = await PostsStructure.findByIdAndUpdate(
+        {_id: blogId },
+        { $set: { "comments.$[outer].likeCount" : newLikes}}, 
+        { arrayFilters: [{"outer._id": commentId}], 
+        new: true,
+        projection : {
+          comments: {$elemMatch: {
+            _id: commentId
+          }}
+        }}
+      )
 
-    res.send("updated");
+    } else if(type === "dislike") {
+
+      const newDislikeCount = currentCount - 1;
+      updatedComment = await PostsStructure.findByIdAndUpdate(
+        blogId,
+        { $set : {'comments.$[outer].dislikeCount' : newDislikeCount} },
+        { arrayFilters: [{"outer._id": commentId}], 
+        new: true,
+        projection : {
+          comments: {$elemMatch: {
+            _id: commentId
+          }}
+        }}
+        )
+
+    }
+
+    res.send(updatedComment)
+
+    
   } catch (err) {
+    res.status(500).send("Error updating like count for comment with ID: " + commentId);
     console.log(err);
   }
 });
 
-app.put("/updateDislike", async (req, res) => {
-  const blogId = req.body.id;
+// app.put("/updateDislike", async (req, res) => {
+//   const blogId = req.body.id;
 
-  const id = req.body.comments.id;
-  const newdislikeCount = req.body.comments.dislikeCount;
+//   const id = req.body.comments.id;
+//   const newdislikeCount = req.body.comments.dislikeCount;
 
-  try {
-    const put = await PostsStructure.findOne({ title: title });
-    const comment = put.comments.id(id);
-    comment.dislikeCount = newdislikeCount;
-    await put.save();
+//   try {
+//     const put = await PostsStructure.findOne({ title: title });
+//     const comment = put.comments.id(id);
+//     comment.dislikeCount = newdislikeCount;
+//     await put.save();
 
-    res.send("updated");
-  } catch (err) {
-    console.log(err);
-  }
-});
+//     res.send("updated");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 
 
