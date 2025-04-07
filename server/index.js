@@ -12,12 +12,12 @@ const server = app.listen(3001, () => {
 
 });
 const wss = new WebSocket.Server({ server });
+const dbChangesListener = PostsStructure.watch();
 
 
 // WebSocket connection
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  const dbChangesListener = PostsStructure.watch();
 
   dbChangesListener.on('change', (change) => {
     
