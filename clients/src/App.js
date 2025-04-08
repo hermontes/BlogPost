@@ -4,11 +4,10 @@ import Axios, { all } from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
 
-
 // import { Routes, Route } from 'react-router-dom'
 
 function App() {
-  const API_URL = "http://localhost:3001/getContent"
+  const API_URL = "http://localhost:3001/getContent";
   /*
     Fetching our data and storing in a list state
   */
@@ -24,7 +23,9 @@ function App() {
   useEffect(() => {
     Axios.get(API_URL)
       .then((response) => {
-        const sortedData = response.data.sort((a,b) => new Date(b.date) - new Date(a.date));
+        const sortedData = response.data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
         setFetchedContent(sortedData);
         console.log("Fetched data from server");
         // Reset the state to false after fetching
@@ -34,35 +35,34 @@ function App() {
       });
   }, []);
 
-  useEffect( () => {
-    const ws = new WebSocket('ws://localhost:3001');
-    
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:3001");
+
     ws.onopen = () => {
       console.log("WebSocket connection established");
       ws.send("Hello from the client!");
-    }
+    };
     ws.onmessage = (event) => {
       const newData = JSON.parse(event.data);
       console.log("Received data from WebSocket:", newData);
-      
-      if(newData.operationType === "insert") {
-        const newDocument = newData.fullDocument
+
+      if (newData.operationType === "insert") {
+        const newDocument = newData.fullDocument;
         setFetchedContent((prevContent) => {
           return [newDocument, ...prevContent];
         });
       }
-      }
+    };
 
     ws.onerror = (error) => {
       console.log("WebSocket error:", error);
-    } 
+    };
 
     return () => {
       ws.close();
       console.log("WebSocket connection closed");
-    }
+    };
   }, []);
-
 
   // const sortedContent =() => {
   //   return [...allContent].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -86,17 +86,10 @@ function App() {
       </nav>
 
       <div className="container">
-        {createTrigger && (
-          <CreateContent />
-        )}
+        {createTrigger && <CreateContent />}
         <div>
           {allContent.map((val, key) => {
-            return (
-              <BlogPost
-                blog={val}
-                key={val._id}
-              />
-            );
+            return <BlogPost blog={val} key={val._id} />;
           })}
         </div>
       </div>
