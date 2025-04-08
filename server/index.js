@@ -5,47 +5,41 @@ const cors = require("cors");
 const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
 
-const WebSocket = require('ws');
+const WebSocket = require("ws");
 const { ObjectId } = require("mongodb");
 const server = app.listen(3001, () => {
   console.log("Server is running on port 3001");
-
 });
 const wss = new WebSocket.Server({ server });
 const dbChangesListener = PostsStructure.watch();
 
-
 // WebSocket connection
-wss.on('connection', (ws) => {
-  console.log('Client connected');
+wss.on("connection", (ws) => {
+  console.log("Client connected");
 
-  dbChangesListener.on('change', (change) => {
-    
-    if(change.operationType === 'insert' && ws.readyState === WebSocket.OPEN) {
+  dbChangesListener.on("change", (change) => {
+    if (change.operationType === "insert" && ws.readyState === WebSocket.OPEN) {
       const newChanges = {
         operationType: change.operationType,
-        fullDocument: change.fullDocument
-      }
-        console.log("Change detected:", change);
-        ws.send(JSON.stringify(newChanges));
+        fullDocument: change.fullDocument,
+      };
+      console.log("Change detected:", change);
+      ws.send(JSON.stringify(newChanges));
     }
 
-    if(change.operationType === 'update') {
-      
-        console.log("UPDATE detected:", change);
+    if (change.operationType === "update") {
+      console.log("UPDATE detected:", change);
     }
-    
   });
   // Receiving client messages
-  ws.on('message', (message) => {
+  ws.on("message", (message) => {
     console.log(`Received message: ${message}`);
   });
-  
-  ws.on('close', () => {
-    console.log('Client disconnected');
+
+  ws.on("close", () => {
+    console.log("Client disconnected");
     dbChangesListener.close();
   });
-
 });
 
 const corsOptions = {
@@ -58,14 +52,13 @@ app.use(cors(corsOptions));
 // To parse incoming JSON data
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-})
-.catch((err) => {
-  console.log("Error connecting to MongoDB:", err);
-});
-
-
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+  })
+  .catch((err) => {
+    console.log("Error connecting to MongoDB:", err);
+  });
 
 // Root route handler
 app.get("/", (req, res) => {
@@ -90,9 +83,11 @@ app.post("/createContent", async (req, res) => {
   });
 
   try {
-    await post.save().then(() =>
+    await post
+      .save()
+      .then(() =>
         console.log("Server: Saved content on MongoDB successfully!")
-    );
+      );
 
     return res.send("Data inserted into MongoDB");
   } catch (err) {
@@ -114,12 +109,11 @@ app.put("/makeComment", async (req, res) => {
   try {
     await PostsStructure.findByIdAndUpdate(
       documentID,
-      { $push: {comments:  newComment} },
+      { $push: { comments: newComment } },
       { new: true }
-    ); 
-    
-    res.send("Server: Comment added successfully");
+    );
 
+    res.send("Server: Comment added successfully");
   } catch (err) {
     console.log("Making a comment threw an error!" + err);
   }
@@ -130,49 +124,53 @@ app.put("/updateLikeOrDislike", async (req, res) => {
   const blogId = req.body.id;
   const commentId = req.body.commentInfo.id;
   //new like or dislike count passed from the front-end
-  const currentCount = req.body.commentInfo.currentLikesOrDislikes; 
+  const currentCount = req.body.commentInfo.currentLikesOrDislikes;
   const type = req.body.commentInfo.type;
-  
 
   try {
     var updatedComment = "";
-    if(type === "like") {
+    if (type === "like") {
       const newLikes = currentCount + 1; // Increment like count
-      
+
       updatedComment = await PostsStructure.findByIdAndUpdate(
-        {_id: blogId },
-        { $set: { "comments.$[outer].likeCount" : newLikes}}, 
-        { arrayFilters: [{"outer._id": commentId}], 
-        new: true,
-        projection : {
-          comments: {$elemMatch: {
-            _id: commentId
-          }}
-        }}
-      )
-
-    } else if(type === "dislike") {
-
+        { _id: blogId },
+        { $set: { "comments.$[outer].likeCount": newLikes } },
+        {
+          arrayFilters: [{ "outer._id": commentId }],
+          new: true,
+          projection: {
+            comments: {
+              $elemMatch: {
+                _id: commentId,
+              },
+            },
+          },
+        }
+      );
+    } else if (type === "dislike") {
       const newDislikeCount = currentCount - 1;
       updatedComment = await PostsStructure.findByIdAndUpdate(
         blogId,
-        { $set : {'comments.$[outer].dislikeCount' : newDislikeCount} },
-        { arrayFilters: [{"outer._id": commentId}], 
-        new: true,
-        projection : {
-          comments: {$elemMatch: {
-            _id: commentId
-          }}
-        }}
-        )
-
+        { $set: { "comments.$[outer].dislikeCount": newDislikeCount } },
+        {
+          arrayFilters: [{ "outer._id": commentId }],
+          new: true,
+          projection: {
+            comments: {
+              $elemMatch: {
+                _id: commentId,
+              },
+            },
+          },
+        }
+      );
     }
 
-    res.send(updatedComment)
-
-    
+    res.send(updatedComment);
   } catch (err) {
-    res.status(500).send("Error updating like count for comment with ID: " + commentId);
+    res
+      .status(500)
+      .send("Error updating like count for comment with ID: " + commentId);
     console.log(err);
   }
 });
@@ -195,8 +193,6 @@ app.put("/updateLikeOrDislike", async (req, res) => {
 //   }
 // });
 
-
-
 app.get("/getContent", (req, res) => {
   // PostsStructure.find({ $where:{ title:""},})
   PostsStructure.find({}, (err, result) => {
@@ -210,5 +206,3 @@ app.get("/getContent", (req, res) => {
     }
   });
 });
-
-
