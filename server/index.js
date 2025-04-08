@@ -193,16 +193,19 @@ app.put("/updateLikeOrDislike", async (req, res) => {
 //   }
 // });
 
-app.get("/getContent", (req, res) => {
-  // PostsStructure.find({ $where:{ title:""},})
-  PostsStructure.find({}, (err, result) => {
-    if (err) {
-      console.log("CANT GET CONTENT" + err);
+app.get("/getContent", async (req, res) => {
 
-      res.send(err);
-    } else {
-      console.log("Sent content from server");
-      res.send(result);
+    try{
+      const createdContent = await PostsStructure.find({})
+        .sort({
+          date: -1
+        })
+        res.send(createdContent)
+    } catch(error) {
+
+      console.log("Error fetching ", error)
+      res.send(error)
     }
-  });
+
+
 });

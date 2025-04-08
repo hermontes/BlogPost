@@ -23,10 +23,8 @@ function App() {
   useEffect(() => {
     Axios.get(API_URL)
       .then((response) => {
-        const sortedData = response.data.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        );
-        setFetchedContent(sortedData);
+        
+        setFetchedContent(response.data);
         console.log("Fetched data from server");
         // Reset the state to false after fetching
       })
