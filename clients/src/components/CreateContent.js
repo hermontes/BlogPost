@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react"; // Added useEffect import
 import Axios from "axios";
 // Import the updated CSS file:
@@ -15,8 +14,31 @@ const CreateContent = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
 
+  const MAX_TITLE_LENGTH = 100;
+  const MAX_AUTHOR_LENGTH = 50;
+  const MAX_CONTENT_LENGTH = 2000;
+
+  const handleTitleChange = (e) => {
+    if (e.target.value.length <= MAX_TITLE_LENGTH) {
+      setTitle(e.target.value);
+    }
+  };
+
+  const handleAuthorChange = (e) => {
+    if (e.target.value.length <= MAX_AUTHOR_LENGTH) {
+      setAuthor(e.target.value);
+    }
+  };
+
+  const handleContentChange = (e) => {
+    if (e.target.value.length <= MAX_CONTENT_LENGTH) {
+      setContent(e.target.value);
+    }
+  };
+
   // Check if all fields are filled whenever any field changes
-  const isFormValid = title.trim() && author.trim() && content.trim() && image.trim();
+  const isFormValid =
+    title.trim() && author.trim() && content.trim() && image.trim();
 
   const sendNewContent = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -35,7 +57,10 @@ const CreateContent = () => {
       });
 
       console.log("Sent data and got response: " + response.data);
-      setSubmissionStatus({ message: "Blog post created successfully!", isError: false });
+      setSubmissionStatus({
+        message: "Blog post created successfully!",
+        isError: false,
+      });
 
       // Clear the form fields after successful submission
       setTitle("");
@@ -44,8 +69,10 @@ const CreateContent = () => {
       setImage("");
 
       // Optional: Hide success message after a delay
-      setTimeout(() => setSubmissionStatus({ message: "", isError: false }), 3000);
-
+      setTimeout(
+        () => setSubmissionStatus({ message: "", isError: false }),
+        3000
+      );
     } catch (error) {
       console.error("Error sending content:", error);
       setSubmissionStatus({
@@ -71,8 +98,9 @@ const CreateContent = () => {
             className="form-input" // Use a consistent class for inputs
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleTitleChange}
             required // Add basic HTML5 validation
+            maxLength={MAX_TITLE_LENGTH}
           />
         </div>
 
@@ -83,8 +111,9 @@ const CreateContent = () => {
             className="form-input"
             type="text"
             value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            onChange={handleAuthorChange}
             required
+            maxLength={MAX_AUTHOR_LENGTH}
           />
         </div>
 
@@ -101,20 +130,27 @@ const CreateContent = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="content">Content:</label>
+          <label htmlFor="content">
+            Content: ({content.length}/{MAX_CONTENT_LENGTH})
+          </label>
           <textarea
             id="content"
             className="form-textarea" // Specific class for textarea
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={handleContentChange}
             rows="8" // Suggest initial height
             required
+            maxLength={MAX_CONTENT_LENGTH}
           ></textarea>
         </div>
 
         {/* Display Submission Status */}
         {submissionStatus.message && (
-          <div className={`submission-status ${submissionStatus.isError ? 'error' : 'success'}`}>
+          <div
+            className={`submission-status ${
+              submissionStatus.isError ? "error" : "success"
+            }`}
+          >
             {submissionStatus.message}
           </div>
         )}

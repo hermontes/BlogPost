@@ -10,11 +10,12 @@ const server = app.listen(3001, () => {
   console.log("Server is running on port 3001");
 });
 const wss = new WebSocket.Server({ server });
-const dbChangesListener = PostsStructure.watch();
 
 
 // WebSocket connection
 wss.on("connection", (ws) => {
+  const dbChangesListener = PostsStructure.watch();
+
   console.log("Client connected");
 
   dbChangesListener.on('change', (change) => {
