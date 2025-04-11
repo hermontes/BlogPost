@@ -11,28 +11,45 @@ const server = app.listen(3001, () => {
 });
 const wss = new WebSocket.Server({ server });
 
-
 // WebSocket connection
 wss.on("connection", (ws) => {
   const dbChangesListener = PostsStructure.watch();
 
   console.log("Client connected");
 
-  dbChangesListener.on('change', (change) => {
-    
-    if(change.operationType === 'insert' && ws.readyState === WebSocket.OPEN) {
+  dbChangesListener.on("change", (change) => {
+    if (change.operationType === "insert" && ws.readyState === WebSocket.OPEN) {
       const newChanges = {
         operationType: change.operationType,
-        fullDocument: change.fullDocument
-      }
-        console.log("Change detected:", change);
-        ws.send(JSON.stringify(newChanges));
+        fullDocument: change.fullDocument,
+      };
+      console.log("Change detected:", change);
+      ws.send(JSON.stringify(newChanges));
     }
 
-    if (change.operationType === "update") {
-      console.log("UPDATE detected:", change);
-    }
+    if (change.operationType === "update" && ws.readyState === WebSocket.OPEN) {
+      // Check if the update is for comments
+
+      const listOfUpdatedFields = change.updateDescription.updatedFields;
+      const isCommentUpdate = Object.keys(listOfUpdatedFields).some(key => key.startsWith('comments.'));
     
+      if (isCommentUpdate) {
+        const updatedCommentKey = Object.keys(listOfUpdatedFields)[0]; // e.g., 'comments.19'
+        const newComment = listOfUpdatedFields[updatedCommentKey];
+
+        const parentDocumentKey = change.documentKey._id;
+        
+
+        console.log("comment fix:", newComment)
+        const commentChange = {
+          parentDocumentKey: parentDocumentKey,
+          operationType: "update",
+          newComment: newComment,
+        };
+
+        ws.send(JSON.stringify(commentChange)); // Send the new comment to the client
+      }
+    }
   });
   // Receiving client messages
   ws.on("message", (message) => {
@@ -43,7 +60,6 @@ wss.on("connection", (ws) => {
     console.log("Client disconnected");
     dbChangesListener.close();
   });
-
 });
 
 const corsOptions = {
@@ -116,7 +132,7 @@ app.put("/makeComment", async (req, res) => {
       { $push: { comments: newComment } },
       { new: true }
     );
-
+    console.log("BE: New comment added to MongoDB")
     res.send("Server: Comment added successfully");
   } catch (err) {
     console.log("Making a comment threw an error!" + err);

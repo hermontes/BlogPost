@@ -48,6 +48,28 @@ function App() {
         setFetchedContent((prevContent) => {
           return [newDocument, ...prevContent];
         });
+      } else if (newData.operationType === "update") {
+        // Handle the new comment
+        const newComment = newData.newComment; 
+        const parentDocumentKey = newData.parentDocumentKey; // Get the post ID to which the comment belongs
+
+        console.log("NEW COMMENT", newComment, "KEYY:", parentDocumentKey)
+        setFetchedContent((prevContent) => {
+          return prevContent.map((post) => {
+
+            if (post._id === parentDocumentKey) {
+              console.log("MATCHED ID")
+
+              // Match the post ID
+              // Add the new comment to the comments array for the matched post
+              return {
+                ...post,
+                comments: [newComment, ...post.comments], // Append the new comment
+              };
+            }
+            return post; // Return the existing post if it doesn't match
+          });
+        });
       }
     };
 

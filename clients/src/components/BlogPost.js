@@ -62,9 +62,7 @@ const SingleBlog = memo(({ blog }) => {
         <div className="commentSection">
           <h2>Comments</h2>
           <hr />
-          <CreateComments
-            blogPost={blog}
-          />
+          <CreateComments blogPost={blog} />
           <CommentCards
             blog={blog}
             formatDateAndTimeFunction={formatDateAndTime}
