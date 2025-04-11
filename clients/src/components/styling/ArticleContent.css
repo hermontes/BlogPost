@@ -22,7 +22,7 @@
   margin: 0 auto;
 }
 
-.authorAndDate{
+.authorAndDate {
   display: flex;
   flex-direction: row;
   margin: 6px 0px;
@@ -35,7 +35,6 @@
   color: rgb(125, 125, 125);
   padding-left: 10px;
 }
-
 
 .contentText {
   font-size: 23px;
@@ -52,29 +51,32 @@ hr.separator {
   border: none;
   margin: 30px 0;
 }
-.viewCommentsButton button:hover {
 
-  background-color: #8a8ab7;
-
-}
 .viewCommentsButton button {
   margin-bottom: 10px;
-  background-color: #6b6b8f;
+  background-color: #3b82f6;
   color: #fff;
   border: 0;
-  border-radius: 5px;
+  border-radius: 8px;
   padding: 12px 30px;
   cursor: pointer;
   font-size: 14px;
-  box-shadow: 5px 5px 5px #dcdce4;
-  transition: color 0.33s ease, background-color 0.33s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
   text-transform: uppercase;
+}
+
+.viewCommentsButton button:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /*CSS for the comment section*/
 .commentSection {
-  padding: 10px 30px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #e5e7eb;
 }
