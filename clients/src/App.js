@@ -23,7 +23,6 @@ function App() {
   useEffect(() => {
     Axios.get(API_URL)
       .then((response) => {
-        
         setFetchedContent(response.data);
         console.log("Fetched data from server");
         // Reset the state to false after fetching
@@ -42,7 +41,7 @@ function App() {
     };
     ws.onmessage = (event) => {
       const newData = JSON.parse(event.data);
-      console.log("Received data from WebSocket:", newData);
+      console.log("FE: Received data from WebSocket", newData);
 
       if (newData.operationType === "insert") {
         const newDocument = newData.fullDocument;
