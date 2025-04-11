@@ -50,7 +50,7 @@
 .create-content-form {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 0.8rem;
 }
 
 .form-group {
@@ -121,7 +121,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  margin-top: 1.5rem;
+  margin-top: 0.4rem;
   position: relative;
   overflow: hidden;
 }
