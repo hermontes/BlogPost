@@ -6,30 +6,32 @@ const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
 
 const WebSocket = require("ws");
-const { ObjectId } = require("mongodb");
 const server = app.listen(3001, () => {
   console.log("Server is running on port 3001");
 });
 const wss = new WebSocket.Server({ server });
 const dbChangesListener = PostsStructure.watch();
 
+
 // WebSocket connection
 wss.on("connection", (ws) => {
   console.log("Client connected");
 
-  dbChangesListener.on("change", (change) => {
-    if (change.operationType === "insert" && ws.readyState === WebSocket.OPEN) {
+  dbChangesListener.on('change', (change) => {
+    
+    if(change.operationType === 'insert' && ws.readyState === WebSocket.OPEN) {
       const newChanges = {
         operationType: change.operationType,
-        fullDocument: change.fullDocument,
-      };
-      console.log("Change detected:", change);
-      ws.send(JSON.stringify(newChanges));
+        fullDocument: change.fullDocument
+      }
+        console.log("Change detected:", change);
+        ws.send(JSON.stringify(newChanges));
     }
 
     if (change.operationType === "update") {
       console.log("UPDATE detected:", change);
     }
+    
   });
   // Receiving client messages
   ws.on("message", (message) => {
@@ -40,6 +42,7 @@ wss.on("connection", (ws) => {
     console.log("Client disconnected");
     dbChangesListener.close();
   });
+
 });
 
 const corsOptions = {
@@ -86,7 +89,7 @@ app.post("/createContent", async (req, res) => {
     await post
       .save()
       .then(() =>
-        console.log("Server: Saved content on MongoDB successfully!")
+        console.log("Server: Saved content to MongoDB successfully!")
       );
 
     return res.send("Data inserted into MongoDB");
@@ -194,18 +197,13 @@ app.put("/updateLikeOrDislike", async (req, res) => {
 // });
 
 app.get("/getContent", async (req, res) => {
-
-    try{
-      const createdContent = await PostsStructure.find({})
-        .sort({
-          date: -1
-        })
-        res.send(createdContent)
-    } catch(error) {
-
-      console.log("Error fetching ", error)
-      res.send(error)
-    }
-
-
+  try {
+    const createdContent = await PostsStructure.find({}).sort({
+      date: -1,
+    });
+    res.send(createdContent);
+  } catch (error) {
+    console.log("Error fetching ", error);
+    res.send(error);
+  }
 });
