@@ -39,6 +39,7 @@ body {
     width: 1170px;
   }
 }
+
 .horizContent label {
   display: flex;
   align-items: left;
@@ -48,16 +49,16 @@ body {
 }
 
 .navbar {
-  /* position: fixed; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   top: 0;
   right: 0;
   left: 0;
-  padding: 14px 10px;
-  box-shadow: 0 3px 8px rgba(14, 59, 239, 0.05);
-  background-color: #a7c7e7;
+  padding: 10px 20px;
+  box-shadow: 0 3px 8px rgba(14, 59, 239, 0.1);
   margin-bottom: 2%;
-  /* border-bottom: 1px dashed rgb(9, 83, 220); */
-  /* border-top-right-radius: 20px; */
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
 }
@@ -65,26 +66,46 @@ body {
 .innerBar {
   display: flex;
   flex-direction: row;
-  /* width: 85%; */
-  color: #000;
+  justify-content: space-between;
+  align-items: center;
 }
+
 .innerBar .reviewFest {
   margin-left: 9%;
-  padding: 15px 30px;
-  font-size: 25px;
-  font-weight: bold;
-  /* text-shadow: 2px 2px 20px rgb(0 0 0 / 50%); */
-  /* border: 1px dashed rgb(9, 83, 220); */
-  /* border: 1px dashed rgb(9, 83, 220); */
-  border-top: 1px dashed rgb(9, 83, 220);
-  border-bottom: 1px dashed rgb(9, 83, 220);
-  /* border-left: 1px dashed rgb(9, 83, 220); */
+  transition: transform 0.3s;
 }
-/* .innerBar .reviewFest span{
 
-  box-shadow: 0 3px 8px rgba(14, 59, 239, 0.05);
+.innerBar .reviewFest img {
+  width: 100px;
+  border-radius: 50%;
+}
 
-} */
+.innerBar .reviewFest:hover {
+  transform: scale(1.05);
+}
+
+.createRightSide {
+  margin-left: auto;
+}
+
+.createRightSide button {
+  background-color: #0056b3;
+  color: #fff;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  text-transform: uppercase;
+}
+
+.createRightSide button:hover {
+  color: #fff;
+  transform: scale(1.05);
+}
+
 @media (min-width: 768px) {
   .createRightSide {
     margin-right: 12%;
@@ -101,24 +122,4 @@ body {
   .createRightSide {
     margin-right: 18%;
   }
-}
-.createRightSide {
-  margin-left: auto;
-}
-.createRightSide button {
-  background-color: #4d4de1;
-  color: #fff;
-  border: 0;
-  border-radius: 5px;
-  box-shadow: 5px 5px 5px #dcdce4;
-  padding: 15px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: transform 0.4s ease, background-color 0.33s ease;
-  text-transform: uppercase;
-  min-width: 124.4px;
-}
-
-.createRightSide button:hover {
-  transform: translateY(-2px) scale(1.05);
 }
