@@ -93,7 +93,7 @@ function App() {
       <nav className="navbar">
         <div className="innerBar">
           <div className="reviewFest">
-            <span>ReviewFest</span>
+            <img src="./official_logo.jpg" />
           </div>
 
           <div className="createRightSide">
