@@ -1,63 +1,62 @@
 .createCommentsSection {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 96%;
   margin-top: 10px;
-  font-family: "Gotham SSm";
-  padding: 12px 16px; 
+  font-family: "Gotham SSm", sans-serif;
   font-size: 15px;
+  margin-left: 10px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .commentHeading {
-  margin-bottom: 7px;
+  margin-bottom: 12px;
   font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
-.createCommentsSection input {
-  width: 65%;
-  font-size: 15px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  padding: 15px;
-  border: 1px solid #4d4de1;
-  font-family: "Gotham SSm";
-}
-.createCommentsSection input:focus {
-  border: 1px solid #000;
-  outline: 0;
-}
-.createCommentsSection textarea:focus {
-  border: 1px solid #000;
-  outline: 0;
-}
+
+.createCommentsSection input,
 .createCommentsSection textarea {
-  width: 65%;
-  height: 150px;
-  resize: inherit;
-  font-family: "Gotham SSm";
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #4d4de1;
+  width: 98%;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  font-family: "Gotham SSm", sans-serif;
   font-size: 15px;
+  color: #333;
+  transition: border-color 0.3s;
 }
-.buttonAlign button:hover {
-  background-color: #6e6ed5;
+
+.createCommentsSection input:focus,
+.createCommentsSection textarea:focus {
+  border: 1px solid #007bff;
+  outline: none;
 }
+
 .buttonAlign {
-  width: 67.5%;
+  display: flex;
+  justify-content: flex-end;
 }
+
 .buttonAlign button {
   margin-top: 5px;
-  background-color: #6363c9;
+  background-color: #007bff;
   color: #fff;
-  border: 0;
-  border-radius: 5px;
-  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
   cursor: pointer;
   font-size: 14px;
-  box-shadow: 5px 5px 5px #dcdce4;
-  transition: color 0.33s ease, background-color 0.33s ease;
-  text-transform: uppercase;
-  float: right;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
 }
-/* 
-background: #fff;
-box-shadow: 0 4px 8px 0 rgb(53 105 128 / 30%), 0 6px 20px 0 rgb(165 200 213 / 41%); */
+
+.buttonAlign button:hover {
+  background-color: #0056b3;
+}
