@@ -6,6 +6,7 @@
   display: flex;
   padding: 12px 16px;
   border-bottom: 1px solid rgb(239, 243, 244);
+  margin-top: 1rem;
 }
 
 .comment-left {
@@ -54,7 +55,7 @@
   margin: 8px 0 12px;
   padding: 8px 12px;
   background-color: rgb(247, 249, 249);
-  border: 1px solid rgb(29, 155, 240);
+
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
