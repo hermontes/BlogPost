@@ -26,12 +26,11 @@ body {
   top: 0;
   width: 100%;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: #f9f9f9;
   z-index: 1000;
-  box-shadow: 0 3px 8px rgba(14, 59, 239, 0.1);
+  box-shadow: 0 3px 4px rgba(14, 59, 239, 0.1);
   margin-bottom: 1rem;
-  border-bottom-right-radius: 15px;
-  border-bottom-left-radius: 15px;
+  height: 5.6rem;
 }
 
 .innerBar {
@@ -49,7 +48,7 @@ body {
 }
 
 .innerBar .reviewFest img {
-  width: 11rem;
+  width: 12rem;
 }
 
 .innerBar .reviewFest:hover {
