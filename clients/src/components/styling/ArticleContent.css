@@ -1,14 +1,15 @@
 /*All styling for blog article*/
 .contentCard {
-  /* margin-top: 15px; */
   font-family: "Gotham SSm";
+  width: 85%;
+  margin: 0 auto;
 }
 
 .blogTitle {
   font-size: 2rem;
   font-weight: bold;
   line-height: 1.2;
-  margin: 0px;
+  margin: 0;
 }
 
 .blogTitle span {
@@ -16,30 +17,38 @@
 }
 
 .blogImage {
-  width: 80%;
-  border-radius: 10px;
   display: block;
-  margin: 0 auto;
+  width: 80%;
+  border-radius: 0.625rem;
+  margin: 1.25rem auto;
 }
 
 .authorAndDate {
   display: flex;
   flex-direction: row;
-  margin: 6px 0px;
-  font-size: 18px;
+  margin: 0.375rem 0;
+  font-size: 1.125rem;
 }
+
 .blogAuthor {
   color: #000;
 }
+
 .blogDate {
   color: rgb(125, 125, 125);
-  padding-left: 10px;
+  padding-left: 0.625rem;
 }
 
 .contentText {
-  font-size: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.875rem auto;
+  width: 97%;
+  font-size: 1.4375rem;
   white-space: pre-wrap;
 }
+
 .commentText {
   white-space: pre-wrap;
 }
@@ -49,18 +58,18 @@ hr.separator {
   height: 3px;
   background-color: #000;
   border: none;
-  margin: 30px 0;
+  margin: 1.875rem 0;
 }
 
 .viewCommentsButton button {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   background-color: #3b82f6;
   color: #fff;
   border: 0;
-  border-radius: 8px;
-  padding: 12px 30px;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.875rem;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.875rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   text-transform: uppercase;
@@ -76,7 +85,7 @@ hr.separator {
 .commentSection {
   padding: 1.5rem;
   background-color: #f8fafc;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   margin-bottom: 1rem;
   border: 1px solid #e5e7eb;
 }
