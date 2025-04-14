@@ -69,7 +69,7 @@ const SingleBlog = memo(({ blog }) => {
           {viewContent ? "Show Less" : "Show More"}
         </button>
       </div>
-      <div className="viewCommentsButton">
+      <div className={viewComments ? "viewCommentsButton collapsedComment ":"viewCommentsButton" }>
         <button onClick={changeViewComment} value={viewComments}>
           {viewComments ? "Hide Comments" : "View Comments"}
         </button>
