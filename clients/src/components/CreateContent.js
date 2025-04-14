@@ -14,6 +14,7 @@ const CreateContent = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
 
+  const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
   const MAX_AUTHOR_LENGTH = 50;
   const MIN_CONTENT_LENGTH = 350;
@@ -54,7 +55,7 @@ const CreateContent = () => {
         content: content,
         author: author,
         image: image,
-        comments: [], // Assuming default empty comments array
+        comments: [] // Assuming default empty comments array
       });
 
       console.log("Sent data and got response: " + response.data);
@@ -100,6 +101,7 @@ const CreateContent = () => {
             value={title}
             onChange={handleTitleChange}
             required
+            minLength={MIN_TITLE_LENGTH}
             maxLength={MAX_TITLE_LENGTH}
           />
         </div>
