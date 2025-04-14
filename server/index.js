@@ -29,7 +29,6 @@ wss.on("connection", (ws) => {
 
     if (change.operationType === "update" && ws.readyState === WebSocket.OPEN) {
       // Check if the update is for comments
-
       const listOfUpdatedFields = change.updateDescription.updatedFields;
       const isCommentUpdate = Object.keys(listOfUpdatedFields).some(key => key.startsWith('comments.'));
     
