@@ -1,7 +1,9 @@
 .create-content-container {
   max-width: 800px;
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 1.5rem 1rem;
+  background-color: #f8fafc;
+  border-radius: 10px;
 }
 
 .create-content-card {
