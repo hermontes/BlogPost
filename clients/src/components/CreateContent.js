@@ -14,7 +14,7 @@ const CreateContent = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
 
-  const MIN_TITLE_LENGTH = 30;
+  const MIN_TITLE_LENGTH = 10;
   const MAX_TITLE_LENGTH = 100;
   const MAX_AUTHOR_LENGTH = 50;
   const MIN_CONTENT_LENGTH = 350;
