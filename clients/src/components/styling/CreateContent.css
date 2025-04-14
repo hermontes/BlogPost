@@ -3,7 +3,34 @@
   margin: 2rem auto;
   padding: 1.5rem 1rem;
   background-color: #f8fafc;
-  border-radius: 10px;
+  position: relative;
+}
+
+/* Create pseudo-elements for the corner borders */
+.create-content-container::before,
+.create-content-container::after {
+  content: '';
+  position: absolute;
+  width: 20px; 
+  height: 20px;
+  border-color: #6366f1; 
+  border-style: solid;
+}
+
+/* Top-left corner */
+.create-content-container::before {
+  top: 0;
+  left: 0;
+  border-width: 3px 0 0 3px; /* Top and left borders only */
+  border-top-left-radius: 8px;
+}
+
+/* Bottom-right corner */
+.create-content-container::after {
+  top: 0;
+  right: 0;
+  border-width: 3px 3px 0 0; /* Bottom and right borders only */
+  border-top-right-radius: 8px;
 }
 
 .create-content-card {
