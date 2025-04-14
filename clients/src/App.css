@@ -1,44 +1,17 @@
 body {
   box-sizing: border-box;
-}
-
-.horiz {
-  width: 100%;
-  flex-direction: column;
-  margin-bottom: 1em;
-}
-
-.horizContent {
-  width: 100%;
+  margin: 0; 
+  padding: 0;  
+  overflow-x: hidden;  
 }
 
 .container {
+  display: flex;
   font-family: "Gotham SSm";
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-  align-items: center;
+
   flex-direction: column;
 }
 
-@media (min-width: 768px) {
-  .container {
-    width: 750px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    width: 970px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    width: 1170px;
-  }
-}
 
 .horizContent label {
   display: flex;
@@ -49,14 +22,13 @@ body {
 }
 
 .navbar {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  position: sticky;
   top: 0;
-  right: 0;
-  left: 0;
-  padding: 10px 20px;
+  width: 80%;
+  margin: 0 auto;
+  background-color: #fff;
+  z-index: 1000;
+  padding: 1rem;
   box-shadow: 0 3px 8px rgba(14, 59, 239, 0.1);
   margin-bottom: 2%;
   border-bottom-right-radius: 15px;
@@ -65,19 +37,19 @@ body {
 
 .innerBar {
   display: flex;
-  flex-direction: row;
+  margin: 0 auto;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
 }
 
 .innerBar .reviewFest {
-  margin-left: 9%;
+  flex-shrink: 0; /* Prevent logo from shrinking */
   transition: transform 0.3s;
 }
 
 .innerBar .reviewFest img {
-  width: 100px;
-  border-radius: 50%;
+  width: 11rem;
 }
 
 .innerBar .reviewFest:hover {
@@ -85,7 +57,7 @@ body {
 }
 
 .createRightSide {
-  margin-left: auto;
+  flex-shrink: 0; 
 }
 
 .createRightSide button {
@@ -107,19 +79,19 @@ body {
 }
 
 @media (min-width: 768px) {
-  .createRightSide {
-    margin-right: 12%;
+  .innerBar {
+    padding: 0 2rem;
   }
 }
 
 @media (min-width: 992px) {
-  .createRightSide {
-    margin-right: 17%;
+  .innerBar {
+    padding: 0 3rem;
   }
 }
 
 @media (min-width: 1200px) {
-  .createRightSide {
-    margin-right: 18%;
+  .innerBar {
+    padding: 0 4rem;
   }
 }

@@ -89,11 +89,11 @@ function App() {
 
   return (
     // <div className="App">
-    <div>
+    <div className="container">
       <nav className="navbar">
         <div className="innerBar">
           <div className="reviewFest">
-            <img src="./official_logo.jpg" />
+            <img src="./official_logo.png" />
           </div>
 
           <div className="createRightSide">
@@ -104,7 +104,7 @@ function App() {
         </div>
       </nav>
 
-      <div className="container">
+      <div>
         {createTrigger && <CreateContent />}
         <div>
           {allContent.map((val, key) => {
