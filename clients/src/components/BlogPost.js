@@ -61,7 +61,7 @@ const SingleBlog = memo(({ blog }) => {
       {viewComments ? (
         <div className="commentSection">
           <h2>Comments</h2>
-          <hr />
+
           <CreateComments blogPost={blog} />
           <CommentCards
             blog={blog}
@@ -70,7 +70,6 @@ const SingleBlog = memo(({ blog }) => {
         </div>
       ) : null}
 
-      <hr className="separator"></hr>
     </div>
   );
 });
