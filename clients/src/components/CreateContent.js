@@ -16,6 +16,7 @@ const CreateContent = () => {
 
   const MAX_TITLE_LENGTH = 100;
   const MAX_AUTHOR_LENGTH = 50;
+  const MIN_CONTENT_LENGTH = 350;
   const MAX_CONTENT_LENGTH = 2000;
 
   const handleTitleChange = (e) => {
@@ -85,7 +86,6 @@ const CreateContent = () => {
   };
 
   return (
-    // Use a more descriptive class name for the container
     <div className="create-content-container">
       <h2>Create New Blog Post</h2>
       {/* Use onSubmit on the form element */}
@@ -94,12 +94,12 @@ const CreateContent = () => {
         <div className="form-group">
           <label htmlFor="title">Title:</label>
           <input
-            id="title" // Match label's htmlFor
-            className="form-input" // Use a consistent class for inputs
+            id="title" 
+            className="form-input" 
             type="text"
             value={title}
             onChange={handleTitleChange}
-            required // Add basic HTML5 validation
+            required
             maxLength={MAX_TITLE_LENGTH}
           />
         </div>
@@ -135,11 +135,12 @@ const CreateContent = () => {
           </label>
           <textarea
             id="content"
-            className="form-textarea" // Specific class for textarea
+            className="form-textarea" 
             value={content}
             onChange={handleContentChange}
-            rows="8" // Suggest initial height
+            rows="8" 
             required
+            minLength={MIN_CONTENT_LENGTH}
             maxLength={MAX_CONTENT_LENGTH}
           ></textarea>
         </div>
@@ -157,8 +158,8 @@ const CreateContent = () => {
 
         {/* Place button inside the form */}
         <button
-          type="submit" // Use type="submit"
-          className="submit-button" // New class name
+          type="submit" 
+          className="submit-button" 
           disabled={!isFormValid || isSubmitting} // Disable if form invalid or submitting
         >
           {isSubmitting ? "Submitting..." : "Launch Blog Post"}
