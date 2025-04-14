@@ -30,12 +30,15 @@ wss.on("connection", (ws) => {
     if (change.operationType === "update" && ws.readyState === WebSocket.OPEN) {
       // Check if the update is for comments
       const listOfUpdatedFields = change.updateDescription.updatedFields;
-      const isCommentUpdate = Object.keys(listOfUpdatedFields).some(key => key.startsWith('comments.'));
+      const isCommentUpdate = Object.keys(listOfUpdatedFields).some(key => key.startsWith('comments.') || key.startsWith('comments'));
     
       if (isCommentUpdate) {
         const updatedCommentKey = Object.keys(listOfUpdatedFields)[0]; // e.g., 'comments.19'
-        const newComment = listOfUpdatedFields[updatedCommentKey];
-
+        var newComment = listOfUpdatedFields[updatedCommentKey];
+        //the very first time, its an array that contains the comment
+        if(Array.isArray(newComment)) {
+          newComment = newComment[0];
+        }
         const parentDocumentKey = change.documentKey._id;
         
 
