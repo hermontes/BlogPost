@@ -15,6 +15,8 @@ const SingleBlog = memo(({ blog }) => {
     setViewContent(!viewContent);
   };
 
+  const contentPreview = blog.content.slice(0, 350) + "..."
+
   const formatDateAndTime = (givenDateAndTime) => {
     const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
       day: "numeric",
@@ -58,7 +60,7 @@ const SingleBlog = memo(({ blog }) => {
       <div className="contentWrapper">
         <div className={viewContent ? "content-expanded" : "content-collapsed"}>
           <p className="contentText">
-            {viewContent ? blog.content : blog.content.slice(0, 350) + "..."}
+            {viewContent ? blog.content : contentPreview}
           </p>
         </div>
         <button
