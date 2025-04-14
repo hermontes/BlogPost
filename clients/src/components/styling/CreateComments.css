@@ -2,14 +2,13 @@
   display: flex;
   flex-direction: column;
   width: 96%;
-  margin-top: 10px;
+  margin: 1rem 0 2.5rem 0;
   font-family: "Gotham SSm", sans-serif;
   font-size: 15px;
   margin-left: 10px;
   padding: 16px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-
 }
 
 .commentHeading {
