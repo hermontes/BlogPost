@@ -7,8 +7,13 @@ import { counter } from "@fortawesome/fontawesome-svg-core";
 
 const SingleBlog = memo(({ blog }) => {
   const [viewComments, setView] = useState(false);
+  const [viewContent, setViewContent] = useState(false);
 
   console.log("SingleBlog component rendered");
+
+  const toggleContent = () => {
+    setViewContent(!viewContent);
+  };
 
   const formatDateAndTime = (givenDateAndTime) => {
     const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
@@ -50,8 +55,20 @@ const SingleBlog = memo(({ blog }) => {
         src={blog.image}
       ></img>
 
-      <p className="contentText">{blog.content}</p>
-
+      <div className="contentWrapper">
+        <div className={viewContent ? "content-expanded" : "content-collapsed"}>
+          <p className="contentText">
+            {viewContent ? blog.content : blog.content.slice(0, 350) + "..."}
+          </p>
+        </div>
+        <button
+          className="expandContentButton"
+          onClick={toggleContent}
+          aria-expanded={viewContent}
+        >
+          {viewContent ? "Show Less" : "Show More"}
+        </button>
+      </div>
       <div className="viewCommentsButton">
         <button onClick={changeViewComment} value={viewComments}>
           {viewComments ? "Hide Comments" : "View Comments"}
@@ -69,7 +86,6 @@ const SingleBlog = memo(({ blog }) => {
           />
         </div>
       ) : null}
-
     </div>
   );
 });
