@@ -1,6 +1,30 @@
 # BlogPost (⏳)
 
-A full-stack blogging application with a **Node.js + Express + MongoDB** backend and a **React.js** frontend.
+A full-stack blog platform built with the MERN stack (MongoDB, Express.js, React, Node.js) featuring real-time updates through WebSocket integration.
+
+## Features
+
+- 📝 Create and publish blog posts with images
+- 💬 Real-time comment system
+- 🎨 Modern, responsive design
+- ⚡ Optimized content loading with show more/less
+- 🔄 Live updates using WebSocket
+- 📱 Mobile-friendly interface
+
+## Tech Stack
+
+### Frontend
+- React
+- CSS3 with modern animations
+- WebSocket client
+- Axios for HTTP requests
+
+### Backend
+- Node.js
+- Express
+- MongoDB with Mongoose
+- WebSocket server
+- RESTful API
 
 ## Getting Started
 
