@@ -37,6 +37,7 @@ wss.on("connection", (ws) => {
         var newComment = listOfUpdatedFields[updatedCommentKey];
         //the very first time, its an array that contains the comment
         if(Array.isArray(newComment)) {
+          //extracting the actual comment which would be the first time
           newComment = newComment[0];
         }
         const parentDocumentKey = change.documentKey._id;
