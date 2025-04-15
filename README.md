@@ -4,20 +4,20 @@ A full-stack blog platform built with the MERN stack (MongoDB, Express.js, React
 
 ## Features
 
-- 📝 Create and publish blog posts with images
-- 💬 Real-time comment system
-- 🎨 Modern, responsive design
-- ⚡ Optimized content loading with show more/less
-- 🔄 Live updates using WebSocket
-- 📱 Mobile-friendly interface
+- Create and publish blog posts with images
+- Real-time comment system
+- Modern, responsive design
+- Optimized content loading
+- Live updates using WebSocket
+- Mobile-friendly interface
 
 ## Tech Stack
 
 ### Frontend
 - React
-- CSS3 with modern animations
-- WebSocket client
 - Axios for HTTP requests
+- WebSocket client
+- CSS3 with modern animations
 
 ### Backend
 - Node.js
