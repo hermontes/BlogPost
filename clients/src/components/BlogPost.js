@@ -3,7 +3,9 @@ import CreateComments from "./CreateComments";
 import CommentCards from "./CommentCards";
 
 import "./styling/ArticleContent.css";
-import { counter } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 const SingleBlog = memo(({ blog }) => {
   const [viewComments, setView] = useState(false);
@@ -15,7 +17,7 @@ const SingleBlog = memo(({ blog }) => {
     setViewContent(!viewContent);
   };
 
-  const contentPreview = blog.content.slice(0, 350) + "..."
+  const contentPreview = blog.content.slice(0, 350) + "...";
 
   const formatDateAndTime = (givenDateAndTime) => {
     const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
@@ -63,15 +65,32 @@ const SingleBlog = memo(({ blog }) => {
             {viewContent ? blog.content : contentPreview}
           </p>
         </div>
-        <button
-          className="expandContentButton"
-          onClick={toggleContent}
-          aria-expanded={viewContent}
-        >
-          {viewContent ? "Show Less" : "Show More"}
-        </button>
+        <div className="expandContent">
+          <button
+            className="expandContentButton"
+            onClick={toggleContent}
+            aria-expanded={viewContent}
+          >
+            {viewContent ? (
+              <>
+                {"Show Less "}
+                <FontAwesomeIcon icon={faAngleUp} />
+              </>
+            ) : (
+              <>
+                {"Show More "} <FontAwesomeIcon icon={faAngleDown} />
+              </>
+            )}
+          </button>
+        </div>
       </div>
-      <div className={viewComments ? "viewCommentsButton collapsedComment ":"viewCommentsButton" }>
+      <div
+        className={
+          viewComments
+            ? "viewCommentsButton collapsedComment "
+            : "viewCommentsButton"
+        }
+      >
         <button onClick={changeViewComment} value={viewComments}>
           {viewComments ? "Hide Comments" : "View Comments"}
         </button>
