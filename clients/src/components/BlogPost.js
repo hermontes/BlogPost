@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useMemo } from "react";
+import React, { memo, useState, useEffect, useMemo, useRef } from "react";
 import CreateComments from "./CreateComments";
 import CommentCards from "./CommentCards";
 
@@ -10,11 +10,15 @@ import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
 const SingleBlog = memo(({ blog }) => {
   const [viewComments, setView] = useState(false);
   const [viewContent, setViewContent] = useState(false);
+  const articleRef = useRef(null);
 
-  console.log("SingleBlog component rendered");
-
+  // console.log("SingleBlog component rendered");
   const toggleContent = () => {
     setViewContent(!viewContent);
+    if(viewContent) {
+      // Scroll to the article title when "Show Less" is clicked(viewContent is true)
+      articleRef.current.scrollIntoView({ behavior: "smooth" }); 
+    }
   };
 
   const contentPreview = blog.content.slice(0, 350) + "...";
@@ -41,7 +45,7 @@ const SingleBlog = memo(({ blog }) => {
 
   return (
     <div className="contentCard">
-      <h1 className="blogTitle">
+      <h1 className="blogTitle" ref={articleRef}>
         <span>{blog.title}</span>
       </h1>
       <div className="authorAndDate">
