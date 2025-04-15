@@ -13,18 +13,18 @@ A full-stack blog platform built with the MERN stack (MongoDB, Express.js, React
 
 ## Tech Stack
 
-### Frontend
-- React
-- Axios for HTTP requests
-- WebSocket client
-- CSS3 with modern animations
-
 ### Backend
 - Node.js
 - Express
 - MongoDB with Mongoose
 - WebSocket server
 - RESTful API
+
+### Frontend
+- React
+- Axios for HTTP requests
+- WebSocket client
+- CSS3 with modern animations
 
 ## Getting Started
 
