@@ -77,9 +77,9 @@ body {
   transform: scale(1.05);
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .innerBar {
-    padding: 0 2rem;
+    width: 90%;
   }
 }
 
