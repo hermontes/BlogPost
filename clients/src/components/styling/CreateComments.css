@@ -58,3 +58,20 @@
 .buttonAlign button:hover {
   background-color: #0056b3;
 }
+
+@media (max-width: 768px) {
+  .createCommentsSection {
+    width: 95%;
+    padding: .5rem .5rem; 
+    border: none;
+    margin: 0px;
+  }
+
+  .createCommentsSection input,
+  .createCommentsSection textarea {
+    width: 90%;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 12px;
+  }
+}

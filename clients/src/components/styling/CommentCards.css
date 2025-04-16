@@ -85,3 +85,29 @@
 .action-button span {
   min-width: 12px;
 }
+
+@media (max-width: 768px) {
+
+  .comment-card {
+    padding: 0px 0px .5rem 0px; 
+  }
+
+  .author, .date {
+    font-size: .8rem; 
+  }
+
+  .comment-text {
+    font-size: 1rem;
+  }
+
+  .actions {
+    flex-direction: row; 
+    gap: 1rem;
+  }
+
+  .action-button {
+    margin-top: 4px; 
+  }
+
+}
+
