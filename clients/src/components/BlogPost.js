@@ -44,8 +44,8 @@ const SingleBlog = memo(({ blog }) => {
   };
 
   return (
-    <div className="contentCard">
-      <h1 className="blogTitle" ref={articleRef}>
+    <div className="contentCard" ref={articleRef}>
+      <h1 className="blogTitle" >
         <span>{blog.title}</span>
       </h1>
       <div className="authorAndDate">
