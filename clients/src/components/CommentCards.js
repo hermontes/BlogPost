@@ -54,7 +54,7 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                       {formatDateAndTimeFunction(comment.createdAt).timeCreated}
                     </span>
                   </div>
-                  <div className="comment-text">{comment.text}</div>
+                  <div className="comment-text"><p>{comment.text}</p></div>
                   <div className="actions">
                     <div className="action-button">
                       <button

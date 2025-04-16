@@ -62,9 +62,14 @@
   margin: 8px 0 12px;
   padding: 8px 12px;
   background-color: rgb(247, 249, 249);
-
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+.comment-text p {
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
 }
 
 .actions {
