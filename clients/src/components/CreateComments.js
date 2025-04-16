@@ -43,6 +43,8 @@ const Comments = ({ blogPost}) => {
         value={name}
         placeholder="Full Name..."
         onChange={(e) => setName(e.target.value)}
+        maxLength={50}
+        required
       ></input>
 
       <div>
@@ -51,6 +53,8 @@ const Comments = ({ blogPost}) => {
           value={commentField}
           placeholder="Share your thoughts..."
           onChange={(e) => setComment(e.target.value)}
+          maxLength={2000}
+          required
         ></textarea>
       </div>
       <div className="buttonAlign">
