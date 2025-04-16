@@ -26,6 +26,9 @@
   font-size: 15px;
   color: #333;
   transition: border-color 0.3s;
+  max-width: 100%;
+  max-height: 600px;    
+  resize: vertical;     
 }
 
 .createCommentsSection input:focus,
