@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Axios, { all } from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
@@ -15,17 +15,27 @@ function App() {
 
   //changing the states based on the fields
   const [createTrigger, setTrigger] = useState(false);
-
+  const createContentRef = useRef(null)
+  
+  // Function to toggle the trigger state
   const changeTrigger = () => {
-    setTrigger(!createTrigger);
+    setTrigger(!createTrigger); // Toggle the trigger state
   };
+
+  // useEffect to handle scrolling when the trigger changes
+  useEffect(() => {
+    if (createContentRef.current) {
+      createContentRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [createTrigger]); // Dependency on createTrigger stage change
+
+
 
   useEffect(() => {
     Axios.get(API_URL)
       .then((response) => {
-        setFetchedContent(response.data);
+        setFetchedContent(response.data); //data is sorted in the BE and sent here
         console.log("Fetched data from server");
-        // Reset the state to false after fetching
       })
       .catch((error) => {
         console.log("Error fetching data from server: " + error);
@@ -89,7 +99,7 @@ function App() {
 
   return (
     // <div className="App">
-    <div className="container">
+    <div className="container" ref={createContentRef}>
       <nav className="navbar">
         <div className="innerBar">
           <div className="reviewFest">
@@ -105,7 +115,7 @@ function App() {
       </nav>
 
       <div>
-        {createTrigger && <CreateContent />}
+        {createTrigger ? <CreateContent />  : "" }
         <div>
           {allContent.map((val, key) => {
             return <BlogPost blog={val} key={val._id} />;

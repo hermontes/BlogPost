@@ -70,7 +70,7 @@ const CreateContent = () => {
       setContent("");
       setImage("");
 
-      // Optional: Hide success message after a delay
+      // Hide success message after a delay
       setTimeout(
         () => setSubmissionStatus({ message: "", isError: false }),
         3000
