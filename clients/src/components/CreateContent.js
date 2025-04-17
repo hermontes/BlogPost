@@ -14,6 +14,8 @@ const CreateContent = () => {
     isError: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
+  const ERROR_MESSAGE = "Failed to create post. Please try again."
+  const SUCCESS_MESSAGE = "Blog post created successfully!"
 
   const MIN_TITLE_LENGTH = 10;
   const MAX_TITLE_LENGTH = 80;
@@ -61,7 +63,7 @@ const CreateContent = () => {
 
       console.log("Sent data and got response: " + response.data);
       setSubmissionStatus({
-        message: "Blog post created successfully!",
+        message: SUCCESS_MESSAGE,
         isError: false,
       });
 
@@ -71,21 +73,24 @@ const CreateContent = () => {
       setContent("");
       setImage("");
 
-      // Hide success message after a delay
-      setTimeout(
-        () => setSubmissionStatus({ message: "", isError: false }),
-        3000
-      );
     } catch (error) {
       console.error("Error sending content:", error);
       setSubmissionStatus({
-        message: "Failed to create post. Please try again.",
+        message: ERROR_MESSAGE,
         isError: true,
       });
     } finally {
       setIsSubmitting(false); // Indicate submission end
     }
   };
+
+  // Hide status success message after a delay
+  useEffect(() => {
+    if(submissionStatus.message) {
+      const timer = setTimeout( () => setSubmissionStatus({ message: "", isError: false}), 3000)
+      return () => clearTimeout(timer)
+    }
+  },[submissionStatus.message])
 
   return (
     <div className="create-content-container">
