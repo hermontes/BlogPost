@@ -191,27 +191,6 @@
   transform: none;
 }
 
-.submission-status {
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  text-align: center;
-  font-weight: 500;
-  margin-top: 1rem;
-  border: 2px solid transparent;
-}
-
-.submission-status.success {
-  background-color: #f0fdf4;
-  color: #16a34a;
-  border-color: #bbf7d0;
-}
-
-.submission-status.error {
-  background-color: #fef2f2;
-  color: #dc2626;
-  border-color: #fecaca;
-}
-
 @media (max-width: 768px) {
   .create-content-container {
     margin: 1rem 1rem;

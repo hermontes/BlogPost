@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"; // Added useEffect import
 import Axios from "axios";
 // Import the updated CSS file:
 import "./styling/CreateContent.css";
+import "./styling/SharedStyles.css"
 
 const CreateContent = () => {
   const [title, setTitle] = useState("");
