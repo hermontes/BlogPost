@@ -104,10 +104,13 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
+
 /* For expand and collape content styling */
-.expandContent{
+.expandContent {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
