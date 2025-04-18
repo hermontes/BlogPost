@@ -8,13 +8,6 @@
   position: relative;
   margin-bottom: 1rem;
 }
-.comment-card::before {
-  content: " ";
-  width: 100%;
-  border-bottom: 1px solid #ececec;
-  position: absolute;
-  top: 0;
-}
 
 .comment-left {
   margin-right: 12px;
