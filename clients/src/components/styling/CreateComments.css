@@ -17,7 +17,7 @@
 
 .createCommentsSection input,
 .createCommentsSection textarea {
-  width: 98%;
+  width: 97%;
   margin-bottom: 15px;
   border-radius: 8px;
   padding: 12px;
@@ -67,6 +67,18 @@
     margin: 0px;
   }
 
+  .createCommentsSection input,
+  .createCommentsSection textarea {
+    width: 96%;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 12px;
+  }
+}
+
+
+@media screen and (max-width: 479px) {
+  /* start of phone styles */
   .createCommentsSection input,
   .createCommentsSection textarea {
     width: 94%;
