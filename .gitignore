@@ -1,6 +1,8 @@
 node_modules/
 # Ignore environment files
 .env
+.env.development
+.env.production
 config/
 *.json
 build/
