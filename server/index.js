@@ -6,28 +6,43 @@ const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
 
 const WebSocket = require("ws");
-const server = app.listen(3001, () => {
-  console.log("Server is running on port 3001");
+const PORT = process.env.PORT || 3001;
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
-const wss = new WebSocket.Server({ server });
+const websocketServer = new WebSocket.Server({ server });
 
-// WebSocket connection
-wss.on("connection", (ws) => {
-  const dbChangesListener = PostsStructure.watch();
+const clients = new Set();
+let dbChangesListener = null;
 
-  console.log("Client connected");
+//Starts watching the DB for changes
+function startWatchingDB() {
+  //if we already started listening to DB changes, just return
+  if(dbChangesListener) return;
+
+  dbChangesListener = PostsStructure.watch();
 
   dbChangesListener.on("change", (change) => {
-    if (change.operationType === "insert" && ws.readyState === WebSocket.OPEN) {
+    if (change.operationType === "insert" ) {
       const newChanges = {
         operationType: change.operationType,
         fullDocument: change.fullDocument,
       };
       console.log("Change detected:", change);
-      ws.send(JSON.stringify(newChanges));
+      // instanceOfWebSocket.send(JSON.stringify(newChanges));
+      clients.forEach((client) => {
+        if(client.readyState === WebSocket.OPEN) {
+          try{
+            client.send(JSON.stringify(newChanges));
+          }catch(error) {
+            console.log("Error sending new post to client:", error);
+            clients.delete(client)
+          }
+        }
+      })
     }
 
-    if (change.operationType === "update" && ws.readyState === WebSocket.OPEN) {
+    if (change.operationType === "update") {
       // Check if the update is for comments
       const listOfUpdatedFields = change.updateDescription.updatedFields;
       const isCommentUpdate = Object.keys(listOfUpdatedFields).some(key => key.startsWith('comments.') || key.startsWith('comments'));
@@ -50,25 +65,62 @@ wss.on("connection", (ws) => {
           newComment: newComment,
         };
 
-        ws.send(JSON.stringify(commentChange)); // Send the new comment to the client
+        clients.forEach((client) => {
+          // console.log("sending to: ", client)
+          if(client.readyState === WebSocket.OPEN) {
+            try{
+              client.send(JSON.stringify(commentChange));
+            } catch(error) {
+              console.log("Error sending comment to client:", error);
+              clients.delete(client)
+            }
+          }
+        })
+
+        // instanceOfWebSocket.send(JSON.stringify(commentChange)); // Send the new comment to the client
       }
     }
   });
+
+}
+
+// WebSocket connection
+websocketServer.on("connection", (instanceOfWebSocket) => {
+
+  console.log("Client connected");
+  clients.add(instanceOfWebSocket)
+  if(dbChangesListener === null) {
+    startWatchingDB();
+  }
+
+  console.log("Client set size: ", clients.size);
+
+
   // Receiving client messages
-  ws.on("message", (message) => {
+  instanceOfWebSocket.on("message", (message) => {
     console.log(`Received message: ${message}`);
   });
 
-  ws.on("close", () => {
+  instanceOfWebSocket.on("close", () => {
     console.log("Client disconnected");
-    dbChangesListener.close();
+    clients.delete(instanceOfWebSocket)
+    console.log("Client set size: ", clients.size);
+
+    //close DB listener when all clients are disconnected
+    if(clients.size === 0 && dbChangesListener != null) {
+      dbChangesListener.close();
+      dbChangesListener = null;
+    }
   });
 });
 
 const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
+  origin: process.env.NODE_ENV === 'production' 
+  ? process.env.PROD_ORIGIN
+  : process.env.DEV_ORIGIN,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 
@@ -79,8 +131,11 @@ mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
   })
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
   .catch((err) => {
-    console.log("Error connecting to MongoDB:", err);
+    console.log(" MongoDB connection error:", err);
   });
 
 // Root route handler
@@ -221,9 +276,15 @@ app.get("/getContent", async (req, res) => {
     const createdContent = await PostsStructure.find({}).sort({
       date: -1,
     });
-    res.send(createdContent);
+    res.setHeader('Content-Type', 'application/json');
+        
+    // Send JSON response
+    res.status(200).json(createdContent);
   } catch (error) {
     console.log("Error fetching ", error);
-    res.send(error);
+    res.status(500).json({ 
+      error: 'Failed to fetch content',
+      message: error.message 
+    });
   }
 });
