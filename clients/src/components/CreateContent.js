@@ -53,7 +53,7 @@ const CreateContent = () => {
     setSubmissionStatus({ message: "", isError: false }); // Clear previous status
 
     try {
-      const response = await Axios.post("http://localhost:3001/createContent", {
+      const response = await Axios.post(`${process.env.REACT_APP_API_URL}/createContent`, {
         title: title,
         content: content,
         author: author,

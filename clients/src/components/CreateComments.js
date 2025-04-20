@@ -25,7 +25,7 @@ const Comments = ({ blogPost }) => {
 
       return Promise.reject(new Error("Simulated error"));
     }
-    Axios.put("http://localhost:3001/makeComment", {
+    Axios.put(`${process.env.REACT_APP_API_URL}/makeComment`, {
       _id: blogPost._id,
       comments: {
         name: name,
