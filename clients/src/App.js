@@ -7,7 +7,8 @@ import CreateContent from "./components/CreateContent";
 // import { Routes, Route } from 'react-router-dom'
 
 function App() {
-  const API_URL = "http://localhost:3001/getContent";
+  const API_URL = `${process.env.REACT_APP_API_URL}/getContent`;
+
   /*
     Fetching our data and storing in a list state
   */
@@ -43,7 +44,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3001");
+    const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}`);
 
     ws.onopen = () => {
       console.log("WebSocket connection established");
