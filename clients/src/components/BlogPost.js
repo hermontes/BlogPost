@@ -15,9 +15,9 @@ const SingleBlog = memo(({ blog }) => {
   // console.log("SingleBlog component rendered");
   const toggleContent = () => {
     setViewContent(!viewContent);
-    if(viewContent) {
+    if (viewContent) {
       // Scroll to the article title when "Show Less" is clicked(viewContent is true)
-      articleRef.current.scrollIntoView({ behavior: "smooth" }); 
+      articleRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -45,7 +45,7 @@ const SingleBlog = memo(({ blog }) => {
 
   return (
     <div className="contentCard" ref={articleRef}>
-      <h1 className="blogTitle" >
+      <h1 className="blogTitle">
         <span>{blog.title}</span>
       </h1>
       <div className="authorAndDate">
@@ -88,29 +88,35 @@ const SingleBlog = memo(({ blog }) => {
           </button>
         </div>
       </div>
-      <div
-        className={
-          viewComments
-            ? "viewCommentsButton collapsedComment "
-            : "viewCommentsButton"
-        }
-      >
-        <button onClick={changeViewComment} value={viewComments}>
-          {viewComments ? "Hide Comments" : "View Comments"}
-        </button>
+
+      <div className="commentSection">
+        <CreateComments blogPost={blog} />
+
+        {blog.comments.length > 0 && (
+          <div>
+            <div
+              className={
+                viewComments
+                  ? "viewCommentsButton collapsedComment "
+                  : "viewCommentsButton"
+              }
+            >
+              <button onClick={changeViewComment} value={viewComments}>
+                {viewComments ? "Hide Comments" : "View Comments"}
+              </button>
+            </div>
+
+            {viewComments && (
+              <div className="commentsList">
+                <CommentCards
+                  blog={blog}
+                  formatDateAndTimeFunction={formatDateAndTime}
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
-
-      {viewComments ? (
-        <div className="commentSection">
-          <h2>Comments</h2>
-
-          <CreateComments blogPost={blog} />
-          <CommentCards
-            blog={blog}
-            formatDateAndTimeFunction={formatDateAndTime}
-          />
-        </div>
-      ) : null}
     </div>
   );
 });

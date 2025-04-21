@@ -143,6 +143,24 @@
 }
 
 /*All styling for comment sections*/
+.viewCommentsButton {
+  margin-left: 1rem;
+}
+
+.viewCommentsButton.collapsedComment {
+  position: relative;
+}
+
+.viewCommentsButton.collapsedComment::after {
+  content: "";
+  display: block;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #d1d5db;
+  top: 10px;
+  height: 1px;
+  margin-bottom: 1rem;
+}
 
 .viewCommentsButton button {
   margin: 1.2rem 0rem;
@@ -159,7 +177,7 @@
 }
 
 .viewCommentsButton.collapsedComment button {
-  margin: 1.2rem 1.2rem 0rem 0rem;
+  margin: 1rem 0rem;
 }
 
 .viewCommentsButton button:hover {
@@ -171,6 +189,7 @@
   outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
+
 
 /*CSS for the comment section*/
 .commentSection {
@@ -194,4 +213,11 @@
   .commentSection {
     padding: 0rem .5rem; 
   }
+}
+
+@media (max-width: 456px) {
+  .viewCommentsButton {
+    margin-left: 0;
+  }
+
 }
