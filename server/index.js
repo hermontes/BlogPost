@@ -45,8 +45,8 @@ function startWatchingDB() {
     if (change.operationType === "update") {
       // Check if the update is for comments
       const listOfUpdatedFields = change.updateDescription.updatedFields;
-      const isLikeDiscountCommentUpdate = Object.keys(listOfUpdatedFields).some(key => key.includes('dislikeCount') || key.includes("likeCount"));
-    
+      const isLikeDiscountCommentUpdate = Object.keys(listOfUpdatedFields).some(key => key.includes('dislikeCount') || key.includes("likeCount") || key.includes("updatedAt"));
+
       //Only handle new comment(s) updates, not like or discount updates
       if (!isLikeDiscountCommentUpdate) {
         console.log("SINNER")
