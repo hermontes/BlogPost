@@ -19,12 +19,7 @@ const Comments = ({ blogPost }) => {
 
   const createComment = (event) => {
     event.preventDefault();
-    if (name === "testError") {
-      setFormError(true);
-      setStatusMessage(ERROR_MESSAGE);
 
-      return Promise.reject(new Error("Simulated error"));
-    }
     Axios.put(`${process.env.REACT_APP_API_URL}/makeComment`, {
       _id: blogPost._id,
       comments: {
