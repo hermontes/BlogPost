@@ -202,77 +202,85 @@ app.put("/makeComment", async (req, res) => {
 
 // This endpoint updates the like or dislike count for a specific comment
 app.put("/updateLikeOrDislike", async (req, res) => {
-  const blogId = req.body.id;
-  const commentId = req.body.commentInfo.id;
-  //new like or dislike count passed from the front-end
-  const currentCount = req.body.commentInfo.currentLikesOrDislikes;
-  const type = req.body.commentInfo.type;
+
+  const {id: blogId, commentInfo} = req.body
+  const {id: commentId, type, previousAction, isFirstAction, currentCount} = commentInfo
 
   try {
-    var updatedComment = "";
-    if (type === "like") {
-      const newLikes = currentCount + 1; // Increment like count
+    let update = {};
 
-      updatedComment = await PostsStructure.findByIdAndUpdate(
-        { _id: blogId },
-        { $set: { "comments.$[outer].likeCount": newLikes } },
-        {
-          arrayFilters: [{ "outer._id": commentId }],
-          new: true,
-          projection: {
-            comments: {
-              $elemMatch: {
-                _id: commentId,
-              },
-            },
-          },
-        }
-      );
+    if (type === "like") {
+
+      if(isFirstAction) {
+        update = {
+          $inc: {
+            "comments.$[outer].likeCount": 1
+          }
+        };
+      } else if(previousAction === "dislike") {
+        // Switching from dislike to like, increment like, decrement dislike count
+
+        update = {
+          $inc: {
+            "comments.$[outer].likeCount": 1,
+            "comments.$[outer].dislikeCount": 1
+          }
+        };      
+      } 
     } else if (type === "dislike") {
-      const newDislikeCount = currentCount - 1;
-      updatedComment = await PostsStructure.findByIdAndUpdate(
-        blogId,
-        { $set: { "comments.$[outer].dislikeCount": newDislikeCount } },
-        {
-          arrayFilters: [{ "outer._id": commentId }],
-          new: true,
-          projection: {
-            comments: {
-              $elemMatch: {
-                _id: commentId,
-              },
-            },
-          },
-        }
-      );
+
+      if(isFirstAction) {
+        update = {
+          $inc: {
+            "comments.$[outer].dislikeCount": -1
+          }
+        };
+
+      } else if(previousAction === "like") {
+
+        // Switching from dislike to like, decrement like, increment dislike count
+        update = {
+          $inc : {
+            "comments.$[outer].dislikeCount": -1,
+            "comments.$[outer].likeCount": -1
+          }
+
+        };      
+      } 
     }
 
-    res.send(updatedComment);
+    // Only proceed if there's an update to make
+    if (Object.keys(update).length > 0) {
+      const updatedComment = await PostsStructure.findOneAndUpdate(
+        { _id: blogId },
+        update,
+        {
+          arrayFilters: [{ "outer._id": commentId }],
+          new: true,
+          projection: {
+            comments: {
+              $elemMatch: { _id: commentId }
+            }
+          }
+        }
+      );
+
+      if (!updatedComment) {
+        return res.status(404).json({ error: 'Comment not found' });
+      }
+
+      console.log("sending back updated comment:", updatedComment)
+      res.json(updatedComment);
+    } 
+    
   } catch (err) {
     res
       .status(500)
-      .send("Error updating like count for comment with ID: " + commentId);
+      .send("Error updating like/dislike count for comment with ID: " + commentId);
     console.log(err);
   }
 });
 
-// app.put("/updateDislike", async (req, res) => {
-//   const blogId = req.body.id;
-
-//   const id = req.body.comments.id;
-//   const newdislikeCount = req.body.comments.dislikeCount;
-
-//   try {
-//     const put = await PostsStructure.findOne({ title: title });
-//     const comment = put.comments.id(id);
-//     comment.dislikeCount = newdislikeCount;
-//     await put.save();
-
-//     res.send("updated");
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
 
 app.get("/getContent", async (req, res) => {
   try {
