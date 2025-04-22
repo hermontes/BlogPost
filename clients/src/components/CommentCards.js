@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as faRegularThumbsUp, faThumbsDown as faRegularThumbsDown} from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as faSolidThumbsUp, faThumbsDown as faSolidThumbsDown} from '@fortawesome/free-solid-svg-icons';
 
-
 const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
 
   const [comments, setComments] = useState(blog.comments);
@@ -29,50 +28,6 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
   }, [comments]);
-
-  //this checks whether the user has already liked or disliked, only limiting them to one like/dislike at a time
-  //This also handles UI like/dislike icon change 
-  // const initialLikeActionCheck = (type, commentId, currentCount) => {
-  //   if(actionStatusOfComments[commentId]?.type === type ){
-  //     return;
-  //   } else if(actionStatusOfComments[commentId]?.type && actionStatusOfComments[commentId]?.type !== type){
-
-  //     console.log("switching like action")
-  
-  //     setComments((prevComments) => {
-  //         return prevComments.map(comment => {
-  //           if (comment._id === commentId) {
-  //             if (type === "dislike") {
-  //               comment.dislikeCount -= 1;
-  //               comment.likeCount -= 1;
-
-  //             } else {
-                
-  //               comment.likeCount += 1;
-  //               comment.dislikeCount += 1;
-
-  //             }
-  //             return comment
-  //           } else{
-  //             return comment;
-  //           }
-  //         });
-  //       });
-
-  //       updateCommentsLikeStatus(commentId, type)
-
-  
-  //       return;
-  //   }
-
-  //   try {
-  //     applyLikeDislikeActions(type, commentId, currentCount)
-
-  //   }catch(error) {
-  //     console.log("Error appl")
-  //   }
-  // }
-
 
   // Updating like and dislike counts in the DB
   const applyLikeDislikeActions = async(type, commentId, currentCount) => {
@@ -117,8 +72,6 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       console.error("Error updating like/dislike:", error);
 
     }
-  
-    
   };
 
   return (
