@@ -218,7 +218,7 @@ app.put("/updateLikeOrDislike", async (req, res) => {
           }
         };
       } else if(previousAction === "dislike") {
-        // Switching from dislike to like, increment like, decrement dislike count
+        // Switching from dislike to like: increment like, decrement dislike count(+)
 
         update = {
           $inc: {
@@ -238,7 +238,7 @@ app.put("/updateLikeOrDislike", async (req, res) => {
 
       } else if(previousAction === "like") {
 
-        // Switching from dislike to like, decrement like, increment dislike count
+        // Switching from like to dislike: decrement like, increment dislike count(-)
         update = {
           $inc : {
             "comments.$[outer].dislikeCount": -1,
@@ -269,7 +269,7 @@ app.put("/updateLikeOrDislike", async (req, res) => {
         return res.status(404).json({ error: 'Comment not found' });
       }
 
-      console.log("sending back updated comment:", updatedComment)
+      console.log("Sending back updated comment:", updatedComment)
       res.json(updatedComment);
     } 
     
