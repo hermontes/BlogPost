@@ -7,3 +7,5 @@ config/
 *.json
 build/
 .DS_Store
+clients/.DS_Store
+server/.DS_Store
