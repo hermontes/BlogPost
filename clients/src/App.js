@@ -107,6 +107,10 @@ function App() {
             <img src="./official_logo.png" />
           </div>
 
+          <div className="navDescription">
+            <p>Your go-to platform for sharing and discovering insightful blog posts.</p>
+          </div>
+
           <div className="createRightSide">
             <button onClick={changeTrigger}>
               {createTrigger ? "Collapse" : "Create"}
