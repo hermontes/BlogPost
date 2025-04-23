@@ -107,6 +107,10 @@ function App() {
             <img src="./official_logo.png" />
           </div>
 
+          <div className="navDescription">
+            <p>Your go-to platform for sharing and discovering insightful blog posts.</p>
+          </div>
+
           <div className="createRightSide">
             <button onClick={changeTrigger}>
               {createTrigger ? "Collapse" : "Create"}
@@ -123,6 +127,15 @@ function App() {
           })}
         </div>
       </div>
+
+      <footer className="footer">
+        <p>
+          &copy; {new Date().getFullYear()} Created by{" "}
+          <a href="https://www.linkedin.com/in/hermontes/" target="_blank" rel="noopener noreferrer">
+            Hermon Haile
+          </a>
+        </p>
+    </footer>
     </div>
   );
 }

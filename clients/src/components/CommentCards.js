@@ -2,12 +2,22 @@ import { React, useEffect, useMemo, useState } from "react";
 import Axios from "axios";
 import "./styling/CommentCards.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons"; // Import icons
+import { faThumbsUp as faRegularThumbsUp, faThumbsDown as faRegularThumbsDown} from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as faSolidThumbsUp, faThumbsDown as faSolidThumbsDown} from '@fortawesome/free-solid-svg-icons';
 
 const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
 
   const [comments, setComments] = useState(blog.comments);
+  const [actionStatusOfComments, setActionStatusOfComments] = useState({});
 
+  const updateCommentsLikeStatus = (commentId, type) => {
+    setActionStatusOfComments(prev => ({
+      ...prev,
+      [commentId]: {
+        type: type,
+      }
+    }))
+  }
   //when blog.comments changes, update the local list of comments too
   useEffect(() => {
     setComments(blog.comments)
@@ -19,39 +29,49 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
     );
   }, [comments]);
 
-  // Updating like and dislike counts
-  const handleLikeAndDislikes = (type, commentId, currentCount) => {
+  // Updating like and dislike counts in the DB
+  const applyLikeDislikeActions = async(type, commentId, currentCount) => {
+    if(actionStatusOfComments[commentId]?.type === type ){
+      return;
+    }
 
-    Axios.put(`${process.env.REACT_APP_API_URL}/updateLikeOrDislike`, {
-      id: blog._id,
-      commentInfo: {
-        id: commentId,
-        type: type,
-        currentLikesOrDislikes: currentCount,
-      },
-    })
-    .catch((error) => {
-      console.log("received back an error: ", error);
-    })
-    .then((response) => {
-      if (response) {
-        console.log("RECEIVED BACK: ", response.data.comments[0]);
-      }
+    console.log("actualling applying likes/dislikes")
+    const previousAction = actionStatusOfComments[commentId]?.type || null;
 
-      //Display the immediate like or dislike count change
-      const updatedComment = response.data.comments[0];
-      setComments((prevComments) => {
-        return prevComments.map(comment => {
-          if (comment._id === updatedComment._id) {
-            return updatedComment
-          } else{
-            return comment;
-          }
+    try {
+      const response = await Axios.put(`${process.env.REACT_APP_API_URL}/updateLikeOrDislike`, {
+        id: blog._id,
+        commentInfo: {
+          id: commentId,
+          type: type,
+          currentLikesOrDislikes: currentCount,
+          previousAction, // Will be null on first interaction
+          isFirstAction: !previousAction // Helper flag for backend
+        },
+      })
+
+      if (response?.data?.comments) {
+        //Display the immediate like or dislike count change
+        const updatedComment = response.data.comments[0];
+        console.log("got back updated comment: ", updatedComment)
+        setComments((prevComments) => {
+          return prevComments.map(comment => {
+            if (comment._id === updatedComment._id) {
+              return updatedComment
+            } else{
+              return comment;
+            }
+          });
         });
-      });
 
-    });
+        updateCommentsLikeStatus(commentId, type)
+      }
+      
 
+    } catch (error) {
+      console.error("Error updating like/dislike:", error);
+
+    }
   };
 
   return (
@@ -82,27 +102,31 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                     <div className="action-button">
                       <button
                         onClick={() =>
-                          handleLikeAndDislikes(
+                          applyLikeDislikeActions(
                             "like",
                             comment._id,
                             comment.likeCount
                           )                        }
                       >
-                        <FontAwesomeIcon icon={faThumbsUp} />
-                        <span>{comment.likeCount}</span>
+              <FontAwesomeIcon 
+                    icon={actionStatusOfComments[comment._id]?.type === 'like' ? faSolidThumbsUp : faRegularThumbsUp} 
+                  />          
+              <span>{comment.likeCount}</span>
                       </button>
                     </div>
                     <div className="action-button">
                       <button
                         onClick={() =>
-                          handleLikeAndDislikes(
+                          applyLikeDislikeActions(
                             "dislike",
                             comment._id,
                             comment.dislikeCount
                           )
                         }
                       >
-                        <FontAwesomeIcon icon={faThumbsDown} />
+                        <FontAwesomeIcon 
+      icon={actionStatusOfComments[comment._id]?.type === 'dislike' ? faSolidThumbsDown : faRegularThumbsDown} 
+    /> 
                         <span>{comment.dislikeCount}</span>
                       </button>
                     </div>
