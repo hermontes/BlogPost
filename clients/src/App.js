@@ -127,6 +127,15 @@ function App() {
           })}
         </div>
       </div>
+
+      <footer className="footer">
+        <p>
+          &copy; {new Date().getFullYear()} Created by{" "}
+          <a href="https://www.linkedin.com/in/hermontes/" target="_blank" rel="noopener noreferrer">
+            Hermon Haile
+          </a>
+        </p>
+    </footer>
     </div>
   );
 }
