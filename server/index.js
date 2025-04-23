@@ -50,7 +50,7 @@ async function sendToS3(fileBody, key, contentType) {
       ContentType: contentType || 'image/png',
     })
 
-    const imageS3URL = `https://${process.env.imageBucket}.s3.us-east-1.amazonaws.com/${key}`
+    const imageS3URL = `https://${process.env.assetsBucket}.s3.us-east-1.amazonaws.com/${key}`
 
     console.log(imageS3URL)
 
@@ -201,11 +201,7 @@ app.get("/", (req, res) => {
 // Creating a new blog post
 app.post("/createContent", async (req, res) => {
   //receiving all the fields we created from the front-end
-  const title = req.body.title;
-  const author = req.body.author;
-  const content = req.body.content;
-  const comments = req.body.comments;
-  const image = req.body.image;
+  const {title, author, content, comments, image} = req.body
 
   const post = new PostsStructure({
     title: title,
