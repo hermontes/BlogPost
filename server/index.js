@@ -2,10 +2,19 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express(); //initializes an Express application.
 const cors = require("cors");
+const {readFile} = require('fs.promises');
+const path = require('path');
+
+// Load the SDK
+const {S3Client, PutObjectCommand} = require("@aws-sdk/client-s3")
+
+
+
+
 const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
-
 const WebSocket = require("ws");
+
 const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
@@ -14,6 +23,49 @@ const websocketServer = new WebSocket.Server({ server });
 
 const clients = new Set();
 let dbChangesListener = null;
+
+
+// ??vdvsdvdsv
+const client = new S3Client({
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey
+  }
+})
+
+const filePath = path.join(__dirname, "official_logo.png");
+
+console.log("filePathfilePathfilePathfilePath: ", filePath)
+//login info
+async function sendToS3(fileBody, key, contentType) {
+  const currkey = "kuduslogo.png";
+
+  try {
+    const fileContent = await readFile(filePath);
+    const command = new PutObjectCommand({
+      Bucket: process.env.assetsBucket,
+      Body: fileContent || fileBody,
+      Key: currkey || key,
+      ContentType: contentType || 'image/png',
+    })
+
+    const imageS3URL = `https://${process.env.imageBucket}.s3.us-east-1.amazonaws.com/${key}`
+
+    console.log(imageS3URL)
+
+    // const response = await client.send(command)
+    // console.log("response8response", response)
+
+  } catch(error) {
+    console.log("errorerrorerrorerrorerror", error)
+
+  }
+
+}
+
+sendToS3()
+
 
 //Starts watching the DB for changes
 function startWatchingDB() {
@@ -176,6 +228,14 @@ app.post("/createContent", async (req, res) => {
     res.send("Data did not insert in MongoDB");
   }
 });
+
+//save image to S3
+app.put("/saveImage", (req, res) => {
+
+
+})
+
+
 
 app.put("/makeComment", async (req, res) => {
   const documentID = req.body._id;
