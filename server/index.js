@@ -1,15 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express(); //initializes an Express application.
+const app = express(); 
 const cors = require("cors");
-const {readFile} = require('fs.promises');
+const fs = require('fs.promises');
 const path = require('path');
-
+const multer = require('multer')
+//folder where server can temporary save incoming images from FE
+const upload = multer({ storage: multer.memoryStorage() })
 // Load the SDK
 const {S3Client, PutObjectCommand} = require("@aws-sdk/client-s3")
-
-
-
 
 const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
@@ -34,37 +33,36 @@ const client = new S3Client({
   }
 })
 
-const filePath = path.join(__dirname, "official_logo.png");
-
-console.log("filePathfilePathfilePathfilePath: ", filePath)
-//login info
-async function sendToS3(fileBody, key, contentType) {
-  const currkey = "kuduslogo.png";
+//Function to upload image to S3
+async function sendToS3(fileBody) {
+  let key = fileBody.originalname;
+  const cleanedKey = key
+  .replace(/\s+/g, '-')              // Replace spaces (or multiple spaces) with dashes
+  .replace(/[^a-zA-Z0-9.-]/g, '')    // Remove special characters (keep letters, numbers, dots, dashes)
+  .toLowerCase();
 
   try {
-    const fileContent = await readFile(filePath);
+
     const command = new PutObjectCommand({
       Bucket: process.env.assetsBucket,
-      Body: fileContent || fileBody,
-      Key: currkey || key,
-      ContentType: contentType || 'image/png',
+      Body: fileBody.buffer,
+      Key: cleanedKey,
+      ContentType: fileBody.mimetype,
     })
 
-    const imageS3URL = `https://${process.env.assetsBucket}.s3.us-east-1.amazonaws.com/${key}`
+    const imageS3URL = `https://${process.env.assetsBucket}.s3.us-east-1.amazonaws.com/${cleanedKey}`
 
-    console.log(imageS3URL)
+    await client.send(command)
 
-    // const response = await client.send(command)
-    // console.log("response8response", response)
+    return imageS3URL;
 
   } catch(error) {
-    console.log("errorerrorerrorerrorerror", error)
+    console.log("Error from inside S3 upload function", error)
 
+    return error;
   }
 
 }
-
-sendToS3()
 
 
 //Starts watching the DB for changes
@@ -199,37 +197,40 @@ app.get("/", (req, res) => {
 });
 
 // Creating a new blog post
-app.post("/createContent", async (req, res) => {
-  //receiving all the fields we created from the front-end
-  const {title, author, content, comments, image} = req.body
+app.post("/createContent", upload.single('image'), async (req, res) => {
+  //receiving all the fields from client
+  const {title, author, content, comments} = req.body
+  const imageFile = req.file
 
-  const post = new PostsStructure({
-    title: title,
-    content: content,
-    author: author,
-    image: image,
-    comments: comments,
-  });
+  //process image and return its URL
+  let imageURL;
+  try {
+    imageURL = await sendToS3(imageFile)
+  }catch (error) {
+    console.log("Error while trying to upload image to S3", imageURL)
+    return res.status(500).send("Error while trying to upload image to S3" + imageURL)
+  }
 
   try {
+    const post = new PostsStructure({
+      title: title,
+      content: content,
+      author: author,
+      image: imageURL,
+      comments: JSON.parse(comments) //it's sent as a string from client
+    });
     await post
       .save()
       .then(() =>
         console.log("Server: Saved content to MongoDB successfully!")
       );
 
-    return res.send("Data inserted into MongoDB");
+    return res.status(200).send("Data inserted into MongoDB successfully");
   } catch (err) {
-    console.log(err + "sent data to MongoDB and got error");
-    res.send("Data did not insert in MongoDB");
+    console.log(err + "Tried sending post to MongoDB and got error");
+    return res.status(500).send("Data did not insert in MongoDB");
   }
 });
-
-//save image to S3
-app.put("/saveImage", (req, res) => {
-
-
-})
 
 
 
