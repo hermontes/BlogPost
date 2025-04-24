@@ -2,7 +2,7 @@ import { React, useEffect, useMemo, useState } from "react";
 import Axios from "axios";
 import "./styling/CommentCards.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp as faRegularThumbsUp, faThumbsDown as faRegularThumbsDown} from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as faRegularThumbsUp, faThumbsDown as faRegularThumbsDown, faUser} from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as faSolidThumbsUp, faThumbsDown as faSolidThumbsDown} from '@fortawesome/free-solid-svg-icons';
 
 const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
@@ -82,11 +82,7 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
             return (
               <div className="comment-card" key={comment._id}>
                 <div className="comment-left">
-                  <img
-                    src="/defaultUser.png"
-                    alt="Default profile for a user"
-                    className="profile-pic"
-                  />
+                  <FontAwesomeIcon icon={faUser} size="2xl"/>
                 </div>
                 <div className="comment-right">
                   <div className="comment-header">
