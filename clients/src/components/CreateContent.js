@@ -14,6 +14,8 @@ const CreateContent = () => {
     isError: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
+  const [imageFile, setImageFile] = useState();
+
   const ERROR_MESSAGE = "Failed to create post. Please try again."
   const SUCCESS_MESSAGE = "Blog post created successfully!"
 
@@ -21,7 +23,12 @@ const CreateContent = () => {
   const MAX_TITLE_LENGTH = 80;
   const MAX_AUTHOR_LENGTH = 40;
   const MIN_CONTENT_LENGTH = 350;
-  const MAX_CONTENT_LENGTH = 2000;
+  const MAX_CONTENT_LENGTH = 4000;
+
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
+    setImage(e.target.value)
+  }
 
   const handleTitleChange = (e) => {
     if (e.target.value.length <= MAX_TITLE_LENGTH) {
@@ -52,14 +59,22 @@ const CreateContent = () => {
     setIsSubmitting(true); // Indicate submission start
     setSubmissionStatus({ message: "", isError: false }); // Clear previous status
 
+    const formData = new FormData()
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("author", author);
+    formData.append("comments", JSON.stringify([]));
+    formData.append("image", imageFile);
+    
     try {
-      const response = await Axios.post(`${process.env.REACT_APP_API_URL}/createContent`, {
-        title: title,
-        content: content,
-        author: author,
-        image: image,
-        comments: [] // Assuming default empty comments array
-      });
+      const response = await Axios.post(`${process.env.REACT_APP_API_URL}/createContent`, 
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
 
       console.log("Sent data and got response: " + response.data);
       setSubmissionStatus({
@@ -95,9 +110,9 @@ const CreateContent = () => {
   return (
     <div className="create-content-container">
       <h2>Create New Blog Post</h2>
-      {/* Use onSubmit on the form element */}
-      <form onSubmit={sendNewContent} className="create-content-form">
-        {/* Wrap label and input pairs in divs */}
+
+      <form onSubmit={sendNewContent} className="create-content-form" encType="multipart/form-data">
+
         <div className="form-group">
           <label htmlFor="title">Title:</label>
           <input
@@ -126,15 +141,17 @@ const CreateContent = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="image">Image URL:</label>
+          <label htmlFor="image">Upload Image:</label>
           <input
             id="image"
             className="form-input"
-            type="url" // Use type="url" for better semantics/validation
+            type="file" 
             value={image}
-            onChange={(e) => setImage(e.target.value)}
+            onChange={handleImageChange}
+            accept="image/*"
             required
           />
+
         </div>
 
         <div className="form-group">
