@@ -94,10 +94,6 @@ function App() {
     };
   }, []);
 
-  // const sortedContent =() => {
-  //   return [...allContent].sort((a, b) => new Date(b.date) - new Date(a.date));
-  // };
-
   return (
     // <div className="App">
     <div className="container" ref={createContentRef}>
