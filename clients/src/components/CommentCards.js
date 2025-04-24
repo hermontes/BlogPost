@@ -35,7 +35,7 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
       return;
     }
 
-    console.log("actualling applying likes/dislikes")
+    console.log("Applying likes/dislikes actions")
     const previousAction = actionStatusOfComments[commentId]?.type || null;
 
     try {
