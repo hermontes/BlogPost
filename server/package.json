@@ -12,12 +12,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1692.0",
+    "@aws-sdk/client-s3": "^3.787.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.18.2",
+    "fs.promises": "^0.1.2",
     "mongodb": "^6.13.0",
     "mongoose": "^6.10.0",
+    "multer": "^1.4.5-lts.2",
     "nodemon": "^2.0.20",
     "ws": "^8.18.1"
   }
