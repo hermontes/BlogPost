@@ -21,7 +21,7 @@ const SingleBlog = memo(({ blog }) => {
     }
   };
 
-  const contentPreview = blog.content.slice(0, 350) + "...";
+  const contentPreview = blog.content.trim().slice(0, 350) + "...";
 
   const formatDateAndTime = (givenDateAndTime) => {
     const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
@@ -66,7 +66,11 @@ const SingleBlog = memo(({ blog }) => {
       <div className="contentWrapper">
         <div className={viewContent ? "content-expanded" : "content-collapsed"}>
           <p className="contentText">
-            {viewContent ? blog.content : contentPreview}
+          {viewContent ?
+            <div dangerouslySetInnerHTML={{__html: blog.content} }/> 
+            :
+            <div dangerouslySetInnerHTML={{__html: contentPreview} }/> 
+          }
           </p>
         </div>
         <div className="expandContent">
