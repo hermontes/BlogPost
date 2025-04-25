@@ -171,20 +171,9 @@
   line-height: 1.6;
 }
 
-.image-preview {
-  margin-top: 1rem;
-  border-radius: 12px;
-  overflow: hidden;
-  max-width: 100%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 2px solid #e2e8f0;
-}
-
-.image-preview img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
+.rich-text-box {
+  height: 250px;
+  margin-bottom: 4rem;
 }
 
 .submit-button {
