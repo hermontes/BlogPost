@@ -3,17 +3,27 @@ import Axios from "axios";
 // Import the updated CSS file:
 import "./styling/CreateContent.css";
 import "./styling/SharedStyles.css"
+import 'quill/dist/quill.snow.css'; //css for snow theme
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { use } from "react";
+
+const { useQuill } = require('react-quilljs');
 
 const CreateContent = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState("");
   const [submissionStatus, setSubmissionStatus] = useState({
     message: "",
     isError: false,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
+  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [imageFile, setImageFile] = useState();
+  const [isFileValid, setIsFileValid] = useState(true);
+
+  const {quill, quillRef} = useQuill()
+
   const ERROR_MESSAGE = "Failed to create post. Please try again."
   const SUCCESS_MESSAGE = "Blog post created successfully!"
 
@@ -21,7 +31,39 @@ const CreateContent = () => {
   const MAX_TITLE_LENGTH = 80;
   const MAX_AUTHOR_LENGTH = 40;
   const MIN_CONTENT_LENGTH = 350;
-  const MAX_CONTENT_LENGTH = 2000;
+  const MAX_CONTENT_LENGTH = 4000;
+
+  useEffect(() => {
+
+    if(quill){
+
+    
+      quill.on('text-change', (delta, oldDelta, source) => {
+        console.log('Text change!');
+        // console.log(quill.getText()); // Get text only
+        // console.log(quill.getContents()); // Get delta contents
+        console.log("INNER HTML",quill.root.innerHTML); // Get innerHTML using quill
+        // console.log(quillRef.current.firstChild.innerHTML); // Get innerHTML using quillRef
+        setContent(quill.root.innerHTML)
+      });
+
+    }
+
+  },[quill])
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];    
+    if(file){
+      console.log(file.type)
+      if(file.type === "image/png" || file.type === "image/jpeg") {
+        setImageFile(e.target.files[0]);
+        setIsFileValid(true)
+      } else {
+        setIsFileValid(false)
+        setImageFile(null)
+      }
+    }
+  }
 
   const handleTitleChange = (e) => {
     if (e.target.value.length <= MAX_TITLE_LENGTH) {
@@ -43,23 +85,34 @@ const CreateContent = () => {
 
   // Check if all fields are filled whenever any field changes
   const isFormValid =
-    title.trim() && author.trim() && content.trim() && image.trim();
+    title.trim() && author.trim() && content.trim() && isFileValid && imageFile;
+
+  // Disable if form invalid, file invalid or in process of submitting
+  const preventSubmission = !isFormValid || isSubmitting
 
   const sendNewContent = async (e) => {
     e.preventDefault(); // Prevent default form submission
-    if (!isFormValid || isSubmitting) return; // Prevent submission if invalid or already submitting
+    if (preventSubmission) return; // Prevent submission if invalid or already submitting
 
     setIsSubmitting(true); // Indicate submission start
     setSubmissionStatus({ message: "", isError: false }); // Clear previous status
 
+    const formData = new FormData()
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("author", author);
+    formData.append("comments", JSON.stringify([]));
+    formData.append("image", imageFile);
+    
     try {
-      const response = await Axios.post(`${process.env.REACT_APP_API_URL}/createContent`, {
-        title: title,
-        content: content,
-        author: author,
-        image: image,
-        comments: [] // Assuming default empty comments array
-      });
+      const response = await Axios.post(`${process.env.REACT_APP_API_URL}/createContent`, 
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
 
       console.log("Sent data and got response: " + response.data);
       setSubmissionStatus({
@@ -71,7 +124,9 @@ const CreateContent = () => {
       setTitle("");
       setAuthor("");
       setContent("");
-      setImage("");
+
+      setImageFile(null) //clear the file we previously captured and its input field
+      document.getElementById('image').value = ''
 
     } catch (error) {
       console.error("Error sending content:", error);
@@ -95,9 +150,9 @@ const CreateContent = () => {
   return (
     <div className="create-content-container">
       <h2>Create New Blog Post</h2>
-      {/* Use onSubmit on the form element */}
-      <form onSubmit={sendNewContent} className="create-content-form">
-        {/* Wrap label and input pairs in divs */}
+
+      <form onSubmit={sendNewContent} className="create-content-form" encType="multipart/form-data">
+
         <div className="form-group">
           <label htmlFor="title">Title:</label>
           <input
@@ -125,24 +180,44 @@ const CreateContent = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="image">Image URL:</label>
-          <input
-            id="image"
-            className="form-input"
-            type="url" // Use type="url" for better semantics/validation
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            required
-          />
+        <div className="form-group-image">
+          <label htmlFor="image">Upload Image:</label>
+          <label htmlFor="image" className="upload-icon-wrapper">
+
+            <div className="form-group-image-upload">
+
+                <FontAwesomeIcon className="upload-icon" icon={faUpload} />
+              
+                <input
+                  id="image"
+                  className="form-input-file-upload"
+                  type="file" 
+                  onChange={handleImageChange}
+                  accept="image/png, image/jpeg"
+                  required
+                />
+
+            </div>
+          </label>
+
+
         </div>
+
+        {!isFileValid && 
+            <div className="file-error-message">
+                Invalid file type. Please upload a PNG/JPEG image only.
+            </div>
+        }
 
         <div className="form-group">
           <label htmlFor="content">
             Content: ({content.length}/{MAX_CONTENT_LENGTH})
           </label>
-          <textarea
-            id="content"
+          <div style={{width: 500, height:300}}>
+            <div ref={quillRef} required />
+          </div>
+          {/* <textarea
+           
             className="form-textarea" 
             value={content}
             onChange={handleContentChange}
@@ -150,7 +225,7 @@ const CreateContent = () => {
             required
             minLength={MIN_CONTENT_LENGTH}
             maxLength={MAX_CONTENT_LENGTH}
-          ></textarea>
+          ></textarea> */}
         </div>
 
         {/* Display Submission Status */}
@@ -164,11 +239,10 @@ const CreateContent = () => {
           </div>
         )}
 
-        {/* Place button inside the form */}
         <button
           type="submit" 
           className="submit-button" 
-          disabled={!isFormValid || isSubmitting} // Disable if form invalid or submitting
+          disabled={preventSubmission} // Disable if form invalid, file invalid or in process of submitting
         >
           {isSubmitting ? "Submitting..." : "Launch Blog Post"}
         </button>
