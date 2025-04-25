@@ -1,29 +1,36 @@
-import React, { useState, useEffect } from "react"; // Added useEffect import
+import React, { useState, useEffect, useRef } from "react"; // Added useEffect import
 import Axios from "axios";
 // Import the updated CSS file:
 import "./styling/CreateContent.css";
 import "./styling/SharedStyles.css"
-import 'quill/dist/quill.snow.css'; //css for snow theme
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import { use } from "react";
-
-const { useQuill } = require('react-quilljs');
+import ReactQuill from 'react-quill';
+import 'quill/dist/quill.snow.css'; //css for snow theme
 
 const CreateContent = () => {
+  //Form states
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
+
+  //RTE states
+  const [validContentLength, setValidContentLength] = useState(false);
+  const [rtePlainTextLength, setRtePlainTextLength] = useState(0)
+
+  //Image file capture states
+  const [imageFile, setImageFile] = useState();
+  const [isFileValid, setIsFileValid] = useState(true);
+
+  //Submission status fields
   const [submissionStatus, setSubmissionStatus] = useState({
     message: "",
     isError: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false); 
-  const [imageFile, setImageFile] = useState();
-  const [isFileValid, setIsFileValid] = useState(true);
+  
 
-  const {quill, quillRef} = useQuill()
-
+  //Fields for input validation logic
   const ERROR_MESSAGE = "Failed to create post. Please try again."
   const SUCCESS_MESSAGE = "Blog post created successfully!"
 
@@ -32,24 +39,6 @@ const CreateContent = () => {
   const MAX_AUTHOR_LENGTH = 40;
   const MIN_CONTENT_LENGTH = 350;
   const MAX_CONTENT_LENGTH = 4000;
-
-  useEffect(() => {
-
-    if(quill){
-
-    
-      quill.on('text-change', (delta, oldDelta, source) => {
-        console.log('Text change!');
-        // console.log(quill.getText()); // Get text only
-        // console.log(quill.getContents()); // Get delta contents
-        console.log("INNER HTML",quill.root.innerHTML); // Get innerHTML using quill
-        // console.log(quillRef.current.firstChild.innerHTML); // Get innerHTML using quillRef
-        setContent(quill.root.innerHTML)
-      });
-
-    }
-
-  },[quill])
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];    
@@ -77,15 +66,21 @@ const CreateContent = () => {
     }
   };
 
-  const handleContentChange = (e) => {
-    if (e.target.value.length <= MAX_CONTENT_LENGTH) {
-      setContent(e.target.value);
+  const handleContentChange = (content, delta, source, editor) => {
+    //set length to be of the plain text
+    setRtePlainTextLength(editor.getText().trim().length)
+    console.log("plain text:: ", content);
+    if (rtePlainTextLength >= MIN_CONTENT_LENGTH && rtePlainTextLength <= MAX_CONTENT_LENGTH) {
+      setValidContentLength(true);
+    } else {
+      setValidContentLength(false);
     }
+    setContent(content); // saves the rich text content with HTML
   };
 
   // Check if all fields are filled whenever any field changes
   const isFormValid =
-    title.trim() && author.trim() && content.trim() && isFileValid && imageFile;
+    title.trim() && author.trim() && validContentLength && isFileValid && imageFile && content;
 
   // Disable if form invalid, file invalid or in process of submitting
   const preventSubmission = !isFormValid || isSubmitting
@@ -103,6 +98,7 @@ const CreateContent = () => {
     formData.append("author", author);
     formData.append("comments", JSON.stringify([]));
     formData.append("image", imageFile);
+
     
     try {
       const response = await Axios.post(`${process.env.REACT_APP_API_URL}/createContent`, 
@@ -123,9 +119,13 @@ const CreateContent = () => {
       // Clear the form fields after successful submission
       setTitle("");
       setAuthor("");
+
+      //clear RTE
+      setValidContentLength(false)
       setContent("");
 
-      setImageFile(null) //clear the file we previously captured and its input field
+      //clear the file we previously captured and its input field
+      setImageFile(null) 
       document.getElementById('image').value = ''
 
     } catch (error) {
@@ -210,22 +210,25 @@ const CreateContent = () => {
         }
 
         <div className="form-group">
-          <label htmlFor="content">
-            Content: ({content.length}/{MAX_CONTENT_LENGTH})
+
+
+        {/* RTE */}
+          <label htmlFor="quillRTE">
+            Content: ({rtePlainTextLength}/{MAX_CONTENT_LENGTH})
           </label>
-          <div style={{width: 500, height:300}}>
-            <div ref={quillRef} required />
+
+          <div>
+
+            <ReactQuill 
+              className="rich-text-box" 
+              id="quillRTE" 
+              placeholder={"Write content for your blog..."} 
+              value={content} 
+              onChange={handleContentChange} 
+              required 
+            />
+
           </div>
-          {/* <textarea
-           
-            className="form-textarea" 
-            value={content}
-            onChange={handleContentChange}
-            rows="8" 
-            required
-            minLength={MIN_CONTENT_LENGTH}
-            maxLength={MAX_CONTENT_LENGTH}
-          ></textarea> */}
         </div>
 
         {/* Display Submission Status */}
@@ -246,6 +249,7 @@ const CreateContent = () => {
         >
           {isSubmitting ? "Submitting..." : "Launch Blog Post"}
         </button>
+
       </form>
     </div>
   );
