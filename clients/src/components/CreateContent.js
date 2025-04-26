@@ -212,9 +212,10 @@ const CreateContent = () => {
         <div className="form-group">
 
 
-        {/* RTE */}
+          {/* RTE */}
           <label htmlFor="quillRTE">
             Content: ({rtePlainTextLength}/{MAX_CONTENT_LENGTH})
+            
           </label>
 
           <div>
@@ -229,6 +230,11 @@ const CreateContent = () => {
             />
 
           </div>
+          {rtePlainTextLength > 0 && rtePlainTextLength < MIN_CONTENT_LENGTH ?
+          <div className="alert-content-length">
+            <p> At least 350 characters required.</p>
+          </div>
+          : ""}
         </div>
 
         {/* Display Submission Status */}
