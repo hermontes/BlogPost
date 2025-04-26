@@ -214,7 +214,7 @@ const CreateContent = () => {
 
           {/* RTE */}
           <label htmlFor="quillRTE">
-            Content: ({rtePlainTextLength}/{MAX_CONTENT_LENGTH})
+            Content: 
             
           </label>
 
@@ -232,7 +232,7 @@ const CreateContent = () => {
           </div>
           {rtePlainTextLength > 0 && rtePlainTextLength < MIN_CONTENT_LENGTH ?
           <div className="alert-content-length">
-            <p> At least 350 characters required.</p>
+            <p>At least 350 characters required: {" "}({rtePlainTextLength}/{MIN_CONTENT_LENGTH})</p>
           </div>
           : ""}
         </div>
