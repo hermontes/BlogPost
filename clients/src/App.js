@@ -98,6 +98,7 @@ function App() {
   return (
     // <div className="App">
     <div className="container" ref={createContentRef}>
+      <div>
       <nav className="navbar">
         <div className="innerBar">
           <div className="reviewFest">
@@ -115,7 +116,7 @@ function App() {
           </div>
         </div>
       </nav>
-
+      </div>
       <div>
         {createTrigger ? <CreateContent />  : "" }
         <div>
@@ -133,6 +134,7 @@ function App() {
           </a>
         </p>
     </footer>
+
     </div>
   );
 }

@@ -34,24 +34,23 @@ body {
 
 .innerBar {
   display: flex;
-  height: 3.5rem;
-  margin: 0 auto;
+  height: 2.5rem;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
-  width: 70%;
+  padding: .6rem 7rem .6rem 7rem;
 }
 
-.innerBar .reviewFest {
+.reviewFest {
   flex-shrink: 0; /* Prevent logo from shrinking */
+  padding-top: 0.5rem;
   transition: transform 0.3s;
 }
 
-.innerBar .reviewFest img {
-  width: 12rem;
+.reviewFest img {
+  width: 8rem;
 }
 
-.innerBar .reviewFest:hover {
+.reviewFest:hover {
   transform: scale(1.05);
 }
 
@@ -135,18 +134,18 @@ body {
 
 @media (max-width: 768px) {
   .innerBar {
-    width: 90%;
+    padding: 0.6rem .3rem .6rem 0rem;
   }
 }
 
 @media (min-width: 992px) {
   .innerBar {
-    padding: 0 3rem;
+
   }
 }
 
 @media (min-width: 1200px) {
   .innerBar {
-    padding: 0 4rem;
+
   }
 }
