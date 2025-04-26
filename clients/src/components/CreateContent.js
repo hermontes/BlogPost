@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react"; // Added useEffect import
+import React, { useState, useEffect, useRef } from "react"; 
 import Axios from "axios";
+import DOMPurify from 'dompurify'
 // Import the updated CSS file:
 import "./styling/CreateContent.css";
 import "./styling/SharedStyles.css"
@@ -17,6 +18,15 @@ const CreateContent = () => {
   //RTE states
   const [validContentLength, setValidContentLength] = useState(false);
   const [rtePlainTextLength, setRtePlainTextLength] = useState(0)
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2,3,4, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image'],
+      ['clean']
+    ]
+  }
 
   //Image file capture states
   const [imageFile, setImageFile] = useState();
@@ -69,25 +79,28 @@ const CreateContent = () => {
   const handleContentChange = (content, delta, source, editor) => {
     //set length to be of the plain text
     setRtePlainTextLength(editor.getText().trim().length)
-    console.log("plain text:: ", content);
     if (rtePlainTextLength >= MIN_CONTENT_LENGTH && rtePlainTextLength <= MAX_CONTENT_LENGTH) {
       setValidContentLength(true);
     } else {
       setValidContentLength(false);
     }
-    setContent(content); // saves the rich text content with HTML
+  
+    const clean = DOMPurify.sanitize(content)
+    setContent(clean); // saves the rich text content with HTML
   };
 
   // Check if all fields are filled whenever any field changes
   const isFormValid =
-    title.trim() && author.trim() && validContentLength && isFileValid && imageFile && content;
+    title.trim() && author.trim() && isFileValid && imageFile && content && validContentLength;
 
   // Disable if form invalid, file invalid or in process of submitting
-  const preventSubmission = !isFormValid || isSubmitting
+  
+  const preventSubmission = !isFormValid || isSubmitting 
 
   const sendNewContent = async (e) => {
     e.preventDefault(); // Prevent default form submission
     if (preventSubmission) return; // Prevent submission if invalid or already submitting
+
 
     setIsSubmitting(true); // Indicate submission start
     setSubmissionStatus({ message: "", isError: false }); // Clear previous status
@@ -221,10 +234,11 @@ const CreateContent = () => {
           <div>
 
             <ReactQuill 
+              theme="snow"
               className="rich-text-box" 
               id="quillRTE" 
+              modules={modules}
               placeholder={"Write content for your blog..."} 
-              value={content} 
               onChange={handleContentChange} 
               required 
             />
@@ -233,6 +247,11 @@ const CreateContent = () => {
           {rtePlainTextLength > 0 && rtePlainTextLength < MIN_CONTENT_LENGTH ?
           <div className="alert-content-length">
             <p>At least 350 characters required: {" "}({rtePlainTextLength}/{MIN_CONTENT_LENGTH})</p>
+          </div>
+          : ""}
+          {rtePlainTextLength > MAX_CONTENT_LENGTH ?
+          <div className="alert-content-length">
+            <p>You have exceeded the character limit: {" "}({rtePlainTextLength}/{MAX_CONTENT_LENGTH})</p>
           </div>
           : ""}
         </div>
