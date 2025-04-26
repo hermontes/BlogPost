@@ -72,8 +72,17 @@
 
 .contentWrapper {
   position: relative;
-  margin: 2rem auto 1rem auto;
+  margin: 1rem auto 1rem auto;
   overflow: hidden;
+}
+
+/* Styling for images inside the content text */
+.contentWrapper img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 5px;
 }
 
 .content-expanded, 
