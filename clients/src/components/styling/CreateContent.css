@@ -4,7 +4,7 @@
 .create-content-container {
   max-width: 800px;
   margin: 2rem auto;
-  padding: 1.5rem 1rem;
+  padding: 0.5rem 1rem;
   background-color: #f8fafc;
   position: relative;
 }
@@ -179,6 +179,7 @@
   height: 250px;
   margin-bottom: 2.4rem;
 }
+
 
 .alert-content-length {
   display: flex;
