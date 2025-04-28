@@ -30,8 +30,6 @@ function App() {
     }
   }, [createTrigger]); // Dependency on createTrigger stage change
 
-
-
   useEffect(() => {
     Axios.get(API_URL)
       .then((response) => {
@@ -104,7 +102,6 @@ function App() {
           <div className="reviewFest">
             <img src="./official_logo.png" />
           </div>
-
           <div className="navDescription">
             <p>Your go-to platform for sharing and discovering insightful blog posts.</p>
           </div>
@@ -119,10 +116,24 @@ function App() {
       </div>
       <div>
         {createTrigger ? <CreateContent />  : "" }
+        
         <div>
-          {allContent.map((val, key) => {
-            return <BlogPost blog={val} key={val._id} />;
-          })}
+          {allContent.length === 0 ? 
+          
+          <div className="flex items-center justify-center">
+            <p className="text-[#2c5282] bg-[#e6f0ff] font-bold py-2 px-4 my-10  rounded">No posts yet, hit <span className="underline"> <a href=""></a>Create</span> from above to be the first! </p>
+            
+            </div>
+          : 
+          <div>
+            
+            {allContent.map((val, key) => {
+              return <BlogPost blog={val} key={key} />;
+            })} 
+          </div>
+          
+          }
+          
         </div>
       </div>
 
