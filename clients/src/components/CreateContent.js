@@ -31,7 +31,7 @@ const CreateContent = () => {
 
   //Image file capture states
   const [imageFile, setImageFile] = useState();
-  const [isFileValid, setIsFileValid] = useState(false);
+  const [isFileValid, setIsFileValid] = useState(true);
 
   //Submission status fields
   const [submissionStatus, setSubmissionStatus] = useState({
@@ -224,7 +224,7 @@ const CreateContent = () => {
         {isFileValid ?
             ""
             : <div className="file-error-message">
-            Invalid file type. Please upload a PNG/JPEG image only.
+            Invalid file type. Please upload a PNG/JPEG/WEBP image only.
         </div>
         }
 
