@@ -1,7 +1,10 @@
+* {
+  box-sizing: border-box;
+}
 .create-content-container {
   max-width: 800px;
   margin: 2rem auto;
-  padding: 1.5rem 1rem;
+  padding: 0.5rem 1rem;
   background-color: #f8fafc;
   position: relative;
 }
@@ -104,7 +107,6 @@
 
 .form-group-image-upload {
   display: flex;
-  width: 50%;
   margin-top: .5rem;
   cursor: pointer;
   flex-direction: row;
@@ -120,9 +122,10 @@
 
 .upload-icon-wrapper, .form-input-file-upload{
   cursor: pointer;
+  font-size: 1rem;
 }
 .upload-icon {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .file-error-message {
@@ -171,20 +174,23 @@
   line-height: 1.6;
 }
 
-.image-preview {
-  margin-top: 1rem;
-  border-radius: 12px;
-  overflow: hidden;
-  max-width: 100%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 2px solid #e2e8f0;
+.rich-text-box {
+  display: block;
+  height: 250px;
+  margin-bottom: 2.4rem;
 }
 
-.image-preview img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
+
+.alert-content-length {
+  display: flex;
+  align-items: center;
+  background-color: #e6f0ff;  
+  color: #2c5282; 
+  border-radius: 6px;
+  padding: 0px 6px;
+  border-left: 4px solid #4299e1; 
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  line-height: .4rem;
 }
 
 .submit-button {
@@ -234,6 +240,24 @@
 }
 
 @media (max-width: 768px) {
+
+  /* Upload file styling */
+  .upload-icon-wrapper, .form-input-file-upload{
+    cursor: pointer;
+    font-size: .8rem;
+  }
+
+  /* RTE */
+  .rich-text-box {
+    display: block;
+    height: 250px;
+    margin-bottom: 3.5rem;
+  }
+
+  .alert-content-length {
+    margin-top: .4rem;
+  }
+
   .form-group-image-upload {
     width: 100%;
   }

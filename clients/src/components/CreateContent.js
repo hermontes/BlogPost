@@ -1,29 +1,47 @@
-import React, { useState, useEffect } from "react"; // Added useEffect import
+import React, { useState, useEffect, useRef } from "react"; 
 import Axios from "axios";
+import DOMPurify from 'dompurify'
 // Import the updated CSS file:
 import "./styling/CreateContent.css";
 import "./styling/SharedStyles.css"
-import 'quill/dist/quill.snow.css'; //css for snow theme
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import { use } from "react";
-
-const { useQuill } = require('react-quilljs');
+import ReactQuill from 'react-quill';
+import 'quill/dist/quill.snow.css'; //css for snow theme
 
 const CreateContent = () => {
+  //Form states
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
+
+  //RTE states
+  const [validContentLength, setValidContentLength] = useState(false);
+  const [rtePlainTextLength, setRtePlainTextLength] = useState(0)
+  const quillRef = useRef(null)
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2,3,4, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image'],
+      ['clean']
+    ]
+  }
+
+  //Image file capture states
+  const [imageFile, setImageFile] = useState();
+  const [isFileValid, setIsFileValid] = useState(false);
+
+  //Submission status fields
   const [submissionStatus, setSubmissionStatus] = useState({
     message: "",
     isError: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false); 
-  const [imageFile, setImageFile] = useState();
-  const [isFileValid, setIsFileValid] = useState(true);
+  
 
-  const {quill, quillRef} = useQuill()
-
+  //Fields for input validation logic
   const ERROR_MESSAGE = "Failed to create post. Please try again."
   const SUCCESS_MESSAGE = "Blog post created successfully!"
 
@@ -33,29 +51,10 @@ const CreateContent = () => {
   const MIN_CONTENT_LENGTH = 350;
   const MAX_CONTENT_LENGTH = 4000;
 
-  useEffect(() => {
-
-    if(quill){
-
-    
-      quill.on('text-change', (delta, oldDelta, source) => {
-        console.log('Text change!');
-        // console.log(quill.getText()); // Get text only
-        // console.log(quill.getContents()); // Get delta contents
-        console.log("INNER HTML",quill.root.innerHTML); // Get innerHTML using quill
-        // console.log(quillRef.current.firstChild.innerHTML); // Get innerHTML using quillRef
-        setContent(quill.root.innerHTML)
-      });
-
-    }
-
-  },[quill])
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];    
     if(file){
-      console.log(file.type)
-      if(file.type === "image/png" || file.type === "image/jpeg") {
+      if(file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/webp") {
         setImageFile(e.target.files[0]);
         setIsFileValid(true)
       } else {
@@ -77,22 +76,37 @@ const CreateContent = () => {
     }
   };
 
-  const handleContentChange = (e) => {
-    if (e.target.value.length <= MAX_CONTENT_LENGTH) {
-      setContent(e.target.value);
+  const handleContentChange = (content, delta, source, editor) => {
+    //set length to be of the plain text
+    setRtePlainTextLength(editor.getText().trim().length)
+    if (rtePlainTextLength >= MIN_CONTENT_LENGTH && rtePlainTextLength <= MAX_CONTENT_LENGTH) {
+      setValidContentLength(true);
+    } else {
+      setValidContentLength(false);
     }
+    // editor.setContents([])
+  
+    const clean = DOMPurify.sanitize(content)
+    setContent(clean); // saves the rich text content with HTML
   };
+
+  const clearRTE = () => {
+    quillRef.current.getEditor().setContents([])
+  }
+
 
   // Check if all fields are filled whenever any field changes
   const isFormValid =
-    title.trim() && author.trim() && content.trim() && isFileValid && imageFile;
+    title.trim() && author.trim() && isFileValid && imageFile && content && validContentLength;
 
   // Disable if form invalid, file invalid or in process of submitting
-  const preventSubmission = !isFormValid || isSubmitting
+  
+  const preventSubmission = !isFormValid || isSubmitting 
 
   const sendNewContent = async (e) => {
     e.preventDefault(); // Prevent default form submission
     if (preventSubmission) return; // Prevent submission if invalid or already submitting
+
 
     setIsSubmitting(true); // Indicate submission start
     setSubmissionStatus({ message: "", isError: false }); // Clear previous status
@@ -103,6 +117,7 @@ const CreateContent = () => {
     formData.append("author", author);
     formData.append("comments", JSON.stringify([]));
     formData.append("image", imageFile);
+
     
     try {
       const response = await Axios.post(`${process.env.REACT_APP_API_URL}/createContent`, 
@@ -123,9 +138,14 @@ const CreateContent = () => {
       // Clear the form fields after successful submission
       setTitle("");
       setAuthor("");
-      setContent("");
 
-      setImageFile(null) //clear the file we previously captured and its input field
+      //clear RTE
+      setValidContentLength(false)
+      setContent("");
+      clearRTE()
+        
+      //clear the file we previously captured and its input field
+      setImageFile(null) 
       document.getElementById('image').value = ''
 
     } catch (error) {
@@ -193,39 +213,53 @@ const CreateContent = () => {
                   className="form-input-file-upload"
                   type="file" 
                   onChange={handleImageChange}
-                  accept="image/png, image/jpeg"
+                  accept="image/png, image/jpeg, image/webp"
                   required
                 />
 
             </div>
           </label>
-
-
         </div>
 
-        {!isFileValid && 
-            <div className="file-error-message">
-                Invalid file type. Please upload a PNG/JPEG image only.
-            </div>
+        {isFileValid ?
+            ""
+            : <div className="file-error-message">
+            Invalid file type. Please upload a PNG/JPEG image only.
+        </div>
         }
 
         <div className="form-group">
-          <label htmlFor="content">
-            Content: ({content.length}/{MAX_CONTENT_LENGTH})
+
+          {/* RTE */}
+          <label htmlFor="quillRTE">
+            Content: 
+            
           </label>
-          <div style={{width: 500, height:300}}>
-            <div ref={quillRef} required />
+
+          <div>
+
+            <ReactQuill 
+              ref={quillRef}
+              theme="snow"
+              className="rich-text-box" 
+              id="quillRTE" 
+              modules={modules}
+              placeholder={"Write content for your blog..."} 
+              onChange={handleContentChange} 
+              required 
+            />
+
           </div>
-          {/* <textarea
-           
-            className="form-textarea" 
-            value={content}
-            onChange={handleContentChange}
-            rows="8" 
-            required
-            minLength={MIN_CONTENT_LENGTH}
-            maxLength={MAX_CONTENT_LENGTH}
-          ></textarea> */}
+          {rtePlainTextLength > 0 && rtePlainTextLength < MIN_CONTENT_LENGTH ?
+          <div className="alert-content-length">
+            <p>At least 350 characters required: {" "}({rtePlainTextLength}/{MIN_CONTENT_LENGTH})</p>
+          </div>
+          : ""}
+          {rtePlainTextLength > MAX_CONTENT_LENGTH ?
+          <div className="alert-content-length">
+            <p>You have exceeded the character limit: {" "}({rtePlainTextLength}/{MAX_CONTENT_LENGTH})</p>
+          </div>
+          : ""}
         </div>
 
         {/* Display Submission Status */}
@@ -246,6 +280,7 @@ const CreateContent = () => {
         >
           {isSubmitting ? "Submitting..." : "Launch Blog Post"}
         </button>
+
       </form>
     </div>
   );

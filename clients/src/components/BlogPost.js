@@ -1,6 +1,7 @@
 import React, { memo, useState, useEffect, useMemo, useRef } from "react";
 import CreateComments from "./CreateComments";
 import CommentCards from "./CommentCards";
+import DOMPurify from 'dompurify'
 
 import "./styling/ArticleContent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +22,8 @@ const SingleBlog = memo(({ blog }) => {
     }
   };
 
-  const contentPreview = blog.content.slice(0, 350) + "...";
+  const sanitizedContent = DOMPurify.sanitize(blog.content)
+  const contentPreview = sanitizedContent.trim().slice(0, 350) + "...";
 
   const formatDateAndTime = (givenDateAndTime) => {
     const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
@@ -65,9 +67,15 @@ const SingleBlog = memo(({ blog }) => {
 
       <div className="contentWrapper">
         <div className={viewContent ? "content-expanded" : "content-collapsed"}>
-          <p className="contentText">
-            {viewContent ? blog.content : contentPreview}
-          </p>
+          <article>
+            <p className="contentText">
+            {viewContent ?
+              <div dangerouslySetInnerHTML={{__html: sanitizedContent} }/> 
+              :
+              <div dangerouslySetInnerHTML={{__html: contentPreview} }/> 
+            }
+            </p>
+          </article>
         </div>
         <div className="expandContent">
           <button
@@ -82,7 +90,7 @@ const SingleBlog = memo(({ blog }) => {
               </>
             ) : (
               <>
-                {"Show More "} <FontAwesomeIcon icon={faAngleDown} />
+                {"Read More "} <FontAwesomeIcon icon={faAngleDown} />
               </>
             )}
           </button>
