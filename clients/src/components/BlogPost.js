@@ -67,13 +67,15 @@ const SingleBlog = memo(({ blog }) => {
 
       <div className="contentWrapper">
         <div className={viewContent ? "content-expanded" : "content-collapsed"}>
-          <p className="contentText">
-          {viewContent ?
-            <div dangerouslySetInnerHTML={{__html: sanitizedContent} }/> 
-            :
-            <div dangerouslySetInnerHTML={{__html: contentPreview} }/> 
-          }
-          </p>
+          <article>
+            <p className="contentText">
+            {viewContent ?
+              <div dangerouslySetInnerHTML={{__html: sanitizedContent} }/> 
+              :
+              <div dangerouslySetInnerHTML={{__html: contentPreview} }/> 
+            }
+            </p>
+          </article>
         </div>
         <div className="expandContent">
           <button
