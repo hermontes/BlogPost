@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Axios, { all } from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
+import { BrowserRouter as Router, Route, Switch, Link, Routes } from 'react-router-dom';
 
 // import { Routes, Route } from 'react-router-dom'
 
@@ -94,59 +95,64 @@ function App() {
 
 
   return (
-    // <div className="App">
-    <div className="container" ref={createContentRef}>
-      <div>
-      <nav className="navbar">
-        <div className="innerBar">
-          <div className="reviewFest">
-            <img src="./official_logo.png" />
-          </div>
-          <div className="navDescription">
-            <p>Your go-to platform for sharing and discovering insightful blog posts.</p>
-          </div>
-
-          <div className="createRightSide">
-            <button onClick={changeTrigger}>
-              {createTrigger ? "Collapse" : "Create"}
-            </button>
-          </div>
-        </div>
-      </nav>
-      </div>
-      <div>
-        {createTrigger ? <CreateContent />  : "" }
-        
+    <Router>
+      {/* // <div className="App"> */}
+      <div className="container" ref={createContentRef}>
         <div>
-          {allContent.length === 0 ? 
-          
-          <div className="flex items-center justify-center">
-            <p className="text-[#2c5282] bg-[#e6f0ff] font-bold py-2 px-4 my-10  rounded">No posts yet, hit <span className="underline"> <a href=""></a>Create</span> from above to be the first! </p>
-            
+        <nav className="navbar">
+          <div className="innerBar">
+            <div className="reviewFest">
+              <img src="./official_logo.png" />
             </div>
-          : 
-          <div>
-            
-            {allContent.map((val, key) => {
-              return <BlogPost blog={val} key={key} />;
-            })} 
+            <div className="navDescription">
+              <p>Your go-to platform for sharing and discovering insightful blog posts.</p>
+            </div>
+
+            <div className="createRightSide">
+              <button onClick={changeTrigger}>
+                {createTrigger ? "Collapse" : "Create"}
+              </button>
+            </div>
           </div>
-          
-          }
-          
+        </nav>
         </div>
+        <div>
+          {createTrigger ? <CreateContent />  : "" }
+          
+          <div>
+            {allContent.length === 0 ? 
+            
+              <div className="flex items-center justify-center">
+              <p className="text-[#2c5282] bg-[#e6f0ff] font-bold py-2 px-4 my-10  rounded">No posts yet, hit <button className="bg-[#e6f0ff] text-[#2c5282] p-0 font-bold cursor-pointer underline border-none" onClick={changeTrigger}>Create</button> from above to be the first! </p>
+              
+              </div>
+            : 
+            <div>
+              
+              {allContent.map((val, key) => {
+                return <BlogPost blog={val} key={key} />;
+              })} 
+            </div>
+            
+            }
+            
+          </div>
+        </div>
+
+        <footer className="footer">
+          <p>
+            &copy; {new Date().getFullYear()} Created by{" "}
+            <a href="https://www.linkedin.com/in/hermontes/" target="_blank" rel="noopener noreferrer">
+              Hermon Haile
+            </a>
+          </p>
+        </footer>
+        
+        <Routes>
+          <Route path="/create" Component={CreateContent}> </Route>
+        </Routes>
       </div>
-
-      <footer className="footer">
-        <p>
-          &copy; {new Date().getFullYear()} Created by{" "}
-          <a href="https://www.linkedin.com/in/hermontes/" target="_blank" rel="noopener noreferrer">
-            Hermon Haile
-          </a>
-        </p>
-    </footer>
-
-    </div>
+    </Router>
   );
 }
 
