@@ -18,6 +18,7 @@ const CreateContent = () => {
   //RTE states
   const [validContentLength, setValidContentLength] = useState(false);
   const [rtePlainTextLength, setRtePlainTextLength] = useState(0)
+  const quillRef = useRef(null)
   const modules = {
     toolbar: [
       [{ 'header': [1, 2,3,4, false] }],
@@ -30,7 +31,7 @@ const CreateContent = () => {
 
   //Image file capture states
   const [imageFile, setImageFile] = useState();
-  const [isFileValid, setIsFileValid] = useState(true);
+  const [isFileValid, setIsFileValid] = useState(false);
 
   //Submission status fields
   const [submissionStatus, setSubmissionStatus] = useState({
@@ -53,8 +54,7 @@ const CreateContent = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];    
     if(file){
-      console.log(file.type)
-      if(file.type === "image/png" || file.type === "image/jpeg") {
+      if(file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/webp") {
         setImageFile(e.target.files[0]);
         setIsFileValid(true)
       } else {
@@ -84,10 +84,16 @@ const CreateContent = () => {
     } else {
       setValidContentLength(false);
     }
+    // editor.setContents([])
   
     const clean = DOMPurify.sanitize(content)
     setContent(clean); // saves the rich text content with HTML
   };
+
+  const clearRTE = () => {
+    quillRef.current.getEditor().setContents([])
+  }
+
 
   // Check if all fields are filled whenever any field changes
   const isFormValid =
@@ -136,7 +142,8 @@ const CreateContent = () => {
       //clear RTE
       setValidContentLength(false)
       setContent("");
-
+      clearRTE()
+        
       //clear the file we previously captured and its input field
       setImageFile(null) 
       document.getElementById('image').value = ''
@@ -206,24 +213,22 @@ const CreateContent = () => {
                   className="form-input-file-upload"
                   type="file" 
                   onChange={handleImageChange}
-                  accept="image/png, image/jpeg"
+                  accept="image/png, image/jpeg, image/webp"
                   required
                 />
 
             </div>
           </label>
-
-
         </div>
 
-        {!isFileValid && 
-            <div className="file-error-message">
-                Invalid file type. Please upload a PNG/JPEG image only.
-            </div>
+        {isFileValid ?
+            ""
+            : <div className="file-error-message">
+            Invalid file type. Please upload a PNG/JPEG image only.
+        </div>
         }
 
         <div className="form-group">
-
 
           {/* RTE */}
           <label htmlFor="quillRTE">
@@ -234,11 +239,11 @@ const CreateContent = () => {
           <div>
 
             <ReactQuill 
+              ref={quillRef}
               theme="snow"
               className="rich-text-box" 
               id="quillRTE" 
               modules={modules}
-              value={content}
               placeholder={"Write content for your blog..."} 
               onChange={handleContentChange} 
               required 
