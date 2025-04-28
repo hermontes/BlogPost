@@ -238,6 +238,7 @@ const CreateContent = () => {
               className="rich-text-box" 
               id="quillRTE" 
               modules={modules}
+              value={content}
               placeholder={"Write content for your blog..."} 
               onChange={handleContentChange} 
               required 
