@@ -105,12 +105,12 @@ function App() {
               <img src="./official_logo.png" />
             </div>
             <div className="navDescription">
-              <p>Your go-to platform for sharing and discovering insightful blog posts.</p>
+              <p>Share and discover insightful blog posts.</p>
             </div>
 
             <div className="createRightSide">
-              <button onClick={changeTrigger}>
-                {createTrigger ? "Collapse" : "Create"}
+              <button onClick={changeTrigger} className="min-w-[5rem] max-w-[5rem] text-center py-[.5rem]">
+                {createTrigger ? "Hide" : "Create"}
               </button>
             </div>
           </div>
