@@ -90,7 +90,7 @@ const SingleBlog = memo(({ blog }) => {
               </>
             ) : (
               <>
-                {"Show More "} <FontAwesomeIcon icon={faAngleDown} />
+                {"Read More "} <FontAwesomeIcon icon={faAngleDown} />
               </>
             )}
           </button>
