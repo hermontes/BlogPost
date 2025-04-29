@@ -1,14 +1,12 @@
 import "./App.css";
 import { useState, useEffect, useRef } from "react";
-import Axios, { all } from "axios";
+import Axios from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Link,
   Routes,
 } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -112,7 +110,7 @@ function App() {
           <nav className="navbar">
             <div className="innerBar">
               <div className="reviewFest">
-                <img src="./official_logo.png" />
+                <img src="./official_logo.png" alt="Logo for ReviewFest site with blue text and transparent background"/>
               </div>
               <div className="navDescription">
                 <p>Share and discover insightful blog posts.</p>

@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useMemo, useRef } from "react";
+import React, { memo, useState, useRef } from "react";
 import CreateComments from "./CreateComments";
 import CommentCards from "./CommentCards";
 import DOMPurify from 'dompurify'
@@ -75,7 +75,7 @@ const SingleBlog = memo(({ blog }) => {
 
       <img
         className="blogImage"
-        alt={`Image for ${blog.title}`}
+        alt={`${blog.title}`}
         src={blog.image}
       ></img>
 

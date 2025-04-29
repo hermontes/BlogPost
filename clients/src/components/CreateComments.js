@@ -15,8 +15,6 @@ const Comments = ({ blogPost }) => {
     "An error occured while submitting your comment, please try again";
   const SUCCESS_MESSAGE = "Successfully created a comment!";
 
-  const areFieldsFilled = commentField.trim() && name.trim();
-
   const createComment = (event) => {
     event.preventDefault();
 
@@ -58,7 +56,7 @@ const Comments = ({ blogPost }) => {
     <>
       <div className="createCommentsSection">
         <div className="commentHeading">
-          {blogPost.comments.length == 0
+          {blogPost.comments.length === 0
             ? blogPost.comments.length + " comments, be the first one!"
             : blogPost.comments.length + " comments, join the conversation!"}
         </div>
