@@ -13,7 +13,9 @@ const SingleBlog = memo(({ blog }) => {
   const [viewContent, setViewContent] = useState(false);
   const articleRef = useRef(null);
 
-  // console.log("SingleBlog component rendered");
+  const sanitizedContent = DOMPurify.sanitize(blog.content);
+  const contentPreview = sanitizedContent.trim().slice(0, 350) + "...";
+
   const toggleContent = () => {
     setViewContent(!viewContent);
     if (viewContent) {
@@ -22,8 +24,10 @@ const SingleBlog = memo(({ blog }) => {
     }
   };
 
-  const sanitizedContent = DOMPurify.sanitize(blog.content)
-  const contentPreview = sanitizedContent.trim().slice(0, 350) + "...";
+  function calculateReadTime() {
+    const arrayOfWords = sanitizedContent.trim().split(/\s+/).filter(word => word.length > 0)
+    return arrayOfWords.length/250;
+  }
 
   const formatDateAndTime = (givenDateAndTime) => {
     const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
@@ -47,9 +51,18 @@ const SingleBlog = memo(({ blog }) => {
 
   return (
     <div className="contentCard" ref={articleRef}>
-      <h1 className="blogTitle">
-        <span>{blog.title}</span>
-      </h1>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="blogTitle">
+            <span>{blog.title}</span>
+          </h1>
+        </div>
+        <div>
+            <p className="text-[#6b7280]">
+            {Math.ceil(calculateReadTime())} {" "} min read 
+            </p>
+        </div>
+      </div>
       <div className="authorAndDate">
         <span className="blogAuthor">By {blog.author} </span>{" "}
         <div className="blogDate">
@@ -57,6 +70,7 @@ const SingleBlog = memo(({ blog }) => {
           {formatDateAndTime(blog.date).dateCreated} at{" "}
           {formatDateAndTime(blog.date).timeCreated}
         </div>
+        
       </div>
 
       <img
