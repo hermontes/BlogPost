@@ -139,7 +139,7 @@ function App() {
           </div>
         </div>
 
-        <footer className="footer">
+        <footer className="footer py-[.1rem]">
           <p>
             &copy; {new Date().getFullYear()} Created by{" "}
             <a href="https://www.linkedin.com/in/hermontes/" target="_blank" rel="noopener noreferrer">
