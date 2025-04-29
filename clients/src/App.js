@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Axios, { all } from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons"
 import {
   BrowserRouter as Router,
   Route,
@@ -10,6 +11,7 @@ import {
   Link,
   Routes,
 } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // import { Routes, Route } from 'react-router-dom'
 
@@ -130,6 +132,10 @@ function App() {
         <div>
           {createTrigger ? <CreateContent /> : ""}
 
+          {isDataLoading ? <div className="flex justify-center items-center">
+            <FontAwesomeIcon className="animate-spin" icon={faSpinner} />
+          </div> : ""}
+          
           <div>
             {allContent.length === 0 ? (
               <div className="flex items-center justify-center">
