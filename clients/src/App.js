@@ -121,7 +121,7 @@ function App() {
               <div className="createRightSide">
                 <button
                   onClick={changeTrigger}
-                  className="min-w-[5rem] max-w-[5rem] text-center py-[.5rem]"
+                  className="min-w-[5rem] max-w-[5rem] text-center py-[.5rem] cursor-grab"
                 >
                   {createTrigger ? "Hide" : "Create"}
                 </button>
@@ -132,9 +132,9 @@ function App() {
         <div>
           {createTrigger ? <CreateContent /> : ""}
 
-          {isDataLoading ? <div className="flex justify-center items-center">
-            <FontAwesomeIcon className="animate-spin" icon={faSpinner} />
-          </div> : ""}
+          {isDataLoading ? <div className="flex justify-center items-center my-[2rem]">
+            <FontAwesomeIcon className="animate-spin size-[2rem]" icon={faSpinner} />
+          </div> : "" }
           
           <div>
             {allContent.length === 0 ? (
