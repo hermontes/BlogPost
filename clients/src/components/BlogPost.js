@@ -1,6 +1,8 @@
 import React, { memo, useState, useRef } from "react";
 import CreateComments from "./CreateComments";
 import CommentCards from "./CommentCards";
+import { CalculateReadTime } from "./ReusableComponents"
+import { formatDateAndTime } from "../utils/DateUtils";
 import DOMPurify from 'dompurify'
 
 import "./styling/ArticleContent.css";
@@ -24,27 +26,6 @@ const SingleBlog = memo(({ blog }) => {
     }
   };
 
-  function calculateReadTime() {
-    const arrayOfWords = sanitizedContent.trim().split(/\s+/).filter(word => word.length > 0)
-    return arrayOfWords.length/250;
-  }
-
-  const formatDateAndTime = (givenDateAndTime) => {
-    const dateCreated = new Date(givenDateAndTime).toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-
-    const timeCreated = new Date(givenDateAndTime).toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    });
-
-    return { dateCreated, timeCreated };
-  };
-
   const changeViewComment = () => {
     setView(!viewComments);
   };
@@ -59,7 +40,7 @@ const SingleBlog = memo(({ blog }) => {
         </div>
         <div>
             <p className="text-[#6b7280]">
-            {Math.ceil(calculateReadTime())} {" "} min read 
+              <CalculateReadTime content={sanitizedContent} /> 
             </p>
         </div>
       </div>
