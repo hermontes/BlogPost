@@ -32,6 +32,7 @@ const CreateContent = () => {
   //Image file capture states
   const [imageFile, setImageFile] = useState();
   const [isFileValid, setIsFileValid] = useState(true);
+  const imageReference = useRef(null)
 
   //Submission status fields
   const [submissionStatus, setSubmissionStatus] = useState({
@@ -84,7 +85,6 @@ const CreateContent = () => {
     } else {
       setValidContentLength(false);
     }
-    // editor.setContents([])
   
     const clean = DOMPurify.sanitize(content)
     setContent(clean); // saves the rich text content with HTML
@@ -93,7 +93,6 @@ const CreateContent = () => {
   const clearRTE = () => {
     quillRef.current.getEditor().setContents([])
   }
-
 
   // Check if all fields are filled whenever any field changes
   const isFormValid =
@@ -146,7 +145,7 @@ const CreateContent = () => {
         
       //clear the file we previously captured and its input field
       setImageFile(null) 
-      document.getElementById('image').value = ''
+      imageReference.current.value = ''
 
     } catch (error) {
       console.error("Error sending content:", error);
@@ -209,6 +208,7 @@ const CreateContent = () => {
                 <FontAwesomeIcon className="upload-icon" icon={faUpload} />
               
                 <input
+                  ref={imageReference}
                   id="image"
                   className="form-input-file-upload"
                   type="file" 
