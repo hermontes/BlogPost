@@ -65,7 +65,7 @@ const Comments = ({ blogPost }) => {
         </div>
 
         <form onSubmit={createComment}>
-          <div className="create-comment-fields">
+          <div className="flex flex-col w-full">
             <input
               type="text"
               className="commentInput"
