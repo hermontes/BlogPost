@@ -48,7 +48,7 @@ body {
 
 .reviewFest {
   flex-shrink: 0; /* Prevent logo from shrinking */
-  padding-top: 1.2rem;
+  padding-top: 0.9rem;
   transition: transform 0.3s;
 }
 
