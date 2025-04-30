@@ -1,11 +1,12 @@
 import { React, useEffect, useMemo, useState } from "react";
 import Axios from "axios";
 import "./styling/CommentCards.css";
+import { formatDateAndTime } from "../utils/DateUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as faRegularThumbsUp, faThumbsDown as faRegularThumbsDown, faUser} from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as faSolidThumbsUp, faThumbsDown as faSolidThumbsDown} from '@fortawesome/free-solid-svg-icons';
 
-const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
+const CommentCards = ({ blog }) => {
 
   const [comments, setComments] = useState(blog.comments);
   const [actionStatusOfComments, setActionStatusOfComments] = useState({});
@@ -88,9 +89,9 @@ const CommentCards = ({ blog, formatDateAndTimeFunction }) => {
                   <div className="comment-header">
                     <span className="author">{comment.author}</span>
                     <span className="date">
-                      {formatDateAndTimeFunction(comment.createdAt).dateCreated}{" "}
+                      {formatDateAndTime(comment.createdAt).dateCreated}{" "}
                       at{" "}
-                      {formatDateAndTimeFunction(comment.createdAt).timeCreated}
+                      {formatDateAndTime(comment.createdAt).timeCreated}
                     </span>
                   </div>
                   <div className="comment-text"><p>{comment.text}</p></div>
