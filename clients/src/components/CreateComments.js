@@ -14,6 +14,9 @@ const Comments = ({ blogPost }) => {
   const ERROR_MESSAGE =
     "An error occured while submitting your comment, please try again";
   const SUCCESS_MESSAGE = "Successfully created a comment!";
+  const ZERO_COMMENT_MESSAGE = " comments, be the first one!"
+  const FIRST_COMMENT_MESSAGE = " comment, join the conversation!"
+  const SECOND_COMMENT_MESSAGE = " comments, join the conversation!"
 
   const createComment = (event) => {
     event.preventDefault();
@@ -57,8 +60,8 @@ const Comments = ({ blogPost }) => {
       <div className="createCommentsSection">
         <div className="commentHeading">
           {blogPost.comments.length === 0
-            ? blogPost.comments.length + " comments, be the first one!"
-            : blogPost.comments.length + " comments, join the conversation!"}
+            ? blogPost.comments.length + ZERO_COMMENT_MESSAGE
+            : (blogPost.comments.length > 1 ?  blogPost.comments.length + SECOND_COMMENT_MESSAGE :  blogPost.comments.length + FIRST_COMMENT_MESSAGE)}
         </div>
 
         <form onSubmit={createComment}>
