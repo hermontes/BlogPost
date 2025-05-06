@@ -5,7 +5,7 @@ A full-stack blog platform built with the MERN stack (MongoDB, Express.js, React
 
 ## Features
 
-- Create and publish blog posts with images
+- Create and publish blog posts with images (using AWS S3 for storing images)
 - Real-time comment system
 - Modern, responsive design
 - Optimized content loading
