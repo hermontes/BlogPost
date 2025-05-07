@@ -1,11 +1,10 @@
-
 * {
   box-sizing: border-box;
 }
 body {
-  margin: 0; 
-  padding: 0;  
-  overflow-x: hidden;  
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
   background-color: #f8f8f8;
 }
 
@@ -16,7 +15,6 @@ body {
   margin: 0 auto;
   max-width: 1920px;
 }
-
 
 .horizContent label {
   display: flex;
@@ -42,37 +40,61 @@ body {
   height: 3.4rem;
   justify-content: space-between;
   align-items: center;
-  padding: 0rem 1.2rem 0rem .8rem;
+  padding: 0rem 1.2rem 0rem 0.8rem;
   width: 100%;
 }
 
 .reviewFest {
-  flex-shrink: 0; /* Prevent logo from shrinking */
-  padding-top: 0.9rem;
-  transition: transform 0.3s;
+  flex-shrink: 0;
+  padding: 0.6rem;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .reviewFest img {
   width: 9.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 86, 179, 0.15));
+  transition: all 0.3s ease;
 }
 
-.reviewFest:hover {
-  transform: scale(1.05);
+.reviewFest:hover img {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 4px 6px rgba(0, 86, 179, 0.2));
+}
+
+.reviewFest::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #0056b3, #007bff);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.reviewFest:hover::after {
+  width: 80%;
 }
 
 .navDescription {
-  flex-grow: .5;
+  flex-grow: 0.5;
   text-align: center;
   font-size: 1.1rem;
   color: #2c3e50;
   margin: 0 2rem;
   font-weight: 400;
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
   line-height: 1.4;
   padding: 0.5rem 1rem;
   border-left: 2px solid #e0e0e0;
   border-right: 2px solid #e0e0e0;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.8)
+  );
   transition: all 0.3s ease;
 }
 
@@ -86,27 +108,43 @@ body {
 
 .navDescription:hover {
   transform: translateY(-1px);
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    transparent
+  );
 }
 
 .createRightSide {
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .createRightSide button {
-  background-color: #0056b3;
+  min-width: 6rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
   color: #fff;
-  border: 0;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 1.2rem;
-  transition: background-color 0.3s, color 0.3s, transform 0.3s;
-  /* text-transform: uppercase; */
+  background: linear-gradient(135deg, #0056b3, #007bff);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 86, 179, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .createRightSide button:hover {
-  color: #fff;
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 86, 179, 0.3);
+  background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.createRightSide button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 86, 179, 0.2);
 }
 
 .footer {
@@ -114,24 +152,22 @@ body {
   width: 100%;
   background-color: #f9f9f9;
   text-align: center;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); 
-  font-size: 0.9rem; 
-  color: #333; 
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  color: #333;
 }
 
 .footer a {
   color: #0056b3;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .footer a:hover {
-  text-decoration: underline; 
+  text-decoration: underline;
 }
 
 /* max-width: UP TO to this size do this */
 @media (max-width: 1300px) {
-
-
 }
 
 @media (min-width: 1440px) {
@@ -145,15 +181,24 @@ body {
     display: none;
   }
   .innerBar {
-    padding: 0.6rem .3rem .6rem 0rem;
+    padding: 0.6rem 0.3rem 0.6rem 0rem;
+  }
+  .createRightSide button {
+    min-width: 5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  .reviewFest {
+    padding: 0.4rem;
+  }
+
+  .reviewFest img {
+    width: 8rem;
   }
 }
 
 @media (max-width: 992px) {
-
 }
 
 @media (max-width: 1200px) {
-
-
 }

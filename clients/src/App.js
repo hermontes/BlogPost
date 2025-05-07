@@ -3,12 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 import BlogPost from "./components/BlogPost";
 import CreateContent from "./components/CreateContent";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons"
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // import { Routes, Route } from 'react-router-dom'
@@ -110,17 +106,17 @@ function App() {
           <nav className="navbar">
             <div className="innerBar">
               <div className="reviewFest">
-                <img src="./official_logo.png" alt="Logo for ReviewFest site with blue text and transparent background"/>
+                <img
+                  src="./official_logo.png"
+                  alt="Logo for ReviewFest site with blue text and transparent background"
+                />
               </div>
               <div className="navDescription">
                 <p>Share and discover insightful blog posts.</p>
               </div>
 
               <div className="createRightSide">
-                <button
-                  onClick={changeTrigger}
-                  className="min-w-[5rem] max-w-[5rem] text-center py-[.5rem] cursor-grab"
-                >
+                <button onClick={changeTrigger}>
                   {createTrigger ? "Hide" : "Create"}
                 </button>
               </div>
@@ -130,10 +126,17 @@ function App() {
         <div>
           {createTrigger ? <CreateContent /> : ""}
 
-          {isDataLoading ? <div className="flex justify-center items-center my-[2rem]">
-            <FontAwesomeIcon className="animate-spin size-[2rem]" icon={faSpinner} />
-          </div> : "" }
-          
+          {isDataLoading ? (
+            <div className="flex justify-center items-center my-[2rem]">
+              <FontAwesomeIcon
+                className="animate-spin size-[2rem]"
+                icon={faSpinner}
+              />
+            </div>
+          ) : (
+            ""
+          )}
+
           <div>
             {allContent.length === 0 ? (
               <div className="flex items-center justify-center">
