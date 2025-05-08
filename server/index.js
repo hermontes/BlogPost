@@ -377,6 +377,7 @@ app.get("/getContent", async (req, res) => {
 
 
 
+
 // app.delete("/deletePosts", async (req, res) => {
 //   try {
 //     const deleteContent = await PostsStructure.deleteOne({
