@@ -12,6 +12,34 @@ const {S3Client, PutObjectCommand} = require("@aws-sdk/client-s3")
 
 const PostsStructure = require("./models/PostsStructure");
 require("dotenv").config();
+
+const allowedOrigins = [
+  'https://review-fest.vercel.app',
+  'http://review-fest-frontend-app.s3-website-us-east-1.amazonaws.com',
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
+
+// To parse incoming JSON data
+app.use(express.json());
+
+
 const WebSocket = require("ws");
 
 const PORT = process.env.PORT || 3001;
@@ -32,6 +60,7 @@ const client = new S3Client({
     secretAccessKey: process.env.secretAccessKey
   }
 })
+
 
 //Function to upload image to S3
 async function sendToS3(fileBody) {
@@ -167,18 +196,7 @@ websocketServer.on("connection", (instanceOfWebSocket) => {
   });
 });
 
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-  ? process.env.PROD_ORIGIN
-  : process.env.DEV_ORIGIN,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
 
-// To parse incoming JSON data
-app.use(express.json());
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -356,3 +374,20 @@ app.get("/getContent", async (req, res) => {
     });
   }
 });
+
+
+
+// app.delete("/deletePosts", async (req, res) => {
+//   try {
+//     const deleteContent = await PostsStructure.deleteOne({
+//       title: "tes sahaaaa"
+//     });
+//     console.log(deleteContent);
+//     res.status(200).json({ message: "Post deleted successfully" });
+//   } catch (error) {
+//     console.error("Delete error:", error);
+//     res.status(500).json({ error: "Failed to delete post" });
+//   }
+// });
+
+  
