@@ -1,4 +1,4 @@
-# [BlogPost]([url](https://review-fest.vercel.app/)) (⏳)
+# [BlogPost](https://review-fest.vercel.app/) (⏳)
 ### [APP](https://review-fest.vercel.app/) (🔗)
 
 A full-stack blog platform built with the MERN stack (MongoDB, Express.js, React, Node.js) featuring real-time updates through WebSocket integration.
