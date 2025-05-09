@@ -39,65 +39,66 @@ function App() {
     Axios.get(API_URL)
       .then((response) => {
         setFetchedContent(response.data); //data is sorted in the BE and sent here
-        console.log("Fetched data from server");
+        // console.log("Fetched data from server: ", `${process.env.REACT_APP_API_URL}/getContent`);
       })
       .catch((error) => {
-        console.log("Error fetching data from server: " + error);
+        // console.log("Error fetching data from server, actual erro: " + error );
+        // console.log("The URL fetched:", `${process.env.REACT_APP_API_URL}/getContent`)
       })
       .finally(() => {
         setIsDataLoading(false);
       });
   }, []);
 
-  useEffect(() => {
-    const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}`);
+  // useEffect(() => {
+  //   const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}`);
 
-    ws.onopen = () => {
-      console.log("WebSocket connection established");
-      ws.send("Hello from the client!");
-    };
-    ws.onmessage = (event) => {
-      const newData = JSON.parse(event.data);
-      console.log("FE: Received data from WebSocket", newData);
+  //   ws.onopen = () => {
+  //     console.log("WebSocket connection established");
+  //     ws.send("Hello from the client!");
+  //   };
+  //   ws.onmessage = (event) => {
+  //     const newData = JSON.parse(event.data);
+  //     console.log("FE: Received data from WebSocket", newData);
 
-      if (newData.operationType === "insert") {
-        const newDocument = newData.fullDocument;
-        setFetchedContent((prevContent) => {
-          return [newDocument, ...prevContent];
-        });
-      } else if (newData.operationType === "update") {
-        // Handle the new comment
-        const newComment = newData.newComment;
-        const parentDocumentKey = newData.parentDocumentKey; // Get the post ID to which the comment belongs
+  //     if (newData.operationType === "insert") {
+  //       const newDocument = newData.fullDocument;
+  //       setFetchedContent((prevContent) => {
+  //         return [newDocument, ...prevContent];
+  //       });
+  //     } else if (newData.operationType === "update") {
+  //       // Handle the new comment
+  //       const newComment = newData.newComment;
+  //       const parentDocumentKey = newData.parentDocumentKey; // Get the post ID to which the comment belongs
 
-        console.log("NEW COMMENT", newComment, "KEYY:", parentDocumentKey);
-        setFetchedContent((prevContent) => {
-          return prevContent.map((post) => {
-            if (post._id === parentDocumentKey) {
-              console.log("MATCHED ID");
+  //       console.log("NEW COMMENT", newComment, "KEYY:", parentDocumentKey);
+  //       setFetchedContent((prevContent) => {
+  //         return prevContent.map((post) => {
+  //           if (post._id === parentDocumentKey) {
+  //             console.log("MATCHED ID");
 
-              // Match the post ID
-              // Add the new comment to the comments array for the matched post
-              return {
-                ...post,
-                comments: [newComment, ...post.comments], // Append the new comment
-              };
-            }
-            return post; // Return the existing post if it doesn't match
-          });
-        });
-      }
-    };
+  //             // Match the post ID
+  //             // Add the new comment to the comments array for the matched post
+  //             return {
+  //               ...post,
+  //               comments: [newComment, ...post.comments], // Append the new comment
+  //             };
+  //           }
+  //           return post; // Return the existing post if it doesn't match
+  //         });
+  //       });
+  //     }
+  //   };
 
-    ws.onerror = (error) => {
-      console.log("WebSocket error:", error);
-    };
+  //   ws.onerror = (error) => {
+  //     console.log("WebSocket error:", error);
+  //   };
 
-    return () => {
-      ws.close();
-      console.log("WebSocket connection closed");
-    };
-  }, []);
+  //   return () => {
+  //     ws.close();
+  //     console.log("WebSocket connection closed");
+  //   };
+  // }, []);
 
   return (
     <Router>
