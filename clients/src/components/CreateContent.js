@@ -276,9 +276,9 @@ const CreateContent = () => {
         <button
           type="submit" 
           className="submit-button" 
-          disabled={true} // Disable if form invalid, file invalid or in process of submitting
+          disabled={preventSubmission} // Disable if form invalid, file invalid or in process of submitting
         >
-          {isSubmitting ? "Submitting..." : "Launch Blog Post (site has been moved)"}
+          {isSubmitting ? "Submitting..." : "Launch Blog Post"}
         </button>
 
       </form>

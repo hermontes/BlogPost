@@ -35,19 +35,19 @@ function App() {
   }, [createTrigger]); // Dependency on createTrigger stage change
 
   useEffect(() => {
-    // setIsDataLoading(true);
-    // Axios.get(API_URL)
-    //   .then((response) => {
-    //     setFetchedContent(response.data); //data is sorted in the BE and sent here
-    //     // console.log("Fetched data from server: ", `${process.env.REACT_APP_API_URL}/getContent`);
-    //   })
-    //   .catch((error) => {
-    //     // console.log("Error fetching data from server, actual erro: " + error );
-    //     // console.log("The URL fetched:", `${process.env.REACT_APP_API_URL}/getContent`)
-    //   })
-    //   .finally(() => {
-    //     setIsDataLoading(false);
-    //   });
+    setIsDataLoading(true);
+    Axios.get(API_URL)
+      .then((response) => {
+        setFetchedContent(response.data); //data is sorted in the BE and sent here
+        // console.log("Fetched data from server: ", `${process.env.REACT_APP_API_URL}/getContent`);
+      })
+      .catch((error) => {
+        // console.log("Error fetching data from server, actual erro: " + error );
+        // console.log("The URL fetched:", `${process.env.REACT_APP_API_URL}/getContent`)
+      })
+      .finally(() => {
+        setIsDataLoading(false);
+      });
   }, []);
 
   // useEffect(() => {
