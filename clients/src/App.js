@@ -137,7 +137,7 @@ function App() {
           ) : (
             ""
           )}
-
+{/* 
           <div className="flex flex-col items-center justify-center min-h-screen text-center">
             <h1 className="text-3xl font-bold text-[#2c5282] mb-4">
               This site has moved!
@@ -151,7 +151,7 @@ function App() {
             >
               https://review-fest.vercel.app/
             </a>
-          </div>
+          </div> */}
  
           <div>
             {allContent.length === 0 ? (
